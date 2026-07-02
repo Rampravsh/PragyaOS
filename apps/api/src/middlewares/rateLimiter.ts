@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit";
 import { config } from "../config";
 import { AppError } from "../common/errors/appError";
-import { Messages } from "../common/constants/messages";
+import { Messages } from "@pragyaos/constants";
 
 export const rateLimiter = rateLimit({
   windowMs: config.security.rateLimit.windowMs,

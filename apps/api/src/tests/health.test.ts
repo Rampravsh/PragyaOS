@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import request from "supertest";
 import app from "../app";
-import { HttpStatus } from "../common/constants/httpStatus";
+import { HttpStatus } from "@pragyaos/constants";
 
 describe("API Core Health Check Endpoints", () => {
   it("should return healthy status on GET /health", async () => {

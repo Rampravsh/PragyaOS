@@ -9,6 +9,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@pragyaos/constants": "workspace:*",
     "@pragyaos/types": "workspace:*",
     "@pragyaos/utils": "workspace:*",
     "bcrypt": "^5.1.1",

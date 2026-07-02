@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../common/errors/appError";
-import { Messages } from "../common/constants/messages";
+import { Messages } from "@pragyaos/constants";
 
 export const notFoundHandler = (
   req: Request,

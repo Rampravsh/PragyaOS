@@ -1,5 +1,5 @@
 import { BaseError } from "./baseError";
-import { HttpStatusCode } from "../constants/httpStatus";
+import { HttpStatusCode } from "@pragyaos/constants";
 
 export class AppError extends BaseError {
   public readonly statusCode: HttpStatusCode;

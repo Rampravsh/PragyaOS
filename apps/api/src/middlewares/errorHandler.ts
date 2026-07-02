@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../common/errors/appError";
 import { logger } from "../lib/logger";
 import { env } from "../config/env";
-import { HttpStatus } from "../common/constants/httpStatus";
+import { HttpStatus } from "@pragyaos/constants";
 
 export const errorHandler = (
   err: Error,

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { HttpStatusCode, HttpStatus } from "../constants/httpStatus";
+import { HttpStatusCode, HttpStatus } from "@pragyaos/constants";
 
 export interface PaginatedEnvelope<T> {
   success: true;
