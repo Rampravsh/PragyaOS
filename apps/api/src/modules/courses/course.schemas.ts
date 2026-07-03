@@ -6,9 +6,9 @@ export const createCourseSchema = z.object({
   subtitle: z.string().max(512).optional(),
   description: z.string().optional(),
   categoryId: z.string().uuid("Category ID must be a valid UUID."),
-  language: z.string().max(10).optional().default("en"),
-  difficulty: z.nativeEnum(DifficultyLevel).optional().default(DifficultyLevel.BEGINNER),
-  estimatedDuration: z.number().int().min(0).optional().default(0),
+  language: z.string().max(10).default("en"),
+  difficulty: z.nativeEnum(DifficultyLevel).default(DifficultyLevel.BEGINNER),
+  estimatedDuration: z.number().int().min(0).default(0),
   thumbnailId: z.string().uuid().nullable().optional(),
   trailerId: z.string().uuid().nullable().optional(),
   seoMetadata: z
@@ -54,7 +54,7 @@ export const updateCourseSchema = z.object({
 export const createModuleSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters long.").max(255),
   description: z.string().optional(),
-  sequence: z.number().int().min(0).optional().default(0),
+  sequence: z.number().int().min(0).default(0),
 });
 
 export const updateModuleSchema = z.object({

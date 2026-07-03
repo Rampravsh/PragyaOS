@@ -5,10 +5,10 @@ export const createLearningUnitSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters long.").max(255),
   description: z.string().optional(),
   type: z.nativeEnum(LearningUnitType),
-  sequence: z.number().int().min(0).optional().default(0),
+  sequence: z.number().int().min(0).default(0),
   mediaId: z.string().uuid("Media ID must be a valid UUID.").nullable().optional(),
   content: z.record(z.any()).nullable().optional(), // Structured editor nodes object
-  duration: z.number().int().min(0).optional().default(0),
+  duration: z.number().int().min(0).default(0),
 });
 
 export const updateLearningUnitSchema = z.object({
@@ -24,7 +24,7 @@ export const updateLearningUnitSchema = z.object({
 export const createLearningResourceSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters long.").max(255),
   mediaId: z.string().uuid("Media ID must be a valid UUID."),
-  sequence: z.number().int().min(0).optional().default(0),
+  sequence: z.number().int().min(0).default(0),
 });
 
 export const updateLearningResourceSchema = z.object({

@@ -3,6 +3,9 @@ import healthRouter from "./health";
 import swaggerRouter from "./swagger";
 import { authRouter } from "../modules/auth/auth.routes";
 import { userRoutes } from "../modules/users";
+import { categoryRoutes } from "../modules/categories";
+import { courseRoutes } from "../modules/courses";
+import { learningUnitRoutes } from "../modules/learning-units";
 
 const router = Router();
 
@@ -20,6 +23,11 @@ apiV1Router.use("/auth", authRouter);
 
 // Mount user module routes
 apiV1Router.use("/users", userRoutes);
+
+// Mount content domain routes
+apiV1Router.use("/categories", categoryRoutes);
+apiV1Router.use("/courses", courseRoutes);
+apiV1Router.use("/learning-units", learningUnitRoutes);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);
