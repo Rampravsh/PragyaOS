@@ -8,7 +8,7 @@ const authRouter = Router();
 
 /**
  * @openapi
- * /api/v1/auth/register:
+ * /auth/register:
  *   post:
  *     summary: Register a new student account
  *     tags: [Authentication]
@@ -42,7 +42,7 @@ authRouter.post("/register", asyncHandler(authController.register));
 
 /**
  * @openapi
- * /api/v1/auth/login:
+ * /auth/login:
  *   post:
  *     summary: Sign in with credentials
  *     tags: [Authentication]
@@ -72,7 +72,7 @@ authRouter.post("/login", rateLimiter, asyncHandler(authController.login));
 
 /**
  * @openapi
- * /api/v1/auth/refresh:
+ * /auth/refresh:
  *   post:
  *     summary: Rotate refresh session tokens
  *     tags: [Authentication]
@@ -96,7 +96,7 @@ authRouter.post("/refresh", asyncHandler(authController.refresh));
 
 /**
  * @openapi
- * /api/v1/auth/logout:
+ * /auth/logout:
  *   post:
  *     summary: Terminate current session
  *     tags: [Authentication]
@@ -118,7 +118,7 @@ authRouter.post("/logout", asyncHandler(authController.logout));
 
 /**
  * @openapi
- * /api/v1/auth/logout-all:
+ * /auth/logout-all:
  *   post:
  *     summary: Invalidate all sessions
  *     tags: [Authentication]
@@ -134,7 +134,7 @@ authRouter.post("/logout-all", requireAuth, asyncHandler(authController.logoutAl
 
 /**
  * @openapi
- * /api/v1/auth/forgot-password:
+ * /auth/forgot-password:
  *   post:
  *     summary: Request password reset link
  *     tags: [Authentication]
@@ -157,7 +157,7 @@ authRouter.post("/forgot-password", rateLimiter, asyncHandler(authController.for
 
 /**
  * @openapi
- * /api/v1/auth/reset-password:
+ * /auth/reset-password:
  *   post:
  *     summary: Reset password with token
  *     tags: [Authentication]
@@ -184,7 +184,7 @@ authRouter.post("/reset-password", asyncHandler(authController.resetPassword));
 
 /**
  * @openapi
- * /api/v1/auth/verify-email:
+ * /auth/verify-email:
  *   get:
  *     summary: Confirm account email address
  *     tags: [Authentication]

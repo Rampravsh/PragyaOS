@@ -20,6 +20,14 @@ const envSchema = z.object({
   CLOUDINARY_URL: z.string().optional(),
   RAZORPAY_KEY_ID: z.string().optional(),
   RAZORPAY_KEY_SECRET: z.string().optional(),
+
+  // Email Config
+  SMTP_HOST: z.string().default("127.0.0.1"),
+  SMTP_PORT: z.string().default("1025").transform((val) => parseInt(val, 10)),
+  SMTP_USER: z.string().optional().default(""),
+  SMTP_PASS: z.string().optional().default(""),
+  SMTP_SECURE: z.string().default("false").transform((val) => val === "true"),
+  MAIL_FROM: z.string().default("PragyaOS <noreply@pragyaos.com>"),
 });
 
 type EnvConfig = z.infer<typeof envSchema>;

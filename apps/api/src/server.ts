@@ -1,15 +1,23 @@
 import app from "./app";
 import { config } from "./config";
 import { logger } from "./lib/logger";
+import { mailWorker } from "./modules/mail/mail.worker";
 
 const server = app.listen(config.port, () => {
   logger.info(`🚀 [API Server] Active on port ${config.port} in [${config.env}] environment`);
 });
 
 // Process event handlers for safety
-const handleFatalError = (error: Error) => {
+const handleFatalError = async (error: Error) => {
   logger.error(`❌ Fatal Error Encountered: ${error.message}\n${error.stack}`);
   
+  try {
+    await mailWorker.close();
+    logger.info("[Mail Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Mail Worker] Error during close: ${err.message}`);
+  }
+
   if (server) {
     server.close(() => {
       logger.info("[API Server] Server connections flushed. Exiting process.");
@@ -30,9 +38,16 @@ process.on("unhandledRejection", (reason: any) => {
 });
 
 // Graceful shutdown on SIGTERM / SIGINT
-const handleShutdown = (signal: string) => {
+const handleShutdown = async (signal: string) => {
   logger.info(`📡 [API Server] Received ${signal} signal. Starting graceful shutdown...`);
   
+  try {
+    await mailWorker.close();
+    logger.info("[Mail Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Mail Worker] Error closing connection: ${err.message}`);
+  }
+
   if (server) {
     server.close(() => {
       logger.info("[API Server] Server closed gracefully. Process terminating.");

@@ -1,20 +1,18 @@
-import { logger } from "../../lib/logger";
+import { mailService } from "../mail/mail.service";
 
 export class AuthMailService {
   /**
-   * Dispatches an account verification token link.
+   * Dispatches an account verification token link via async queue.
    */
   public async sendVerificationEmail(email: string, token: string): Promise<void> {
-    const verificationLink = `https://pragyaos.com/verify-email?token=${token}`;
-    logger.info(`✉️ Verification email sent to ${email}. Link: ${verificationLink}`);
+    await mailService.sendVerificationEmail(email, token);
   }
 
   /**
-   * Dispatches a password reset link.
+   * Dispatches a password reset link via async queue.
    */
   public async sendPasswordResetEmail(email: string, token: string): Promise<void> {
-    const resetLink = `https://pragyaos.com/reset-password?token=${token}`;
-    logger.info(`✉️ Password reset email sent to ${email}. Link: ${resetLink}`);
+    await mailService.sendPasswordResetEmail(email, token);
   }
 }
 

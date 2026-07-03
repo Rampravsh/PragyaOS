@@ -101,7 +101,7 @@ export class AuthService {
     };
 
     const accessToken = generateAccessToken(payload);
-    const rawRefreshToken = generateSecureToken();
+    const rawRefreshToken = generateRefreshToken(payload);
     const tokenHash = hashToken(rawRefreshToken);
     const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days matching JWT expiration
 
@@ -165,7 +165,7 @@ export class AuthService {
     };
 
     const accessToken = generateAccessToken(newPayload);
-    const newRawRefreshToken = generateSecureToken();
+    const newRawRefreshToken = generateRefreshToken(newPayload);
     const newHash = hashToken(newRawRefreshToken);
     const refreshExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 

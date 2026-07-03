@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 // Mock the Prisma Client singleton
 vi.mock("../database/client", () => {
-  const mockPrisma = {
+  const mockPrisma: any = {
     user: {
       findUnique: vi.fn(),
       create: vi.fn(),
@@ -38,7 +38,7 @@ vi.mock("../database/client", () => {
       update: vi.fn(),
       updateMany: vi.fn(),
     },
-    $transaction: vi.fn((cb) => cb(mockPrisma)),
+    $transaction: vi.fn((cb: any) => cb(mockPrisma)),
   };
   return { prisma: mockPrisma };
 });

@@ -27,6 +27,14 @@ export const config = {
     razorpayKeyId: env.RAZORPAY_KEY_ID,
     razorpayKeySecret: env.RAZORPAY_KEY_SECRET,
   },
+  mail: {
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    user: env.SMTP_USER,
+    pass: env.SMTP_PASS,
+    secure: env.SMTP_SECURE,
+    from: env.MAIL_FROM,
+  },
 };
 
 export * from "./env";
