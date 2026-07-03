@@ -53,6 +53,13 @@ model User {
   failedLoginAttempts   Int       @default(0) @map("failed_login_attempts")
   lockedUntil           DateTime? @map("locked_until") @db.Timestamptz
 
+  // User Profile Fields
+  displayName           String?   @map("display_name") @db.VarChar(100)
+  bio                   String?   @db.Text
+  timezone              String?   @default("UTC") @db.VarChar(100)
+  language              String?   @default("en") @db.VarChar(10)
+  preferences           Json?     @db.JsonB
+
   organizationId String?       @map("organization_id") @db.Uuid
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
 

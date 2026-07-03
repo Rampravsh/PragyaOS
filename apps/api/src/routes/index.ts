@@ -2,6 +2,7 @@ import { Router } from "express";
 import healthRouter from "./health";
 import swaggerRouter from "./swagger";
 import { authRouter } from "../modules/auth/auth.routes";
+import { userRoutes } from "../modules/users";
 
 const router = Router();
 
@@ -16,6 +17,9 @@ const apiV1Router = Router();
 
 // Mount auth module routes
 apiV1Router.use("/auth", authRouter);
+
+// Mount user module routes
+apiV1Router.use("/users", userRoutes);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);
