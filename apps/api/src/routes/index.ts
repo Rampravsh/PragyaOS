@@ -15,6 +15,7 @@ const apiV1Router = Router();
 // Here we will load: apiV1Router.use("/auth", authRouter); etc.
 
 // Mount v1 endpoints
+apiV1Router.use("/", healthRouter);
 router.use("/api/v1", apiV1Router);
 
 export default router;

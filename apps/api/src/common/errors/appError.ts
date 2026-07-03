@@ -34,8 +34,8 @@ export class AppError extends BaseError {
     return new AppError(404, message);
   }
 
-  static conflict(message: string) {
-    return new AppError(409, message);
+  static conflict(message: string, details: any[] | null = null) {
+    return new AppError(409, message, details);
   }
 
   static unprocessable(message: string, details: any[] | null = null) {

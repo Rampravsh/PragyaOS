@@ -1,7 +1,6 @@
-import { PrismaClient, UserStatus } from "@prisma/client";
+import { UserStatus } from "@prisma/client";
+import { prisma } from "../src/database/client";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Starting database seeding...");

@@ -3,6 +3,7 @@ import { AppError } from "../common/errors/appError";
 import { logger } from "../lib/logger";
 import { env } from "../config/env";
 import { HttpStatus } from "@pragyaos/constants";
+import { mapPrismaError } from "../database/errorMapper";
 
 export const errorHandler = (
   err: Error,
@@ -13,24 +14,28 @@ export const errorHandler = (
 ): void => {
   const isDevelopment = env.NODE_ENV === "development";
 
+  // Map database/Prisma errors to AppErrors
+  const mappedError = mapPrismaError(err);
+
   // Log error using Winston logger
   logger.error(
-    `${err.name}: ${err.message} | Method: ${req.method} | URL: ${req.originalUrl} | IP: ${req.ip}\nStack: ${err.stack}`
+    `${mappedError.name}: ${mappedError.message} | Method: ${req.method} | URL: ${req.originalUrl} | IP: ${req.ip}\nStack: ${mappedError.stack}`
   );
 
   // If the error is an expected AppError
-  if (err instanceof AppError) {
-    const errorCode = Object.keys(HttpStatus).find(
-      (key) => HttpStatus[key as keyof typeof HttpStatus] === err.statusCode
-    ) || "API_ERROR";
+  if (mappedError instanceof AppError) {
+    const errorCode =
+      Object.keys(HttpStatus).find(
+        (key) => HttpStatus[key as keyof typeof HttpStatus] === mappedError.statusCode
+      ) || "API_ERROR";
 
-    res.status(err.statusCode).json({
+    res.status(mappedError.statusCode).json({
       success: false,
       error: {
         code: errorCode,
-        message: err.message,
-        details: err.details,
-        ...(isDevelopment && { stack: err.stack }),
+        message: mappedError.message,
+        details: mappedError.details,
+        ...(isDevelopment && { stack: mappedError.stack }),
       },
     });
     return;
@@ -41,8 +46,8 @@ export const errorHandler = (
     success: false,
     error: {
       code: "INTERNAL_SERVER_ERROR",
-      message: isDevelopment ? err.message : "An unexpected server error occurred.",
-      ...(isDevelopment && { stack: err.stack }),
+      message: "An unexpected error occurred on the server.",
+      ...(isDevelopment && { stack: mappedError.stack }),
     },
   });
 };
