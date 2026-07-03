@@ -28,6 +28,17 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional().default(""),
   SMTP_SECURE: z.string().default("false").transform((val) => val === "true"),
   MAIL_FROM: z.string().default("PragyaOS <noreply@pragyaos.com>"),
+
+  // Cloudflare R2 Storage (S3-compatible API)
+  CLOUDFLARE_R2_ACCOUNT_ID: z.string().default("dummy-account-id"),
+  CLOUDFLARE_R2_ACCESS_KEY_ID: z.string().default("dummy-key"),
+  CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string().default("dummy-secret"),
+  CLOUDFLARE_R2_BUCKET_NAME: z.string().default("pragyaos-media"),
+  CLOUDFLARE_R2_PUBLIC_URL: z.string().optional(),
+
+  // Media Configurable File Size Limits
+  MEDIA_MAX_IMAGE_SIZE_BYTES: z.string().default("5242880").transform((val) => parseInt(val, 10)), // 5MB
+  MEDIA_MAX_FILE_SIZE_BYTES: z.string().default("104857600").transform((val) => parseInt(val, 10)), // 100MB
 });
 
 type EnvConfig = z.infer<typeof envSchema>;

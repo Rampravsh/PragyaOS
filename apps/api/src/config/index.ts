@@ -35,6 +35,19 @@ export const config = {
     secure: env.SMTP_SECURE,
     from: env.MAIL_FROM,
   },
+  storage: {
+    r2: {
+      accountId: env.CLOUDFLARE_R2_ACCOUNT_ID,
+      accessKeyId: env.CLOUDFLARE_R2_ACCESS_KEY_ID,
+      secretAccessKey: env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
+      bucketName: env.CLOUDFLARE_R2_BUCKET_NAME,
+      publicUrl: env.CLOUDFLARE_R2_PUBLIC_URL,
+    },
+    limits: {
+      maxImageSizeBytes: env.MEDIA_MAX_IMAGE_SIZE_BYTES,
+      maxFileSizeBytes: env.MEDIA_MAX_FILE_SIZE_BYTES,
+    },
+  },
 };
 
 export * from "./env";

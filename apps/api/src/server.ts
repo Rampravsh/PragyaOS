@@ -2,6 +2,7 @@ import app from "./app";
 import { config } from "./config";
 import { logger } from "./lib/logger";
 import { mailWorker } from "./modules/mail/mail.worker";
+import { mediaWorker } from "./modules/media/media.worker";
 
 const server = app.listen(config.port, () => {
   logger.info(`🚀 [API Server] Active on port ${config.port} in [${config.env}] environment`);
@@ -16,6 +17,13 @@ const handleFatalError = async (error: Error) => {
     logger.info("[Mail Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Mail Worker] Error during close: ${err.message}`);
+  }
+
+  try {
+    await mediaWorker.close();
+    logger.info("[Media Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Media Worker] Error during close: ${err.message}`);
   }
 
   if (server) {
@@ -46,6 +54,13 @@ const handleShutdown = async (signal: string) => {
     logger.info("[Mail Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Mail Worker] Error closing connection: ${err.message}`);
+  }
+
+  try {
+    await mediaWorker.close();
+    logger.info("[Media Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Media Worker] Error closing connection: ${err.message}`);
   }
 
   if (server) {

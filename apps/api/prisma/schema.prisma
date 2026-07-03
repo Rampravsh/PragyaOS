@@ -71,6 +71,7 @@ model User {
   refreshTokens           RefreshToken[]
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
+  media                   Media[]
 
   @@index([organizationId])
   @@map("users")
@@ -249,9 +250,12 @@ enum MediaProvider {
 
 enum MediaStatus {
   PENDING
-  READY
+  UPLOADING
+  UPLOADED
   PROCESSING
+  READY
   FAILED
+  DELETED
 }
 
 enum MediaType {
@@ -272,18 +276,21 @@ model Media {
   mimeType  String        @map("mime_type") @db.VarChar(100)
   size      BigInt
   hash      String?       @db.VarChar(64) // SHA-256 integrity hash
-  status    MediaStatus   @default(READY)
+  status    MediaStatus   @default(UPLOADING)
   metadata  Json?         @db.JsonB // Provider-agnostic metadata (dimensions, duration, waveforms, codecs, etc.)
   version   Int           @default(1)
   createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz
   updatedAt DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+  userId    String?       @map("user_id") @db.Uuid
 
   // Relations
+  user             User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
   coursesThumbnail Course[]           @relation("CourseThumbnail")
   coursesTrailer   Course[]           @relation("CourseTrailer")
   learningUnits    LearningUnit[]
   learningResources LearningResource[]
 
+  @@index([userId])
   @@map("media")
 }
 

@@ -6,6 +6,7 @@ import { userRoutes } from "../modules/users";
 import { categoryRoutes } from "../modules/categories";
 import { courseRoutes } from "../modules/courses";
 import { learningUnitRoutes } from "../modules/learning-units";
+import { mediaRoutes } from "../modules/media";
 
 const router = Router();
 
@@ -28,6 +29,7 @@ apiV1Router.use("/users", userRoutes);
 apiV1Router.use("/categories", categoryRoutes);
 apiV1Router.use("/courses", courseRoutes);
 apiV1Router.use("/learning-units", learningUnitRoutes);
+apiV1Router.use("/media", mediaRoutes);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);
