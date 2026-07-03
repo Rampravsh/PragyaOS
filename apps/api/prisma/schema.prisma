@@ -217,6 +217,7 @@ enum CourseStatus {
   REVIEW
   PUBLISHED
   ARCHIVED
+  SCHEDULED
 }
 
 enum CourseVisibility {
@@ -331,6 +332,8 @@ model Course {
   visibility        CourseVisibility @default(PUBLIC)
   featured          Boolean          @default(false)
   version           Int              @default(1)
+  revisionNumber    Int              @default(1) @map("revision_number")
+  changeSummary     String?          @map("change_summary") @db.Text
   createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz
   updatedAt         DateTime         @updatedAt @map("updated_at") @db.Timestamptz
   publishedAt       DateTime?        @map("published_at") @db.Timestamptz
