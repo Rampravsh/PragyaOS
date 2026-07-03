@@ -44,11 +44,25 @@ model User {
   createdBy    String?    @map("created_by") @db.Uuid
   updatedBy    String?    @map("updated_by") @db.Uuid
 
+  // Authentication Fields
+  emailVerified         Boolean   @default(false) @map("email_verified")
+  emailVerifiedAt       DateTime? @map("email_verified_at") @db.Timestamptz
+  avatarUrl             String?   @map("avatar_url") @db.VarChar(512)
+  lastLoginAt           DateTime? @map("last_login_at") @db.Timestamptz
+  lastPasswordChangedAt DateTime? @map("last_password_changed_at") @db.Timestamptz
+  failedLoginAttempts   Int       @default(0) @map("failed_login_attempts")
+  lockedUntil           DateTime? @map("locked_until") @db.Timestamptz
+
   organizationId String?       @map("organization_id") @db.Uuid
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
 
   userRoles UserRole[]
   auditLogs AuditLog[]
+
+  // Authentication Relations
+  refreshTokens           RefreshToken[]
+  passwordResetTokens     PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
 
   @@index([organizationId])
   @@map("users")
@@ -137,3 +151,54 @@ model SystemSetting {
   @@index([organizationId])
   @@map("system_settings")
 }
+
+model RefreshToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  tokenHash  String   @unique @map("token_hash") @db.VarChar(255)
+  deviceInfo String?  @map("device_info") @db.VarChar(255)
+  ipAddress  String?  @map("ip_address") @db.VarChar(45)
+  userAgent  String?  @map("user_agent") @db.VarChar(512)
+  expiresAt  DateTime @map("expires_at") @db.Timestamptz
+  revoked    Boolean  @default(false)
+  lastUsedAt DateTime @default(now()) @map("last_used_at") @db.Timestamptz
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  tokenHash String   @unique @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  used      Boolean  @default(false)
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("password_reset_tokens")
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  tokenHash String   @unique @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("email_verification_tokens")
+}
+
