@@ -1,6 +1,7 @@
 import { Router } from "express";
 import healthRouter from "./health";
 import swaggerRouter from "./swagger";
+import { authRouter } from "../modules/auth/auth.routes";
 
 const router = Router();
 
@@ -12,7 +13,9 @@ router.use("/", healthRouter);
 
 // A placeholder for modular routes (v1 namespace)
 const apiV1Router = Router();
-// Here we will load: apiV1Router.use("/auth", authRouter); etc.
+
+// Mount auth module routes
+apiV1Router.use("/auth", authRouter);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);
