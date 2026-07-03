@@ -72,6 +72,7 @@ model User {
   passwordResetTokens     PasswordResetToken[]
   emailVerificationTokens EmailVerificationToken[]
   media                   Media[]
+  enrollments             Enrollment[]
 
   @@index([organizationId])
   @@map("users")
@@ -345,6 +346,7 @@ model Course {
   objectives   CourseObjective[]
   faqs         CourseFAQ[]
   tags         CourseTag[]
+  enrollments  Enrollment[]
 
   @@index([categoryId])
   @@index([status, visibility])
@@ -461,6 +463,8 @@ model LearningUnit {
   media  Media?       @relation(fields: [mediaId], references: [id], onDelete: Restrict)
 
   resources LearningResource[]
+  progress  LearningProgress[]
+  sessions  LearningSession[]
 
   @@map("learning_units")
 }
@@ -477,5 +481,147 @@ model LearningResource {
   media        Media        @relation(fields: [mediaId], references: [id], onDelete: Restrict)
 
   @@map("learning_resources")
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  CANCELLED
+  SUSPENDED
+  COMPLETED
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  STARTED
+  COMPLETED
+}
+
+enum SessionStatus {
+  ACTIVE
+  COMPLETED
+  ABANDONED
+}
+
+enum TimelineEventType {
+  COURSE_STARTED
+  MODULE_STARTED
+  UNIT_STARTED
+  UNIT_COMPLETED
+  QUIZ_COMPLETED
+  ASSIGNMENT_SUBMITTED
+  COURSE_COMPLETED
+  ENROLLMENT_CANCELLED
+  ENROLLMENT_SUSPENDED
+  ENROLLMENT_RESUMED
+}
+
+enum CourseCompletionReason {
+  COMPLETED_ALL_UNITS
+  MANUALLY_COMPLETED
+  ADMIN_OVERRIDE
+}
+
+model Enrollment {
+  id           String           @id @default(uuid()) @db.Uuid
+  userId       String           @map("user_id") @db.Uuid
+  courseId     String           @map("course_id") @db.Uuid
+  status       EnrollmentStatus @default(ACTIVE)
+  source       String           @default("MANUAL") @db.VarChar(50)
+  purchaseRef  String?          @map("purchase_ref") @db.VarChar(100)
+  enrolledAt   DateTime         @default(now()) @map("enrolled_at") @db.Timestamptz
+  completedAt  DateTime?        @map("completed_at") @db.Timestamptz
+  createdAt    DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course       Course             @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progress     LearningProgress[]
+  sessions     LearningSession[]
+  timeline     LearningTimeline[]
+  completion   CourseCompletion?
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("enrollments")
+}
+
+model LearningProgress {
+  id                String         @id @default(uuid()) @db.Uuid
+  enrollmentId      String         @map("enrollment_id") @db.Uuid
+  learningUnitId    String         @map("learning_unit_id") @db.Uuid
+  status            ProgressStatus @default(NOT_STARTED)
+  completionPercent Float          @default(0) @map("completion_percent")
+  watchTime         Int            @default(0) @map("watch_time") // Seconds
+  lastPosition      Int            @default(0) @map("last_position") // Seconds playback or scroll location
+  lastViewedAt      DateTime?      @map("last_viewed_at") @db.Timestamptz
+  completedAt       DateTime?      @map("completed_at") @db.Timestamptz
+  createdAt         DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  enrollment   Enrollment   @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  learningUnit LearningUnit @relation(fields: [learningUnitId], references: [id], onDelete: Restrict)
+
+  @@unique([enrollmentId, learningUnitId])
+  @@index([enrollmentId])
+  @@index([learningUnitId])
+  @@map("learning_progress")
+}
+
+model LearningSession {
+  id             String        @id @default(uuid()) @db.Uuid
+  enrollmentId   String        @map("enrollment_id") @db.Uuid
+  learningUnitId String?       @map("learning_unit_id") @db.Uuid
+  device         String?       @db.VarChar(100)
+  browser        String?       @db.VarChar(100)
+  ipAddress      String?       @map("ip_address") @db.VarChar(45)
+  userAgent      String?       @map("user_agent") @db.VarChar(512)
+  status         SessionStatus @default(ACTIVE)
+  startedAt      DateTime      @default(now()) @map("started_at") @db.Timestamptz
+  endedAt        DateTime?     @map("ended_at") @db.Timestamptz
+  duration       Int?          // seconds
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  enrollment   Enrollment    @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  learningUnit LearningUnit? @relation(fields: [learningUnitId], references: [id], onDelete: SetNull)
+
+  @@index([enrollmentId])
+  @@index([learningUnitId])
+  @@map("learning_sessions")
+}
+
+model LearningTimeline {
+  id           String            @id @default(uuid()) @db.Uuid
+  enrollmentId String            @map("enrollment_id") @db.Uuid
+  eventType    TimelineEventType @map("event_type")
+  metadata     Json?             @db.JsonB
+  createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@index([enrollmentId])
+  @@map("learning_timeline")
+}
+
+model CourseCompletion {
+  id                        String                 @id @default(uuid()) @db.Uuid
+  enrollmentId              String                 @unique @map("enrollment_id") @db.Uuid
+  progressPercent           Float                  @default(0) @map("progress_percent")
+  completedAt               DateTime?              @map("completed_at") @db.Timestamptz
+  eligibleForCertificate    Boolean                @default(false) @map("eligible_for_certificate")
+  estimatedRemainingSeconds Int                    @default(0) @map("estimated_remaining_seconds")
+  reason                    CourseCompletionReason @default(COMPLETED_ALL_UNITS)
+  createdAt                 DateTime               @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt                 DateTime               @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  @@map("course_completions")
 }
 
