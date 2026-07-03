@@ -63,8 +63,9 @@ model User {
   organizationId String?       @map("organization_id") @db.Uuid
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
 
-  userRoles UserRole[]
-  auditLogs AuditLog[]
+  userRoles         UserRole[]
+  auditLogs         AuditLog[]
+  instructedCourses CourseInstructor[]
 
   // Authentication Relations
   refreshTokens           RefreshToken[]
@@ -207,5 +208,267 @@ model EmailVerificationToken {
 
   @@index([userId])
   @@map("email_verification_tokens")
+}
+
+enum CourseStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CourseVisibility {
+  PUBLIC
+  PRIVATE
+  UNLISTED
+}
+
+enum DifficultyLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum LearningUnitType {
+  VIDEO
+  ARTICLE
+  PDF
+  QUIZ
+  ASSIGNMENT
+  LIVE_SESSION
+  EXTERNAL_LINK
+  CODE_LAB
+}
+
+enum MediaProvider {
+  LOCAL
+  CLOUDFLARE_R2
+  CLOUDFLARE_STREAM
+}
+
+enum MediaStatus {
+  PENDING
+  READY
+  PROCESSING
+  FAILED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  AUDIO
+  ARCHIVE
+  OTHER
+}
+
+model Media {
+  id        String        @id @default(uuid()) @db.Uuid
+  type      MediaType
+  provider  MediaProvider @default(LOCAL)
+  bucket    String?       @db.VarChar(100)
+  key       String        @unique @db.VarChar(512)
+  mimeType  String        @map("mime_type") @db.VarChar(100)
+  size      BigInt
+  hash      String?       @db.VarChar(64) // SHA-256 integrity hash
+  status    MediaStatus   @default(READY)
+  metadata  Json?         @db.JsonB // Provider-agnostic metadata (dimensions, duration, waveforms, codecs, etc.)
+  version   Int           @default(1)
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  coursesThumbnail Course[]           @relation("CourseThumbnail")
+  coursesTrailer   Course[]           @relation("CourseTrailer")
+  learningUnits    LearningUnit[]
+  learningResources LearningResource[]
+
+  @@map("media")
+}
+
+model Category {
+  id          String    @id @default(uuid()) @db.Uuid
+  parentId    String?   @map("parent_id") @db.Uuid
+  name        String    @db.VarChar(100)
+  slug        String    @unique @db.VarChar(120)
+  description String?   @db.Text
+  version     Int       @default(1)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  parent         Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  subCategories  Category[] @relation("CategoryHierarchy")
+  courses        Course[]
+
+  @@unique([parentId, name])
+  @@map("categories")
+}
+
+model Course {
+  id                String           @id @default(uuid()) @db.Uuid
+  categoryId        String           @map("category_id") @db.Uuid
+  slug              String           @unique @db.VarChar(255)
+  title             String           @db.VarChar(255)
+  subtitle          String?          @db.VarChar(512)
+  description       String?          @db.Text
+  language          String           @default("en") @db.VarChar(10)
+  difficulty        DifficultyLevel  @default(BEGINNER)
+  estimatedDuration Int              @default(0) @map("estimated_duration") // Minutes
+  thumbnailId       String?          @map("thumbnail_id") @db.Uuid
+  trailerId         String?          @map("trailer_id") @db.Uuid
+  seoMetadata       Json?            @map("seo_metadata") @db.JsonB
+  status            CourseStatus     @default(DRAFT)
+  visibility        CourseVisibility @default(PUBLIC)
+  featured          Boolean          @default(false)
+  version           Int              @default(1)
+  createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  publishedAt       DateTime?        @map("published_at") @db.Timestamptz
+
+  // Relations
+  category    Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  thumbnail   Media?       @relation("CourseThumbnail", fields: [thumbnailId], references: [id], onDelete: SetNull)
+  trailer     Media?       @relation("CourseTrailer", fields: [trailerId], references: [id], onDelete: SetNull)
+
+  modules      CourseModule[]
+  instructors  CourseInstructor[]
+  requirements CourseRequirement[]
+  objectives   CourseObjective[]
+  faqs         CourseFAQ[]
+  tags         CourseTag[]
+
+  @@index([categoryId])
+  @@index([status, visibility])
+  @@map("courses")
+}
+
+model Tag {
+  id        String      @id @default(uuid()) @db.Uuid
+  name      String      @unique @db.VarChar(100)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  courses   CourseTag[]
+
+  @@map("tags")
+}
+
+model CourseTag {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  tagId     String   @map("tag_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, tagId])
+  @@map("course_tags")
+}
+
+model CourseInstructor {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId])
+  @@index([userId])
+  @@map("course_instructors")
+}
+
+model CourseRequirement {
+  id          String   @id @default(uuid()) @db.Uuid
+  courseId    String   @map("course_id") @db.Uuid
+  description String   @db.VarChar(512)
+  sequence    Int      @default(0)
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_requirements")
+}
+
+model CourseObjective {
+  id          String   @id @default(uuid()) @db.Uuid
+  courseId    String   @map("course_id") @db.Uuid
+  description String   @db.VarChar(512)
+  sequence    Int      @default(0)
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_objectives")
+}
+
+model CourseFAQ {
+  id        String   @id @default(uuid()) @db.Uuid
+  courseId  String   @map("course_id") @db.Uuid
+  question  String   @db.VarChar(512)
+  answer    String   @db.Text
+  sequence  Int      @default(0)
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_faqs")
+}
+
+model CourseModule {
+  id          String   @id @default(uuid()) @db.Uuid
+  courseId    String   @map("course_id") @db.Uuid
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  sequence    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  course        Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  learningUnits LearningUnit[]
+
+  @@map("course_modules")
+}
+
+model LearningUnit {
+  id          String           @id @default(uuid()) @db.Uuid
+  moduleId    String           @map("module_id") @db.Uuid
+  title       String           @db.VarChar(255)
+  description String?          @db.Text
+  type        LearningUnitType
+  sequence    Int              @default(0)
+  mediaId     String?          @map("media_id") @db.Uuid
+  content     Json?            @map("content") @db.JsonB // Structured content block for rich-text editor nodes
+  duration    Int              @default(0) // Minutes
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  module CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  media  Media?       @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+
+  resources LearningResource[]
+
+  @@map("learning_units")
+}
+
+model LearningResource {
+  id             String   @id @default(uuid()) @db.Uuid
+  learningUnitId String   @map("learning_unit_id") @db.Uuid
+  mediaId        String   @map("media_id") @db.Uuid
+  title          String   @db.VarChar(255)
+  sequence       Int      @default(0)
+
+  // Relations
+  learningUnit LearningUnit @relation(fields: [learningUnitId], references: [id], onDelete: Cascade)
+  media        Media        @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+
+  @@map("learning_resources")
 }
 
