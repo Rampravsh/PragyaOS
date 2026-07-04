@@ -75,6 +75,8 @@ model User {
   enrollments             Enrollment[]
   orders                  Order[]
   couponRedemptions       CouponRedemption[]
+  credentials             Credential[]
+  revokedCredentials      CredentialRevocation[]   @relation("RevokerRelation")
 
   @@index([organizationId])
   @@map("users")
@@ -352,6 +354,7 @@ model Course {
   faqs         CourseFAQ[]
   tags         CourseTag[]
   enrollments  Enrollment[]
+  credentials  Credential[]
 
   @@index([categoryId])
   @@index([status, visibility])
@@ -942,4 +945,90 @@ model FulfillmentExecution {
   @@index([orderId])
   @@index([status])
   @@map("fulfillment_executions")
+}
+
+enum CredentialStatus {
+  PENDING
+  ISSUED
+  REVOKED
+  EXPIRED
+}
+
+enum VerificationSource {
+  PUBLIC_PAGE
+  API
+  ADMIN
+}
+
+model CredentialTemplate {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String   @db.VarChar(255)
+  slug            String   @unique @db.VarChar(255)
+  templateVersion String   @map("template_version") @db.VarChar(50)
+  htmlTemplate    String   @map("html_template") @db.Text
+  cssTemplate     String   @map("css_template") @db.Text
+  branding        Json?    @db.JsonB
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  credentials Credential[]
+
+  @@map("credential_templates")
+}
+
+model Credential {
+  id                String           @id @default(uuid()) @db.Uuid
+  credentialNumber  String           @unique @map("credential_number") @db.VarChar(100)
+  userId            String           @map("user_id") @db.Uuid
+  courseId          String           @map("course_id") @db.Uuid
+  templateId        String           @map("template_id") @db.Uuid
+  issuedAt          DateTime         @default(now()) @map("issued_at") @db.Timestamptz
+  expiresAt         DateTime?        @map("expires_at") @db.Timestamptz
+  verificationToken String           @unique @map("verification_token") @db.VarChar(255)
+  verificationHash  String           @map("verification_hash") @db.VarChar(255)
+  status            CredentialStatus @default(PENDING)
+  metadata          Json             @default("{}") @db.JsonB
+  revision          Int              @default(1)
+  createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz
+
+  user         User                   @relation(fields: [userId], references: [id], onDelete: Restrict)
+  course       Course                 @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  template     CredentialTemplate     @relation(fields: [templateId], references: [id], onDelete: Restrict)
+  verifications CredentialVerification[]
+  revocation   CredentialRevocation?
+
+  @@index([userId])
+  @@index([courseId])
+  @@index([templateId])
+  @@map("credentials")
+}
+
+model CredentialVerification {
+  id           String             @id @default(uuid()) @db.Uuid
+  credentialId String             @map("credential_id") @db.Uuid
+  verifiedAt   DateTime           @default(now()) @map("verified_at") @db.Timestamptz
+  ipAddress    String?            @map("ip_address") @db.VarChar(45)
+  userAgent    String?            @map("user_agent") @db.VarChar(512)
+  source       VerificationSource
+  success      Boolean
+
+  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@index([credentialId])
+  @@map("credential_verifications")
+}
+
+model CredentialRevocation {
+  id           String   @id @default(uuid()) @db.Uuid
+  credentialId String   @unique @map("credential_id") @db.Uuid
+  reason       String?  @db.Text
+  revokedBy    String   @map("revoked_by") @db.Uuid
+  revokedAt    DateTime @default(now()) @map("revoked_at") @db.Timestamptz
+  metadata     Json     @default("{}") @db.JsonB
+
+  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Restrict)
+  revoker    User       @relation("RevokerRelation", fields: [revokedBy], references: [id], onDelete: Restrict)
+
+  @@map("credential_revocations")
 }
