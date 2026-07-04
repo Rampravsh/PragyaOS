@@ -13,6 +13,8 @@ if (!fs.existsSync(DOCS_DIR)) {
 async function exportSpecs() {
   console.log("🚀 Starting API Contract Export...");
 
+  const specAny = swaggerSpec as any;
+
   // 1. Export openapi.json
   const jsonPath = path.join(DOCS_DIR, "openapi.json");
   fs.writeFileSync(jsonPath, JSON.stringify(swaggerSpec, null, 2), "utf-8");
@@ -31,15 +33,15 @@ async function exportSpecs() {
   mdContent += `\`\`\`json\n{\n  "success": true,\n  "message": "Operation successful.",\n  "data": {}\n}\n\`\`\`\n\n`;
   mdContent += `## Endpoints Index\n\n`;
 
-  const paths = swaggerSpec.paths || {};
+  const paths = specAny.paths || {};
   mdContent += `| Method | Path | Summary | Tags | Security |\n`;
   mdContent += `|---|---|---|---|---|\n`;
 
   for (const [routePath, methods] of Object.entries(paths)) {
     for (const [method, spec] of Object.entries(methods as any)) {
-      const summary = spec.summary || "No description available.";
-      const tags = (spec.tags || []).join(", ");
-      const hasSecurity = spec.security ? "Bearer JWT" : "None";
+      const summary = (spec as any).summary || "No description available.";
+      const tags = ((spec as any).tags || []).join(", ");
+      const hasSecurity = (spec as any).security ? "Bearer JWT" : "None";
       mdContent += `| \`${method.toUpperCase()}\` | \`${routePath}\` | ${summary} | ${tags} | ${hasSecurity} |\n`;
     }
   }
@@ -49,22 +51,22 @@ async function exportSpecs() {
   for (const [routePath, methods] of Object.entries(paths)) {
     for (const [method, spec] of Object.entries(methods as any)) {
       mdContent += `### ${method.toUpperCase()} \`${routePath}\`\n\n`;
-      mdContent += `**Summary**: ${spec.summary || "N/A"}\n\n`;
-      mdContent += `**Tags**: \`${(spec.tags || []).join(", ") || "N/A"}\`\n\n`;
-      mdContent += `**Security**: ${spec.security ? "🔒 Authorized Only" : "🔓 Public Access"}\n\n`;
+      mdContent += `**Summary**: ${(spec as any).summary || "N/A"}\n\n`;
+      mdContent += `**Tags**: \`${((spec as any).tags || []).join(", ") || "N/A"}\`\n\n`;
+      mdContent += `**Security**: ${(spec as any).security ? "🔒 Authorized Only" : "🔓 Public Access"}\n\n`;
 
-      if (spec.parameters && spec.parameters.length > 0) {
+      if ((spec as any).parameters && (spec as any).parameters.length > 0) {
         mdContent += `#### Query/Path Parameters\n\n`;
         mdContent += `| Name | In | Required | Type | Description |\n`;
         mdContent += `|---|---|---|---|---|\n`;
-        for (const param of spec.parameters) {
+        for (const param of (spec as any).parameters) {
           mdContent += `| \`${param.name}\` | \`${param.in}\` | \`${param.required ? "Yes" : "No"}\` | \`${param.schema?.type || "string"}\` | ${param.description || ""} |\n`;
         }
         mdContent += `\n`;
       }
 
-      if (spec.requestBody) {
-        const bodyContent = spec.requestBody.content?.["application/json"];
+      if ((spec as any).requestBody) {
+        const bodyContent = (spec as any).requestBody.content?.["application/json"];
         if (bodyContent && bodyContent.schema) {
           mdContent += `#### Request Body Schema\n\n`;
           mdContent += `\`\`\`json\n${JSON.stringify(bodyContent.schema, null, 2)}\n\`\`\`\n\n`;
@@ -72,7 +74,7 @@ async function exportSpecs() {
       }
 
       mdContent += `#### Responses\n\n`;
-      for (const [code, resp] of Object.entries(spec.responses || {})) {
+      for (const [code, resp] of Object.entries((spec as any).responses || {})) {
         mdContent += `- **${code}**: ${(resp as any).description || ""}\n`;
       }
       mdContent += `\n---\n\n`;
@@ -89,7 +91,7 @@ async function exportSpecs() {
   for (const [routePath, methods] of Object.entries(paths)) {
     for (const [method, spec] of Object.entries(methods as any)) {
       const pmPath = routePath.replace(/^\//, "").split("/");
-      const queryParams = (spec.parameters || [])
+      const queryParams = ((spec as any).parameters || [])
         .filter((p: any) => p.in === "query")
         .map((p: any) => ({
           key: p.name,
@@ -97,15 +99,15 @@ async function exportSpecs() {
           description: p.description || "",
         }));
 
-      const bodyData = spec.requestBody?.content?.["application/json"]?.schema
+      const bodyData = (spec as any).requestBody?.content?.["application/json"]?.schema
         ? {
             mode: "raw",
-            raw: JSON.stringify(generateBodyTemplate(spec.requestBody.content["application/json"].schema), null, 2),
+            raw: JSON.stringify(generateBodyTemplate((spec as any).requestBody.content["application/json"].schema), null, 2),
             options: { raw: { language: "json" } },
           }
         : undefined;
 
-      const securityHeader = spec.security
+      const securityHeader = (spec as any).security
         ? [
             {
               key: "Authorization",
@@ -116,7 +118,7 @@ async function exportSpecs() {
         : [];
 
       postmanItems.push({
-        name: spec.summary || `${method.toUpperCase()} ${routePath}`,
+        name: (spec as any).summary || `${method.toUpperCase()} ${routePath}`,
         request: {
           method: method.toUpperCase(),
           header: [

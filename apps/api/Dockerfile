@@ -30,7 +30,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-PORT=3001
+ENV PORT=3001
 
 # Copy build artifacts and package structures
 COPY --from=builder /app/apps/api/package.json ./

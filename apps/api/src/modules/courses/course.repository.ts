@@ -109,7 +109,7 @@ export class CourseRepository {
   /**
    * Creates a Course aggregate.
    */
-  public async create(data: Prisma.CourseCreateInput): Promise<any> {
+  public async create(data: Prisma.CourseCreateInput | Prisma.CourseUncheckedCreateInput): Promise<any> {
     return prisma.course.create({
       data: data as any,
       include: {

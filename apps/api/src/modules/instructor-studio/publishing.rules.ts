@@ -1,5 +1,4 @@
 import { Course, CourseStatus, CourseVisibility, DifficultyLevel, Media, MediaStatus, LearningUnit, CourseModule } from "@prisma/client";
-import { prisma } from "../../database/client";
 
 export interface RuleResult {
   ruleId: string;

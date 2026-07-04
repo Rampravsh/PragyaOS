@@ -115,6 +115,37 @@ export class LearningUnitRepository {
     });
     return result._sum.duration || 0;
   }
+
+  public async updateMoveUnits(
+    sourceModuleId: string,
+    sourceUnits: { id: string }[],
+    targetModuleId: string,
+    targetUnits: { id: string }[]
+  ): Promise<void> {
+    const updates: any[] = [];
+    
+    sourceUnits.forEach((u, i) => {
+      updates.push(
+        prisma.learningUnit.update({
+          where: { id: u.id },
+          data: { moduleId: sourceModuleId, sequence: i + 1 },
+        })
+      );
+    });
+
+    if (sourceModuleId !== targetModuleId) {
+      targetUnits.forEach((u, i) => {
+        updates.push(
+          prisma.learningUnit.update({
+            where: { id: u.id },
+            data: { moduleId: targetModuleId, sequence: i + 1 },
+          })
+        );
+      });
+    }
+
+    await prisma.$transaction(updates);
+  }
 }
 
 export const learningUnitRepository = new LearningUnitRepository();

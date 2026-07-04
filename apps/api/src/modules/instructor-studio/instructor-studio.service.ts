@@ -1,5 +1,6 @@
-import { prisma } from "../../database/client";
 import { Course, CourseStatus, CourseVisibility, DifficultyLevel, CourseModule, LearningUnit } from "@prisma/client";
+import { learningUnitRepository } from "../learning-units/learning-unit.repository";
+import { courseModuleRepository } from "../courses/course-module.repository";
 import { AppError } from "../../common/errors/appError";
 import { logger } from "../../lib/logger";
 import { courseRepository } from "../courses/course.repository";
@@ -241,73 +242,69 @@ export class InstructorStudioService {
     const nextSlug = `${course.slug}-copy-${Date.now()}`;
 
     // Create Course copy in draft
-    const copy = await prisma.course.create({
-      data: {
-        title: input.newTitle || `${course.title} (Copy)`,
-        subtitle: course.subtitle,
-        description: course.description,
-        slug: nextSlug,
-        language: course.language,
-        difficulty: course.difficulty,
-        categoryId: course.categoryId,
-        thumbnailId: course.thumbnailId,
-        trailerId: course.trailerId,
-        seoMetadata: course.seoMetadata || {},
-        status: CourseStatus.DRAFT,
-        visibility: CourseVisibility.PRIVATE,
-        instructors: {
-          create: {
-            userId: instructorId,
-          },
+    const copy = await courseRepository.create({
+      title: input.newTitle || `${course.title} (Copy)`,
+      subtitle: course.subtitle,
+      description: course.description,
+      slug: nextSlug,
+      language: course.language,
+      difficulty: course.difficulty,
+      categoryId: course.categoryId,
+      thumbnailId: course.thumbnailId,
+      trailerId: course.trailerId,
+      seoMetadata: course.seoMetadata || {},
+      status: CourseStatus.DRAFT,
+      visibility: CourseVisibility.PRIVATE,
+      instructors: {
+        create: {
+          userId: instructorId,
         },
-        requirements: {
-          createMany: {
-            data: course.requirements.map((r: any) => ({
-              description: r.description,
-              sequence: r.sequence,
-            })),
-          },
+      },
+      requirements: {
+        createMany: {
+          data: course.requirements.map((r: any) => ({
+            description: r.description,
+            sequence: r.sequence,
+          })),
         },
-        objectives: {
-          createMany: {
-            data: course.objectives.map((o: any) => ({
-              description: o.description,
-              sequence: o.sequence,
-            })),
-          },
+      },
+      objectives: {
+        createMany: {
+          data: course.objectives.map((o: any) => ({
+            description: o.description,
+            sequence: o.sequence,
+          })),
         },
-        faqs: {
-          createMany: {
-            data: course.faqs.map((f: any) => ({
-              question: f.question,
-              answer: f.answer,
-              sequence: f.sequence,
-            })),
-          },
+      },
+      faqs: {
+        createMany: {
+          data: course.faqs.map((f: any) => ({
+            question: f.question,
+            answer: f.answer,
+            sequence: f.sequence,
+          })),
         },
       },
     });
 
     // Duplicate curriculum modules & units sequentially
     for (const m of course.modules) {
-      await prisma.courseModule.create({
-        data: {
-          courseId: copy.id,
-          title: m.title,
-          description: m.description,
-          sequence: m.sequence,
-          learningUnits: {
-            createMany: {
-              data: m.learningUnits.map((u: any) => ({
-                title: u.title,
-                description: u.description,
-                type: u.type,
-                sequence: u.sequence,
-                mediaId: u.mediaId,
-                content: u.content || {},
-                duration: u.duration,
-              })),
-            },
+      await courseModuleRepository.createWithUnits({
+        courseId: copy.id,
+        title: m.title,
+        description: m.description,
+        sequence: m.sequence,
+        learningUnits: {
+          createMany: {
+            data: m.learningUnits.map((u: any) => ({
+              title: u.title,
+              description: u.description,
+              type: u.type,
+              sequence: u.sequence,
+              mediaId: u.mediaId,
+              content: u.content || {},
+              duration: u.duration,
+            })),
           },
         },
       });
@@ -341,24 +338,22 @@ export class InstructorStudioService {
 
     const nextSeq = course.modules.length > 0 ? Math.max(...course.modules.map((m: any) => m.sequence)) + 1 : 1;
 
-    const copy = await prisma.courseModule.create({
-      data: {
-        courseId,
-        title: `${sourceModule.title} (Copy)`,
-        description: sourceModule.description,
-        sequence: nextSeq,
-        learningUnits: {
-          createMany: {
-            data: sourceModule.learningUnits.map((u: any) => ({
-              title: u.title,
-              description: u.description,
-              type: u.type,
-              sequence: u.sequence,
-              mediaId: u.mediaId,
-              content: u.content || {},
-              duration: u.duration,
-            })),
-          },
+    const copy = await courseModuleRepository.createWithUnits({
+      courseId,
+      title: `${sourceModule.title} (Copy)`,
+      description: sourceModule.description,
+      sequence: nextSeq,
+      learningUnits: {
+        createMany: {
+          data: sourceModule.learningUnits.map((u: any) => ({
+            title: u.title,
+            description: u.description,
+            type: u.type,
+            sequence: u.sequence,
+            mediaId: u.mediaId,
+            content: u.content || {},
+            duration: u.duration,
+          })),
         },
       },
     });
@@ -404,17 +399,15 @@ export class InstructorStudioService {
 
     const nextSeq = siblings.length > 0 ? Math.max(...siblings.map((s) => s.sequence)) + 1 : 1;
 
-    const copy = await prisma.learningUnit.create({
-      data: {
-        moduleId: targetModuleId,
-        title: `${sourceUnit.title} (Copy)`,
-        description: sourceUnit.description,
-        type: sourceUnit.type,
-        sequence: nextSeq,
-        mediaId: sourceUnit.mediaId,
-        content: sourceUnit.content || {},
-        duration: sourceUnit.duration,
-      },
+    const copy = await learningUnitRepository.create({
+      moduleId: targetModuleId,
+      title: `${sourceUnit.title} (Copy)`,
+      description: sourceUnit.description,
+      type: sourceUnit.type,
+      sequence: nextSeq,
+      mediaId: sourceUnit.mediaId,
+      content: sourceUnit.content || {},
+      duration: sourceUnit.duration,
     });
 
     instructorStudioEvents.emitCurriculumUpdated({
@@ -449,15 +442,8 @@ export class InstructorStudioService {
     const sanitizedIndex = Math.min(modules.length, Math.max(0, targetIndex));
     modules.splice(sanitizedIndex, 0, targetModule);
 
-    // Save module sequences sequentially in a single transaction
-    await prisma.$transaction(
-      modules.map((m, index) =>
-        prisma.courseModule.update({
-          where: { id: m.id },
-          data: { sequence: index + 1 },
-        })
-      )
-    );
+    // Save module sequences sequentially in a single transaction wrapped in repository
+    await courseModuleRepository.updateSequences(modules);
 
     instructorStudioEvents.emitCurriculumUpdated({
       courseId,
@@ -496,19 +482,13 @@ export class InstructorStudioService {
       throw AppError.notFound("Learning unit not found.");
     }
 
-    // 1. Fetch source siblings
-    const sourceSiblings = await prisma.learningUnit.findMany({
-      where: { moduleId: sourceModuleId },
-      orderBy: { sequence: "asc" },
-    });
+    // 1. Fetch source siblings via repository
+    const sourceSiblings = await learningUnitRepository.findManyByModuleId(sourceModuleId);
 
-    // 2. Fetch target siblings
+    // 2. Fetch target siblings via repository
     const targetSiblings = sourceModuleId === targetModuleId
       ? sourceSiblings
-      : await prisma.learningUnit.findMany({
-          where: { moduleId: targetModuleId },
-          orderBy: { sequence: "asc" },
-        });
+      : await learningUnitRepository.findManyByModuleId(targetModuleId);
 
     // Remove from source list
     const sourceIndex = sourceSiblings.findIndex((s) => s.id === learningUnitId);
@@ -524,32 +504,13 @@ export class InstructorStudioService {
       targetSiblings.splice(cleanTargetIndex, 0, unit);
     }
 
-    // Run transaction
-    const updates: any[] = [];
-
-    // Resequence source module
-    sourceSiblings.forEach((u, i) => {
-      updates.push(
-        prisma.learningUnit.update({
-          where: { id: u.id },
-          data: { moduleId: sourceModuleId, sequence: i + 1 },
-        })
-      );
-    });
-
-    // Resequence target module (if different)
-    if (sourceModuleId !== targetModuleId) {
-      targetSiblings.forEach((u, i) => {
-        updates.push(
-          prisma.learningUnit.update({
-            where: { id: u.id },
-            data: { moduleId: targetModuleId, sequence: i + 1 },
-          })
-        );
-      });
-    }
-
-    await prisma.$transaction(updates);
+    // Perform atomic resequence operations via repository
+    await learningUnitRepository.updateMoveUnits(
+      sourceModuleId,
+      sourceSiblings,
+      targetModuleId,
+      targetSiblings
+    );
 
     instructorStudioEvents.emitCurriculumUpdated({
       courseId,
@@ -570,29 +531,8 @@ export class InstructorStudioService {
     const course = await this.fetchFullCourseDetails(courseId);
     await this.validateOwnership(course, instructorId);
 
-    const updates: any[] = [];
-
-    input.modules.forEach((mod) => {
-      updates.push(
-        prisma.courseModule.update({
-          where: { id: mod.id, courseId },
-          data: { sequence: mod.sequence },
-        })
-      );
-
-      if (mod.learningUnits) {
-        mod.learningUnits.forEach((unit) => {
-          updates.push(
-            prisma.learningUnit.update({
-              where: { id: unit.id, module: { id: mod.id } },
-              data: { sequence: unit.sequence },
-            })
-          );
-        });
-      }
-    });
-
-    await prisma.$transaction(updates);
+    // Delegate transactional curriculum updates to repository
+    await courseModuleRepository.bulkReorderCurriculum(courseId, input.modules);
 
     instructorStudioEvents.emitCurriculumUpdated({
       courseId,

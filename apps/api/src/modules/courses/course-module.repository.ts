@@ -21,6 +21,15 @@ export class CourseModuleRepository {
     });
   }
 
+  public async createWithUnits(data: Prisma.CourseModuleCreateInput | Prisma.CourseModuleUncheckedCreateInput): Promise<any> {
+    return prisma.courseModule.create({
+      data: data as any,
+      include: {
+        learningUnits: true,
+      },
+    });
+  }
+
   public async update(id: string, data: Prisma.CourseModuleUpdateInput): Promise<CourseModule> {
     return prisma.courseModule.update({
       where: { id },
@@ -49,6 +58,43 @@ export class CourseModuleRepository {
       _max: { sequence: true },
     });
     return result._max.sequence || 0;
+  }
+
+  public async updateSequences(modules: { id: string }[]): Promise<void> {
+    await prisma.$transaction(
+      modules.map((m, index) =>
+        prisma.courseModule.update({
+          where: { id: m.id },
+          data: { sequence: index + 1 },
+        })
+      )
+    );
+  }
+
+  public async bulkReorderCurriculum(courseId: string, modules: any[]): Promise<void> {
+    const updates: any[] = [];
+
+    modules.forEach((mod) => {
+      updates.push(
+        prisma.courseModule.update({
+          where: { id: mod.id, courseId },
+          data: { sequence: mod.sequence },
+        })
+      );
+
+      if (mod.learningUnits) {
+        mod.learningUnits.forEach((unit: any) => {
+          updates.push(
+            prisma.learningUnit.update({
+              where: { id: unit.id, module: { id: mod.id } },
+              data: { sequence: unit.sequence },
+            })
+          );
+        });
+      }
+    });
+
+    await prisma.$transaction(updates);
   }
 }
 
