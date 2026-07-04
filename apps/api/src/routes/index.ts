@@ -12,6 +12,7 @@ import { instructorStudioRoutes } from "../modules/instructor-studio";
 import { paymentRoutes } from "../modules/commerce/payment/payment.routes";
 import { credentialRoutes } from "../modules/credentials";
 import { notificationRoutes } from "../modules/notifications";
+import { searchRoutes } from "../modules/search";
 
 const router = Router();
 
@@ -44,6 +45,9 @@ apiV1Router.use("/credentials", credentialRoutes);
 
 // Mount notification & communication routes
 apiV1Router.use("/notifications", notificationRoutes);
+
+// Mount search & discovery routes
+apiV1Router.use("/search", searchRoutes);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);

@@ -1155,3 +1155,32 @@ model NotificationDelivery {
   @@index([notificationId])
   @@map("notification_deliveries")
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Search & Discovery Platform
+// ─────────────────────────────────────────────────────────────────────────
+
+enum SearchSyncStatus {
+  PENDING
+  INDEXING
+  INDEXED
+  FAILED
+}
+
+model SearchSyncLog {
+  id            String          @id @default(uuid()) @db.Uuid
+  entityType    String          @map("entity_type") @db.VarChar(100)
+  entityId      String          @map("entity_id") @db.Uuid
+  operation     String          @db.VarChar(50)
+  status        SearchSyncStatus @default(PENDING)
+  attempts      Int             @default(0)
+  lastError     String?         @map("last_error") @db.Text
+  correlationId String?         @map("correlation_id") @db.VarChar(255)
+  processedAt   DateTime?       @map("processed_at") @db.Timestamptz
+  createdAt     DateTime        @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([entityType, entityId])
+  @@index([status])
+  @@map("search_sync_logs")
+}
+

@@ -48,6 +48,11 @@ export const config = {
       maxFileSizeBytes: env.MEDIA_MAX_FILE_SIZE_BYTES,
     },
   },
+  search: {
+    host: env.MEILISEARCH_HOST,
+    apiKey: env.MEILISEARCH_API_KEY,
+    indexPrefix: env.MEILISEARCH_INDEX_PREFIX,
+  },
 };
 
 export * from "./env";

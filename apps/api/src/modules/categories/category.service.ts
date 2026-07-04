@@ -3,6 +3,7 @@ import { categoryRepository, CategoryRepository } from "./category.repository";
 import { CreateCategoryInput, UpdateCategoryInput } from "./category.schemas";
 import { AppError } from "../../common/errors/appError";
 import { slugify } from "../../utils/slugify";
+import { categoryEvents } from "./category.events";
 
 export class CategoryService {
   constructor(private readonly repository: CategoryRepository = categoryRepository) {}
@@ -47,12 +48,20 @@ export class CategoryService {
       throw AppError.conflict(`Category slug "${rawSlug}" is already in use.`);
     }
 
-    return this.repository.create({
+    const category = await this.repository.create({
       name: input.name,
       slug: rawSlug,
       description: input.description || null,
       parent: input.parentId ? { connect: { id: input.parentId } } : undefined,
     });
+
+    categoryEvents.emitCategoryUpdated({
+      categoryId: category.id,
+      name: category.name,
+      slug: category.slug,
+    });
+
+    return category;
   }
 
   /**
@@ -96,7 +105,7 @@ export class CategoryService {
       }
     }
 
-    return this.repository.update(id, {
+    const updated = await this.repository.update(id, {
       name: input.name,
       slug: finalSlug,
       description: input.description !== undefined ? input.description : undefined,
@@ -106,6 +115,14 @@ export class CategoryService {
         ? { disconnect: true }
         : undefined,
     });
+
+    categoryEvents.emitCategoryUpdated({
+      categoryId: updated.id,
+      name: updated.name,
+      slug: updated.slug,
+    });
+
+    return updated;
   }
 
   /**
@@ -127,6 +144,10 @@ export class CategoryService {
     }
 
     await this.repository.delete(id);
+
+    categoryEvents.emitCategoryDeleted({
+      categoryId: id,
+    });
   }
 }
 

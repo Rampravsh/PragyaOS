@@ -10,6 +10,7 @@ export class CourseRepository {
     return prisma.course.findUnique({
       where: { id },
       include: {
+        category: true,
         instructors: {
           include: { user: true },
         },
@@ -29,6 +30,7 @@ export class CourseRepository {
     return prisma.course.findUnique({
       where: { slug },
       include: {
+        category: true,
         instructors: {
           include: { user: true },
         },
@@ -163,6 +165,12 @@ export class CourseRepository {
     });
   }
 
+  public async findTagById(id: string): Promise<any | null> {
+    return prisma.tag.findUnique({
+      where: { id },
+    });
+  }
+
   public async deleteCourseTags(courseId: string): Promise<void> {
     await prisma.courseTag.deleteMany({
       where: { courseId },
@@ -229,6 +237,10 @@ export class CourseRepository {
       },
       orderBy: { updatedAt: "desc" },
     });
+  }
+
+  public async findAllTags(): Promise<any[]> {
+    return prisma.tag.findMany();
   }
 }
 

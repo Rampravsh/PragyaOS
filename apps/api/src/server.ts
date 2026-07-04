@@ -12,6 +12,8 @@ import { analyticsWorker } from "./modules/commerce/fulfillment/analytics.worker
 import { notificationInAppWorker } from "./modules/notifications/notification-inapp.worker";
 // Activates cross-domain event subscriptions at bootstrap
 import "./modules/notifications/notifications.event-consumer";
+import { searchIndexWorker } from "./modules/search/search.worker";
+import "./modules/search/search.consumer";
 
 const server = app.listen(config.port, () => {
   logger.info(`🚀 [API Server] Active on port ${config.port} in [${config.env}] environment`);
@@ -58,6 +60,13 @@ const handleFatalError = async (error: Error) => {
     logger.info("[Notification InApp Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Notification InApp Worker] Error during close: ${err.message}`);
+  }
+
+  try {
+    await searchIndexWorker.close();
+    logger.info("[Search Index Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Search Index Worker] Error during close: ${err.message}`);
   }
 
   if (server) {
@@ -120,6 +129,13 @@ const handleShutdown = async (signal: string) => {
     logger.info("[Notification InApp Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Notification InApp Worker] Error closing connection: ${err.message}`);
+  }
+
+  try {
+    await searchIndexWorker.close();
+    logger.info("[Search Index Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Search Index Worker] Error closing connection: ${err.message}`);
   }
 
   if (server) {

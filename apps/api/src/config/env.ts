@@ -39,6 +39,11 @@ const envSchema = z.object({
   // Media Configurable File Size Limits
   MEDIA_MAX_IMAGE_SIZE_BYTES: z.string().default("5242880").transform((val) => parseInt(val, 10)), // 5MB
   MEDIA_MAX_FILE_SIZE_BYTES: z.string().default("104857600").transform((val) => parseInt(val, 10)), // 100MB
+
+  // Search (Meilisearch)
+  MEILISEARCH_HOST: z.string().url().default("http://localhost:7700"),
+  MEILISEARCH_API_KEY: z.string().optional().default(""),
+  MEILISEARCH_INDEX_PREFIX: z.string().optional().default("pragyaos_"),
 });
 
 type EnvConfig = z.infer<typeof envSchema>;

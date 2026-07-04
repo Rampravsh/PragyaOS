@@ -177,13 +177,24 @@ export class UserRepository {
     });
   }
 
-  /**
-   * Fetches user roles from the user_roles table.
-   */
   public async findRolesByUserId(userId: string): Promise<any[]> {
     return prisma.userRole.findMany({
       where: { userId },
       include: { role: true },
+    });
+  }
+
+  public async findInstructors(): Promise<User[]> {
+    return prisma.user.findMany({
+      where: {
+        userRoles: {
+          some: {
+            role: {
+              name: "INSTRUCTOR",
+            },
+          },
+        },
+      },
     });
   }
 }

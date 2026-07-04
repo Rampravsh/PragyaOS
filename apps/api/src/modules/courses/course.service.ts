@@ -4,6 +4,7 @@ import { CreateCourseInput, UpdateCourseInput } from "./course.schemas";
 import { categoryRepository } from "../categories/category.repository";
 import { AppError } from "../../common/errors/appError";
 import { slugify } from "../../utils/slugify";
+import { courseEvents } from "./course.events";
 
 export class CourseService {
   constructor(private readonly repository: CourseRepository = courseRepository) {}
@@ -117,7 +118,16 @@ export class CourseService {
       tags: tagsConnect.length > 0 ? { create: tagsConnect } : undefined,
     };
 
-    return this.repository.create(courseData);
+    const course = await this.repository.create(courseData);
+    if (course.status === CourseStatus.PUBLISHED) {
+      courseEvents.emitCoursePublished({
+        courseId: course.id,
+        title: course.title,
+        slug: course.slug,
+        publishedBy: userId,
+      });
+    }
+    return course;
   }
 
   /**
@@ -219,7 +229,31 @@ export class CourseService {
       };
     }
 
-    return this.repository.update(id, updateData);
+    const originalCourse = await this.repository.findById(id);
+    const updatedCourse = await this.repository.update(id, updateData);
+
+    if (originalCourse && updatedCourse) {
+      if (originalCourse.status !== CourseStatus.PUBLISHED && updatedCourse.status === CourseStatus.PUBLISHED) {
+        courseEvents.emitCoursePublished({
+          courseId: updatedCourse.id,
+          title: updatedCourse.title,
+          slug: updatedCourse.slug,
+          publishedBy: userContext.id,
+        });
+      } else if (updatedCourse.status === CourseStatus.PUBLISHED) {
+        courseEvents.emitCourseUpdated({
+          courseId: updatedCourse.id,
+          updatedBy: userContext.id,
+        });
+      } else if (originalCourse.status === CourseStatus.PUBLISHED && updatedCourse.status === CourseStatus.ARCHIVED) {
+        courseEvents.emitCourseArchived({
+          courseId: updatedCourse.id,
+          archivedBy: userContext.id,
+        });
+      }
+    }
+
+    return updatedCourse;
   }
 
   /**
@@ -230,11 +264,19 @@ export class CourseService {
     userContext: { id: string; roles: string[]; permissions: string[] }
   ): Promise<void> {
     await this.validateOwnership(id, userContext);
+    const originalCourse = await this.repository.findById(id);
 
-    await this.repository.update(id, {
+    const updatedCourse = await this.repository.update(id, {
       status: CourseStatus.ARCHIVED,
       visibility: CourseVisibility.PRIVATE,
     });
+
+    if (originalCourse && originalCourse.status === CourseStatus.PUBLISHED) {
+      courseEvents.emitCourseArchived({
+        courseId: id,
+        archivedBy: userContext.id,
+      });
+    }
   }
 }
 
