@@ -9,6 +9,9 @@ import { enrollmentWorker } from "./modules/commerce/fulfillment/enrollment.work
 import { invoiceWorker } from "./modules/commerce/fulfillment/invoice.worker";
 import { notificationWorker } from "./modules/commerce/fulfillment/notification.worker";
 import { analyticsWorker } from "./modules/commerce/fulfillment/analytics.worker";
+import { notificationInAppWorker } from "./modules/notifications/notification-inapp.worker";
+// Activates cross-domain event subscriptions at bootstrap
+import "./modules/notifications/notifications.event-consumer";
 
 const server = app.listen(config.port, () => {
   logger.info(`🚀 [API Server] Active on port ${config.port} in [${config.env}] environment`);
@@ -48,6 +51,13 @@ const handleFatalError = async (error: Error) => {
     logger.info("[Fulfillment Workers] Queue connections closed.");
   } catch (err: any) {
     logger.error(`[Fulfillment Workers] Error during close: ${err.message}`);
+  }
+
+  try {
+    await notificationInAppWorker.close();
+    logger.info("[Notification InApp Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Notification InApp Worker] Error during close: ${err.message}`);
   }
 
   if (server) {
@@ -103,6 +113,13 @@ const handleShutdown = async (signal: string) => {
     logger.info("[Fulfillment Workers] Queue connections closed.");
   } catch (err: any) {
     logger.error(`[Fulfillment Workers] Error closing connection: ${err.message}`);
+  }
+
+  try {
+    await notificationInAppWorker.close();
+    logger.info("[Notification InApp Worker] Queue connection closed.");
+  } catch (err: any) {
+    logger.error(`[Notification InApp Worker] Error closing connection: ${err.message}`);
   }
 
   if (server) {

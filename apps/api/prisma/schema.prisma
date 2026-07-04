@@ -77,6 +77,8 @@ model User {
   couponRedemptions       CouponRedemption[]
   credentials             Credential[]
   revokedCredentials      CredentialRevocation[]   @relation("RevokerRelation")
+  notifications           Notification[]
+  notificationPreference  NotificationPreference?
 
   @@index([organizationId])
   @@map("users")
@@ -1031,4 +1033,125 @@ model CredentialRevocation {
   revoker    User       @relation("RevokerRelation", fields: [revokedBy], references: [id], onDelete: Restrict)
 
   @@map("credential_revocations")
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Notification & Communication Platform
+// ─────────────────────────────────────────────────────────────────────────
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  PUSH
+  SMS
+}
+
+enum NotificationStatus {
+  PENDING
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
+enum NotificationCategory {
+  SYSTEM
+  SECURITY
+  COURSE
+  LEARNING
+  PAYMENT
+  CREDENTIAL
+  MEDIA
+  MARKETING
+}
+
+model NotificationTemplate {
+  id            String              @id @default(uuid()) @db.Uuid
+  name          String              @db.VarChar(255)
+  slug          String              @db.VarChar(255)
+  version       Int                 @default(1)
+  channel       NotificationChannel
+  locale        String              @default("en") @db.VarChar(10)
+  titleTemplate String              @map("title_template") @db.VarChar(512)
+  bodyTemplate  String              @map("body_template") @db.Text
+  variables     Json                @default("[]") @db.JsonB
+  active        Boolean             @default(true)
+  createdAt     DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+
+  notifications Notification[]
+
+  @@unique([slug, channel, locale, version])
+  @@index([slug, channel, locale])
+  @@map("notification_templates")
+}
+
+model Notification {
+  id            String               @id @default(uuid()) @db.Uuid
+  userId        String               @map("user_id") @db.Uuid
+  templateId    String?              @map("template_id") @db.Uuid
+  dedupeKey     String?              @unique @map("dedupe_key") @db.VarChar(512)
+  title         String               @db.VarChar(512)
+  body          String               @db.Text
+  category      NotificationCategory
+  priority      NotificationPriority @default(NORMAL)
+  channel       NotificationChannel
+  status        NotificationStatus   @default(PENDING)
+  payload       Json                 @default("{}") @db.JsonB
+  correlationId String?              @map("correlation_id") @db.VarChar(255)
+  scheduledAt   DateTime?            @map("scheduled_at") @db.Timestamptz
+  deliveredAt   DateTime?            @map("delivered_at") @db.Timestamptz
+  readAt        DateTime?            @map("read_at") @db.Timestamptz
+  expiresAt     DateTime?            @map("expires_at") @db.Timestamptz
+  revision      Int                  @default(1)
+  createdAt     DateTime             @default(now()) @map("created_at") @db.Timestamptz
+
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template  NotificationTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  deliveries NotificationDelivery[]
+
+  @@index([userId, status])
+  @@index([userId, createdAt])
+  @@index([correlationId])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  id                    String   @id @default(uuid()) @db.Uuid
+  userId                String   @unique @map("user_id") @db.Uuid
+  channelPreferences    Json     @default("{}") @map("channel_preferences") @db.JsonB
+  categoryPreferences   Json     @default("{}") @map("category_preferences") @db.JsonB
+  marketingOptIn        Boolean  @default(true) @map("marketing_opt_in")
+  digestEnabled         Boolean  @default(false) @map("digest_enabled")
+  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+model NotificationDelivery {
+  id                String    @id @default(uuid()) @db.Uuid
+  notificationId    String    @map("notification_id") @db.Uuid
+  provider          String    @db.VarChar(100)
+  providerMessageId String?   @map("provider_message_id") @db.VarChar(255)
+  providerStatus    String?   @map("provider_status") @db.VarChar(100)
+  retryCount        Int       @default(0) @map("retry_count")
+  failureReason     String?   @map("failure_reason") @db.Text
+  deliveredAt       DateTime? @map("delivered_at") @db.Timestamptz
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+
+  @@index([notificationId])
+  @@map("notification_deliveries")
 }
