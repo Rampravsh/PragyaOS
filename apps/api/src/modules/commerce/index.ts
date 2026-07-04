@@ -15,3 +15,4 @@ export * from "./invoice.repository";
 export * from "./refund.repository";
 
 export * from "./checkout";
+export * from "./payment";

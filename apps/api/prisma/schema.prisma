@@ -688,6 +688,25 @@ enum CouponStatus {
   INACTIVE
 }
 
+enum WebhookEventStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+}
+
+model WebhookEvent {
+  id          String             @id @default(uuid()) @db.Uuid
+  eventId     String             @unique @map("event_id") @db.VarChar(100)
+  provider    String             @db.VarChar(50)
+  payload     Json               @db.JsonB
+  signature   String?            @db.Text
+  receivedAt  DateTime           @default(now()) @map("received_at") @db.Timestamptz
+  processedAt DateTime?          @map("processed_at") @db.Timestamptz
+  status      WebhookEventStatus @default(RECEIVED)
+
+  @@map("webhook_events")
+}
+
 model Product {
   id           String        @id @default(uuid()) @db.Uuid
   sellableId   String        @map("sellable_id") @db.Uuid

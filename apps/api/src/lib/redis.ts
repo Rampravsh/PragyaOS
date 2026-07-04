@@ -51,9 +51,6 @@ class RedisClientService {
     }
   }
 
-  /**
-   * Sets a key-value pair with an optional expiration time in seconds.
-   */
   public async set(key: string, value: string, ttlSeconds?: number): Promise<void> {
     if (!this.client || !this.isConnected) return;
     try {
@@ -64,6 +61,24 @@ class RedisClientService {
       }
     } catch (err: any) {
       logger.error(`Redis SET error for key ${key}: ${err.message}`);
+    }
+  }
+
+  /**
+   * Sets a key only if it does not already exist (NX), with a TTL.
+   * Returns true if the key was set, false if it already existed.
+   */
+  public async setNX(key: string, value: string, ttlSeconds: number): Promise<boolean> {
+    if (!this.client || !this.isConnected) return true; // Fail-open for test/development
+    try {
+      const result = await this.client.set(key, value, {
+        NX: true,
+        EX: ttlSeconds,
+      });
+      return result === "OK";
+    } catch (err: any) {
+      logger.error(`Redis setNX error for key ${key}: ${err.message}`);
+      return false; // Handled per-environment at the service level (fail-closed in prod)
     }
   }
 

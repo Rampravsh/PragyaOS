@@ -9,6 +9,7 @@ import { learningUnitRoutes } from "../modules/learning-units";
 import { mediaRoutes } from "../modules/media";
 import { learningEngineRoutes } from "../modules/learning-engine";
 import { instructorStudioRoutes } from "../modules/instructor-studio";
+import { paymentRoutes } from "../modules/commerce/payment/payment.routes";
 
 const router = Router();
 
@@ -34,6 +35,7 @@ apiV1Router.use("/learning-units", learningUnitRoutes);
 apiV1Router.use("/media", mediaRoutes);
 apiV1Router.use("/learning-engine", learningEngineRoutes);
 apiV1Router.use("/instructor-studio", instructorStudioRoutes);
+apiV1Router.use("/payments", paymentRoutes);
 
 // Mount v1 endpoints
 apiV1Router.use("/", healthRouter);
