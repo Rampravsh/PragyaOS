@@ -13,3 +13,5 @@ export * from "./order.repository";
 export * from "./payment.repository";
 export * from "./invoice.repository";
 export * from "./refund.repository";
+
+export * from "./checkout";
