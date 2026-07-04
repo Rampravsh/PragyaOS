@@ -1,0 +1,3357 @@
+{
+  "info": {
+    "name": "PragyaOS LXP API v1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Verify application health status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify application runtime liveness (K8s Probe Exception - raw response required)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/live",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "live"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify application readiness to consume requests (K8s Probe Exception - raw response required)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/ready",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "ready"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve current authenticated user profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update profile details for the authenticated user",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"displayName\": \"string\",\n  \"bio\": \"string\",\n  \"timezone\": \"string\",\n  \"language\": \"en\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update avatar image link for the authenticated user",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/avatar",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "avatar"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"avatarUrl\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update theme, privacy, or notification preferences",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/preferences",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "preferences"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"theme\": \"LIGHT\",\n  \"emailPreference\": true,\n  \"notificationPreference\": true,\n  \"marketingPreference\": true,\n  \"privacyPreference\": \"public\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Change user password and terminate other active sessions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/password",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"string\",\n  \"newPassword\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List active devices and login session timestamps",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/sessions",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "sessions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Terminate all other sessions except the current active one",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/sessions",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "sessions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Terminate a specific session device by ID",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/sessions/{sessionId}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "sessions",
+            "{sessionId}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Self-deactivate authenticated user account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/deactivate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "deactivate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch user-specific audit history logs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/me/audit-logs",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "me",
+            "audit-logs"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": ""
+            },
+            {
+              "key": "action",
+              "value": "",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve profile details of a user by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Soft delete target user account",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reactivate a deactivated user profile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/users/{id}/reactivate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{id}",
+            "reactivate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search for courses with text queries and filter facets",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "limit",
+              "value": "20",
+              "description": ""
+            },
+            {
+              "key": "category",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "difficulty",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "language",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "tags",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "sort",
+              "value": "relevance",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve query auto-suggestions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search/suggestions",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search",
+            "suggestions"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "limit",
+              "value": "5",
+              "description": ""
+            },
+            {
+              "key": "index",
+              "value": "courses",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get popular searches list",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search/popular",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search",
+            "popular"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve search backend health and queue status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search",
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Enqueue manual indexing task for a specific entity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search/reindex",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search",
+            "reindex"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"entityType\": \"courses\",\n  \"entityId\": \"00000000-0000-0000-0000-000000000000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Trigger full indexing rebuild across all entities",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/search/reindex/all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "search",
+            "reindex",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve the authenticated user's notifications (paginated)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "limit",
+              "value": "20",
+              "description": ""
+            },
+            {
+              "key": "status",
+              "value": "",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get count of unread notifications for the authenticated user",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications/unread-count",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "unread-count"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get notification preferences for the authenticated user",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications/preferences",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "preferences"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update notification preferences for the authenticated user",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications/preferences",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "preferences"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"channelPreferences\": null,\n  \"categoryPreferences\": null,\n  \"marketingOptIn\": true,\n  \"digestEnabled\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mark all notifications as read for the authenticated user",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications/read-all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "read-all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mark a single notification as read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/notifications/{id}/read",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "notifications",
+            "{id}",
+            "read"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Request a presigned S3 upload URL for direct-to-cloud upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/uploads/url",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "uploads",
+            "url"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filename\": \"string\",\n  \"mimeType\": \"string\",\n  \"size\": 0,\n  \"hash\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm single file upload completeness and queue background processors",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/{id}/confirm",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "{id}",
+            "confirm"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Initiate a multipart upload session for large files",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/multipart/initiate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "multipart",
+            "initiate"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filename\": \"string\",\n  \"mimeType\": \"string\",\n  \"size\": 0,\n  \"hash\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Generate a presigned URL to upload a specific part of a multipart session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/{id}/multipart/part",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "{id}",
+            "multipart",
+            "part"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"key\": \"string\",\n  \"uploadId\": \"string\",\n  \"partNumber\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Complete a multipart upload session by assembling parts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/{id}/multipart/complete",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "{id}",
+            "multipart",
+            "complete"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"key\": \"string\",\n  \"uploadId\": \"string\",\n  \"parts\": [\n    {\n      \"PartNumber\": 0,\n      \"ETag\": \"string\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get a presigned download URL for private files",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/{id}/download",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "{id}",
+            "download"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a media file from Cloudflare R2 and database (status set to DELETED)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/media/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "media",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create a learning unit under a module",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/{moduleId}/units",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            "{moduleId}",
+            "units"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"type\": \"VIDEO\",\n  \"duration\": 0,\n  \"mediaId\": \"00000000-0000-0000-0000-000000000000\",\n  \"content\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update a learning unit (and optionally shift modules)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/{moduleId}/units/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            "{moduleId}",
+            "units",
+            "{id}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"duration\": 0,\n  \"mediaId\": \"00000000-0000-0000-0000-000000000000\",\n  \"content\": null,\n  \"targetModuleId\": \"00000000-0000-0000-0000-000000000000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a learning unit",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/:moduleId/units/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            ":moduleId",
+            "units",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bulk reorder learning units in a module",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/{moduleId}/units/reorder",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            "{moduleId}",
+            "units",
+            "reorder"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"unitIds\": [\n    \"00000000-0000-0000-0000-000000000000\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Attach a resource/file to a learning unit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/{moduleId}/units/{unitId}/resources",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            "{moduleId}",
+            "units",
+            "{unitId}",
+            "resources"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"mediaId\": \"00000000-0000-0000-0000-000000000000\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete/detach a resource from a learning unit",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-units/modules/{moduleId}/units/{unitId}/resources/{resourceId}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-units",
+            "modules",
+            "{moduleId}",
+            "units",
+            "{unitId}",
+            "resources",
+            "{resourceId}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Enroll a student in a course",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enroll",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enroll"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courseId\": \"00000000-0000-0000-0000-000000000000\",\n  \"source\": \"string\",\n  \"purchaseRef\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Suspend an active enrollment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/suspend",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "suspend"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Resume a suspended or cancelled enrollment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/resume",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "resume"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Cancel an enrollment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/cancel",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "cancel"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update progress on a specific learning unit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/progress",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "progress"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"learningUnitId\": \"00000000-0000-0000-0000-000000000000\",\n  \"watchTime\": 0,\n  \"lastPosition\": 0,\n  \"percentInput\": 0,\n  \"quizScore\": 0,\n  \"quizPassingScore\": 0,\n  \"quizMaxScore\": 0,\n  \"isSubmitted\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Start a new learning session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/sessions/start",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "sessions",
+            "start"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"learningUnitId\": \"00000000-0000-0000-0000-000000000000\",\n  \"device\": \"string\",\n  \"browser\": \"string\",\n  \"ipAddress\": \"string\",\n  \"userAgent\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Complete/end an active learning session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/sessions/{sessionId}/end",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "sessions",
+            "{sessionId}",
+            "end"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get recommend next unit and last learning checkpoints",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/continue",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "continue"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get course completion stats and certificate eligibility flags",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/completion",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "completion"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Query the student's audit event timeline",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/learning-engine/enrollments/{id}/timeline",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "learning-engine",
+            "enrollments",
+            "{id}",
+            "timeline"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve the instructor dashboard overview",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/dashboard",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "dashboard"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get publishing readiness checklist report for a course",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/checklist",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "checklist"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get quality health score and recommendations for a course",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Submit a course for draft review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/review",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "review"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"changeSummary\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Publish a course (In Review -> Published). Requires Admin/Reviewer role.",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/publish",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "publish"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"changeSummary\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Unpublish a course (Published -> Draft)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/unpublish",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "unpublish"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archive a course",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/archive",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "archive"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Restore an archived course back to draft status",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/restore",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "restore"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Generate a secure, short-lived preview token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/preview-token",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "preview-token"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"scope\": \"INSTRUCTOR\",\n  \"expiresInSeconds\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate a course and its entire modules structure",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/duplicate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "duplicate"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"newTitle\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate a curriculum module",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/modules/{moduleId}/duplicate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "modules",
+            "{moduleId}",
+            "duplicate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate a learning unit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/learning-units/{learningUnitId}/duplicate",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "learning-units",
+            "{learningUnitId}",
+            "duplicate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Move a module's sequential position index",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/modules/{moduleId}/move",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "modules",
+            "{moduleId}",
+            "move"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"targetIndex\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Move a learning unit to a different module or sequence index",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/learning-units/{learningUnitId}/move",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "learning-units",
+            "{learningUnitId}",
+            "move"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"targetModuleId\": \"00000000-0000-0000-0000-000000000000\",\n  \"targetIndex\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bulk reorder curriculum sequence indices in a transaction",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/instructor-studio/courses/{courseId}/curriculum/reorder",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "instructor-studio",
+            "courses",
+            "{courseId}",
+            "curriculum",
+            "reorder"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"modules\": [\n    {\n      \"id\": \"00000000-0000-0000-0000-000000000000\",\n      \"sequence\": 0,\n      \"learningUnits\": [\n        {\n          \"id\": \"00000000-0000-0000-0000-000000000000\",\n          \"sequence\": 0\n        }\n      ]\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register a new certificate template",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/templates",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "templates"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"templateVersion\": \"string\",\n  \"htmlTemplate\": \"string\",\n  \"cssTemplate\": \"string\",\n  \"branding\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update a certificate template (layout changes blocked once credentials issued)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/templates/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "templates",
+            "{id}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"string\",\n  \"active\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Issue a credential certificate to a student",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/issue",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "issue"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"00000000-0000-0000-0000-000000000000\",\n  \"courseId\": \"00000000-0000-0000-0000-000000000000\",\n  \"templateId\": \"00000000-0000-0000-0000-000000000000\",\n  \"expiresAt\": \"string\",\n  \"metadata\": {\n    \"studentName\": \"string\",\n    \"courseTitle\": \"string\",\n    \"instructorName\": \"string\",\n    \"completionDate\": \"string\",\n    \"customData\": null\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify a credential using its verification token (public endpoint)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/verify",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "verify"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"verificationToken\": \"string\",\n  \"source\": \"PUBLIC_PAGE\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Revoke an issued credential",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/revoke",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "revoke"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"credentialId\": \"00000000-0000-0000-0000-000000000000\",\n  \"reason\": \"string\",\n  \"metadata\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve all credentials issued to the authenticated user",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/credentials/my",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "credentials",
+            "my"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve a paginated and filtered catalog of courses",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "limit",
+              "value": "10",
+              "description": ""
+            },
+            {
+              "key": "search",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "categoryId",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "difficulty",
+              "value": "",
+              "description": ""
+            },
+            {
+              "key": "language",
+              "value": "",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create a new course (Instructor/Admin restricted)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"categoryId\": \"00000000-0000-0000-0000-000000000000\",\n  \"subtitle\": \"string\",\n  \"description\": \"string\",\n  \"language\": \"string\",\n  \"difficulty\": \"BEGINNER\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve details of a single course by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update course details (requires ownership/admin)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{id}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"categoryId\": \"00000000-0000-0000-0000-000000000000\",\n  \"subtitle\": \"string\",\n  \"description\": \"string\",\n  \"language\": \"string\",\n  \"difficulty\": \"BEGINNER\",\n  \"status\": \"DRAFT\",\n  \"visibility\": \"PUBLIC\",\n  \"tags\": [\n    \"string\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archive a course (soft delete)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve details of a single course by URL slug",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/slug/{slug}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "slug",
+            "{slug}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create a course module",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{courseId}/modules",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{courseId}",
+            "modules"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update course module details",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{courseId}/modules/{moduleId}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{courseId}",
+            "modules",
+            "{moduleId}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a course module",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{courseId}/modules/{moduleId}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{courseId}",
+            "modules",
+            "{moduleId}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bulk reorder modules in a course",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/courses/{courseId}/modules/reorder",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "courses",
+            "{courseId}",
+            "modules",
+            "reorder"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"moduleIds\": [\n    \"00000000-0000-0000-0000-000000000000\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Initiate a course purchase checkout session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/payments/checkout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "checkout"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"00000000-0000-0000-0000-000000000000\",\n  \"priceId\": \"00000000-0000-0000-0000-000000000000\",\n  \"couponCode\": \"string\",\n  \"billingRegion\": \"string\",\n  \"gateway\": \"RAZORPAY\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Receive verified payment webhook payloads from Razorpay",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/payments/webhook",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "webhook"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "null",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve categories formatted as a recursive tree node hierarchy",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/categories",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create a new category",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/categories",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "categories"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"string\",\n  \"parentId\": \"00000000-0000-0000-0000-000000000000\",\n  \"slug\": \"string\",\n  \"description\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retrieve details of a single category by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/categories/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "categories",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update category details",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/categories/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "categories",
+            "{id}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"string\",\n  \"parentId\": \"00000000-0000-0000-0000-000000000000\",\n  \"slug\": \"string\",\n  \"description\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete a category (restricted by child counts)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/categories/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "categories",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register a new student account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"string\",\n  \"firstName\": \"string\",\n  \"lastName\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Sign in with credentials",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Rotate refresh session tokens",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/refresh",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Terminate current session",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "logout"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalidate all sessions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/logout-all",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "logout-all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Request password reset link",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/forgot-password",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "forgot-password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reset password with token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/reset-password",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "reset-password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"token\": \"string\",\n  \"password\": \"string\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Confirm account email address",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/auth/verify-email",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "verify-email"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "your-jwt-here",
+      "type": "string"
+    }
+  ]
+}

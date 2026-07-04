@@ -1,0 +1,2507 @@
+openapi: 3.0.0
+info:
+  title: PragyaOS Core API Documentation
+  version: 1.0.0
+  description: Production-ready backend services documentation for PragyaOS LXP platform.
+  contact:
+    name: Antigravity Engineering Support
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Local development server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Enter Access Token (JWT) to authenticate requests.
+paths:
+  /health:
+    get:
+      summary: Verify application health status
+      responses:
+        "200":
+          description: Application is healthy
+  /live:
+    get:
+      summary: Verify application runtime liveness (K8s Probe Exception - raw response
+        required)
+      responses:
+        "200":
+          description: Application is alive
+  /ready:
+    get:
+      summary: Verify application readiness to consume requests (K8s Probe Exception -
+        raw response required)
+      responses:
+        "200":
+          description: Application is ready
+  /users/me:
+    get:
+      summary: Retrieve current authenticated user profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Profile retrieved successfully.
+        "401":
+          description: Authentication token missing or expired.
+        "404":
+          description: User profile not found.
+    patch:
+      summary: Update profile details for the authenticated user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  maxLength: 100
+                lastName:
+                  type: string
+                  maxLength: 100
+                displayName:
+                  type: string
+                  maxLength: 100
+                bio:
+                  type: string
+                  maxLength: 1000
+                timezone:
+                  type: string
+                  maxLength: 100
+                language:
+                  type: string
+                  enum:
+                    - en
+                    - es
+                    - fr
+                    - de
+                    - hi
+      responses:
+        "200":
+          description: Profile updated successfully.
+        "400":
+          description: Input validation schemas failed.
+        "401":
+          description: Authentication token missing or expired.
+  /users/me/avatar:
+    patch:
+      summary: Update avatar image link for the authenticated user
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - avatarUrl
+              properties:
+                avatarUrl:
+                  type: string
+                  format: uri
+                  maxLength: 512
+      responses:
+        "200":
+          description: Avatar updated successfully.
+        "400":
+          description: Invalid avatar URL link format.
+        "401":
+          description: Authentication token missing or expired.
+  /users/me/preferences:
+    patch:
+      summary: Update theme, privacy, or notification preferences
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                theme:
+                  type: string
+                  enum:
+                    - LIGHT
+                    - DARK
+                    - SYSTEM
+                emailPreference:
+                  type: boolean
+                notificationPreference:
+                  type: boolean
+                marketingPreference:
+                  type: boolean
+                privacyPreference:
+                  type: string
+                  enum:
+                    - public
+                    - private
+      responses:
+        "200":
+          description: Settings preferences updated successfully.
+        "400":
+          description: Schema validation constraints failed.
+        "401":
+          description: Authentication token missing or expired.
+  /users/me/password:
+    post:
+      summary: Change user password and terminate other active sessions
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - currentPassword
+                - newPassword
+              properties:
+                currentPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password altered. Other active devices logged out.
+        "400":
+          description: New password constraints failed.
+        "401":
+          description: Current password mismatch or token expired.
+  /users/me/sessions:
+    get:
+      summary: List active devices and login session timestamps
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of active sessions retrieved successfully.
+        "401":
+          description: Authentication token missing or expired.
+    delete:
+      summary: Terminate all other sessions except the current active one
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Terminated other devices.
+        "401":
+          description: Authentication token missing or expired.
+  /users/me/sessions/{sessionId}:
+    delete:
+      summary: Terminate a specific session device by ID
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Session terminated successfully.
+        "404":
+          description: Session not found.
+  /users/me/deactivate:
+    post:
+      summary: Self-deactivate authenticated user account
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Profile deactivated. All active devices logged out.
+        "403":
+          description: Operation forbidden (e.g. attempting to deactivate Super Admin).
+  /users/me/audit-logs:
+    get:
+      summary: Fetch user-specific audit history logs
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: action
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Audit logs returned.
+        "401":
+          description: Authentication token missing or expired.
+  /users/{id}:
+    get:
+      summary: Retrieve profile details of a user by ID
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User profile retrieved.
+        "403":
+          description: Horizontal privilege escalation check failed.
+        "404":
+          description: Profile not found.
+    delete:
+      summary: Soft delete target user account
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Account soft-deleted successfully.
+        "403":
+          description: Deletion of Super Admin is prohibited or permissions are missing.
+        "404":
+          description: Target profile not found.
+  /users/{id}/reactivate:
+    post:
+      summary: Reactivate a deactivated user profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Profile reactivated successfully.
+        "403":
+          description: Admin/Super Admin permission required.
+        "404":
+          description: Target profile not found.
+  /search:
+    get:
+      summary: Search for courses with text queries and filter facets
+      tags:
+        - Search
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+            default: ""
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: difficulty
+          schema:
+            type: string
+        - in: query
+          name: language
+          schema:
+            type: string
+        - in: query
+          name: tags
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - relevance
+              - newest
+              - popularity
+              - rating
+            default: relevance
+      responses:
+        "200":
+          description: Search executed successfully.
+  /search/suggestions:
+    get:
+      summary: Retrieve query auto-suggestions
+      tags:
+        - Search
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            default: 5
+        - in: query
+          name: index
+          schema:
+            type: string
+            enum:
+              - courses
+              - categories
+              - instructors
+              - tags
+            default: courses
+      responses:
+        "200":
+          description: Suggestions retrieved successfully.
+  /search/popular:
+    get:
+      summary: Get popular searches list
+      tags:
+        - Search
+      responses:
+        "200":
+          description: Popular searches list retrieved.
+  /search/health:
+    get:
+      summary: Retrieve search backend health and queue status
+      tags:
+        - Search
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Search health report retrieved successfully.
+        "403":
+          description: Forbidden (Admin access required).
+  /search/reindex:
+    post:
+      summary: Enqueue manual indexing task for a specific entity
+      tags:
+        - Search
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - entityType
+                - entityId
+              properties:
+                entityType:
+                  type: string
+                  enum:
+                    - courses
+                    - categories
+                    - instructors
+                    - tags
+                entityId:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Manual reindexing task enqueued.
+  /search/reindex/all:
+    post:
+      summary: Trigger full indexing rebuild across all entities
+      tags:
+        - Search
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Full index rebuild enqueued.
+  /notifications:
+    get:
+      summary: Retrieve the authenticated user's notifications (paginated)
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - QUEUED
+              - SENT
+              - DELIVERED
+              - READ
+              - FAILED
+      responses:
+        "200":
+          description: Notification list fetched successfully.
+        "401":
+          description: Authentication required.
+  /notifications/unread-count:
+    get:
+      summary: Get count of unread notifications for the authenticated user
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Unread count returned successfully.
+        "401":
+          description: Authentication required.
+  /notifications/preferences:
+    get:
+      summary: Get notification preferences for the authenticated user
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User preferences fetched successfully.
+        "401":
+          description: Authentication required.
+    patch:
+      summary: Update notification preferences for the authenticated user
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                channelPreferences:
+                  type: object
+                  additionalProperties:
+                    type: boolean
+                  example:
+                    EMAIL: false
+                    PUSH: true
+                categoryPreferences:
+                  type: object
+                  additionalProperties:
+                    type: boolean
+                  example:
+                    MARKETING: false
+                marketingOptIn:
+                  type: boolean
+                digestEnabled:
+                  type: boolean
+      responses:
+        "200":
+          description: Preferences updated successfully.
+        "400":
+          description: Validation error.
+        "401":
+          description: Authentication required.
+  /notifications/read-all:
+    patch:
+      summary: Mark all notifications as read for the authenticated user
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All notifications marked as read.
+        "401":
+          description: Authentication required.
+  /notifications/{id}/read:
+    patch:
+      summary: Mark a single notification as read
+      tags:
+        - Notifications
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Notification marked as read.
+        "401":
+          description: Authentication required.
+        "403":
+          description: Notification belongs to a different user.
+        "404":
+          description: Notification not found.
+  /media/uploads/url:
+    post:
+      summary: Request a presigned S3 upload URL for direct-to-cloud upload
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filename
+                - mimeType
+                - size
+              properties:
+                filename:
+                  type: string
+                mimeType:
+                  type: string
+                size:
+                  type: integer
+                hash:
+                  type: string
+                  description: SHA-256 integrity hash of the file for deduplication
+      responses:
+        "200":
+          description: Presigned upload URL returned.
+        "400":
+          description: Validation or file size limit error.
+  /media/{id}/confirm:
+    post:
+      summary: Confirm single file upload completeness and queue background processors
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Media upload confirmed, processing enqueued.
+        "403":
+          description: Forbidden.
+        "404":
+          description: Media not found.
+  /media/multipart/initiate:
+    post:
+      summary: Initiate a multipart upload session for large files
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - filename
+                - mimeType
+                - size
+              properties:
+                filename:
+                  type: string
+                mimeType:
+                  type: string
+                size:
+                  type: integer
+                hash:
+                  type: string
+      responses:
+        "200":
+          description: Multipart session initiated, uploadId returned.
+  /media/{id}/multipart/part:
+    post:
+      summary: Generate a presigned URL to upload a specific part of a multipart session
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - key
+                - uploadId
+                - partNumber
+              properties:
+                key:
+                  type: string
+                uploadId:
+                  type: string
+                partNumber:
+                  type: integer
+      responses:
+        "200":
+          description: Presigned part URL generated.
+  /media/{id}/multipart/complete:
+    post:
+      summary: Complete a multipart upload session by assembling parts
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - key
+                - uploadId
+                - parts
+              properties:
+                key:
+                  type: string
+                uploadId:
+                  type: string
+                parts:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - PartNumber
+                      - ETag
+                    properties:
+                      PartNumber:
+                        type: integer
+                      ETag:
+                        type: string
+      responses:
+        "200":
+          description: Multipart upload completed.
+  /media/{id}/download:
+    get:
+      summary: Get a presigned download URL for private files
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Presigned download URL returned.
+        "403":
+          description: Forbidden.
+        "404":
+          description: Media not found.
+  /media/{id}:
+    delete:
+      summary: Delete a media file from Cloudflare R2 and database (status set to
+        DELETED)
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Media successfully deleted.
+        "400":
+          description: Cannot delete media that is in active use.
+        "403":
+          description: Forbidden.
+  /learning-units/modules/{moduleId}/units:
+    post:
+      summary: Create a learning unit under a module
+      tags:
+        - Learning Units
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - type
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                type:
+                  type: string
+                  enum:
+                    - VIDEO
+                    - ARTICLE
+                    - PDF
+                    - QUIZ
+                    - ASSIGNMENT
+                    - LIVE_SESSION
+                    - EXTERNAL_LINK
+                    - CODE_LAB
+                duration:
+                  type: integer
+                mediaId:
+                  type: string
+                  format: uuid
+                content:
+                  type: object
+      responses:
+        "201":
+          description: Learning unit created successfully.
+  /learning-units/modules/{moduleId}/units/{id}:
+    patch:
+      summary: Update a learning unit (and optionally shift modules)
+      tags:
+        - Learning Units
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                duration:
+                  type: integer
+                mediaId:
+                  type: string
+                  format: uuid
+                content:
+                  type: object
+                targetModuleId:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Learning unit updated successfully.
+  /learning-units/modules/:moduleId/units/{id}:
+    delete:
+      summary: Delete a learning unit
+      tags:
+        - Learning Units
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Learning unit deleted successfully.
+  /learning-units/modules/{moduleId}/units/reorder:
+    post:
+      summary: Bulk reorder learning units in a module
+      tags:
+        - Learning Units
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - unitIds
+              properties:
+                unitIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+      responses:
+        "200":
+          description: Units reordered successfully.
+  /learning-units/modules/{moduleId}/units/{unitId}/resources:
+    post:
+      summary: Attach a resource/file to a learning unit
+      tags:
+        - Learning Unit Resources
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: unitId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - mediaId
+              properties:
+                title:
+                  type: string
+                mediaId:
+                  type: string
+                  format: uuid
+      responses:
+        "201":
+          description: Resource attached successfully.
+  /learning-units/modules/{moduleId}/units/{unitId}/resources/{resourceId}:
+    delete:
+      summary: Delete/detach a resource from a learning unit
+      tags:
+        - Learning Unit Resources
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: unitId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: resourceId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Resource detached successfully.
+  /learning-engine/enroll:
+    post:
+      summary: Enroll a student in a course
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - courseId
+              properties:
+                courseId:
+                  type: string
+                  format: uuid
+                source:
+                  type: string
+                purchaseRef:
+                  type: string
+      responses:
+        "201":
+          description: Student enrolled successfully.
+        "409":
+          description: Student is already enrolled.
+  /learning-engine/enrollments/{id}/suspend:
+    post:
+      summary: Suspend an active enrollment
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Enrollment suspended.
+  /learning-engine/enrollments/{id}/resume:
+    post:
+      summary: Resume a suspended or cancelled enrollment
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Enrollment resumed.
+  /learning-engine/enrollments/{id}/cancel:
+    post:
+      summary: Cancel an enrollment
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Enrollment cancelled.
+  /learning-engine/enrollments/{id}/progress:
+    post:
+      summary: Update progress on a specific learning unit
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - learningUnitId
+              properties:
+                learningUnitId:
+                  type: string
+                  format: uuid
+                watchTime:
+                  type: integer
+                lastPosition:
+                  type: integer
+                percentInput:
+                  type: number
+                quizScore:
+                  type: number
+                quizPassingScore:
+                  type: number
+                quizMaxScore:
+                  type: number
+                isSubmitted:
+                  type: boolean
+      responses:
+        "200":
+          description: Progress updated.
+  /learning-engine/enrollments/{id}/sessions/start:
+    post:
+      summary: Start a new learning session
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                learningUnitId:
+                  type: string
+                  format: uuid
+                device:
+                  type: string
+                browser:
+                  type: string
+                ipAddress:
+                  type: string
+                userAgent:
+                  type: string
+      responses:
+        "200":
+          description: Session started.
+  /learning-engine/sessions/{sessionId}/end:
+    post:
+      summary: Complete/end an active learning session
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Session ended.
+  /learning-engine/enrollments/{id}/continue:
+    get:
+      summary: Get recommend next unit and last learning checkpoints
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Recommendation payload returned.
+  /learning-engine/enrollments/{id}/completion:
+    get:
+      summary: Get course completion stats and certificate eligibility flags
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course completion stats returned.
+  /learning-engine/enrollments/{id}/timeline:
+    get:
+      summary: Query the student's audit event timeline
+      tags:
+        - Learning Engine
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Student timeline log array returned.
+  /instructor-studio/dashboard:
+    get:
+      summary: Retrieve the instructor dashboard overview
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Dashboard metrics returned.
+  /instructor-studio/courses/{courseId}/checklist:
+    get:
+      summary: Get publishing readiness checklist report for a course
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Publishing checklist array.
+  /instructor-studio/courses/{courseId}/health:
+    get:
+      summary: Get quality health score and recommendations for a course
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Health report details.
+  /instructor-studio/courses/{courseId}/review:
+    post:
+      summary: Submit a course for draft review
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                changeSummary:
+                  type: string
+      responses:
+        "200":
+          description: Course transitioned to REVIEW status.
+  /instructor-studio/courses/{courseId}/publish:
+    post:
+      summary: Publish a course (In Review -> Published). Requires Admin/Reviewer role.
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                changeSummary:
+                  type: string
+      responses:
+        "200":
+          description: Course published successfully.
+  /instructor-studio/courses/{courseId}/unpublish:
+    post:
+      summary: Unpublish a course (Published -> Draft)
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course unpublished.
+  /instructor-studio/courses/{courseId}/archive:
+    post:
+      summary: Archive a course
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course archived.
+  /instructor-studio/courses/{courseId}/restore:
+    post:
+      summary: Restore an archived course back to draft status
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course restored.
+  /instructor-studio/courses/{courseId}/preview-token:
+    post:
+      summary: Generate a secure, short-lived preview token
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scope:
+                  type: string
+                  enum:
+                    - INSTRUCTOR
+                    - REVIEWER
+                    - PUBLIC
+                expiresInSeconds:
+                  type: integer
+      responses:
+        "200":
+          description: Preview token returned.
+  /instructor-studio/courses/{courseId}/duplicate:
+    post:
+      summary: Duplicate a course and its entire modules structure
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newTitle:
+                  type: string
+      responses:
+        "201":
+          description: Course duplicated.
+  /instructor-studio/courses/{courseId}/modules/{moduleId}/duplicate:
+    post:
+      summary: Duplicate a curriculum module
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "201":
+          description: Module duplicated.
+  /instructor-studio/courses/{courseId}/learning-units/{learningUnitId}/duplicate:
+    post:
+      summary: Duplicate a learning unit
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: learningUnitId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "201":
+          description: Unit duplicated.
+  /instructor-studio/courses/{courseId}/modules/{moduleId}/move:
+    post:
+      summary: Move a module's sequential position index
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - targetIndex
+              properties:
+                targetIndex:
+                  type: integer
+      responses:
+        "200":
+          description: Module position updated.
+  /instructor-studio/courses/{courseId}/learning-units/{learningUnitId}/move:
+    post:
+      summary: Move a learning unit to a different module or sequence index
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: learningUnitId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - targetModuleId
+                - targetIndex
+              properties:
+                targetModuleId:
+                  type: string
+                  format: uuid
+                targetIndex:
+                  type: integer
+      responses:
+        "200":
+          description: Learning Unit relocated.
+  /instructor-studio/courses/{courseId}/curriculum/reorder:
+    post:
+      summary: Bulk reorder curriculum sequence indices in a transaction
+      tags:
+        - Instructor Studio
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - modules
+              properties:
+                modules:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - sequence
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      sequence:
+                        type: integer
+                      learningUnits:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - id
+                            - sequence
+                          properties:
+                            id:
+                              type: string
+                              format: uuid
+                            sequence:
+                              type: integer
+      responses:
+        "200":
+          description: Curriculum bulk reordered.
+  /credentials/templates:
+    post:
+      summary: Register a new certificate template
+      tags:
+        - Credentials
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - slug
+                - templateVersion
+                - htmlTemplate
+                - cssTemplate
+              properties:
+                name:
+                  type: string
+                slug:
+                  type: string
+                templateVersion:
+                  type: string
+                  example: v1
+                htmlTemplate:
+                  type: string
+                  description: Full HTML markup for the certificate layout
+                cssTemplate:
+                  type: string
+                  description: Scoped CSS styles for the certificate layout
+                branding:
+                  type: object
+                  additionalProperties: true
+      responses:
+        "201":
+          description: Template registered successfully.
+        "400":
+          description: Validation error or slug conflict.
+        "401":
+          description: Authentication required.
+        "403":
+          description: Insufficient permissions.
+  /credentials/templates/{id}:
+    patch:
+      summary: Update a certificate template (layout changes blocked once credentials
+        issued)
+      tags:
+        - Credentials
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        "200":
+          description: Template updated successfully.
+        "400":
+          description: Layout modification blocked (template has issued credentials).
+        "401":
+          description: Authentication required.
+        "403":
+          description: Insufficient permissions.
+        "404":
+          description: Template not found.
+  /credentials/issue:
+    post:
+      summary: Issue a credential certificate to a student
+      tags:
+        - Credentials
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - courseId
+                - templateId
+                - metadata
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                courseId:
+                  type: string
+                  format: uuid
+                templateId:
+                  type: string
+                  format: uuid
+                expiresAt:
+                  type: string
+                  format: date-time
+                  nullable: true
+                metadata:
+                  type: object
+                  required:
+                    - studentName
+                    - courseTitle
+                    - instructorName
+                    - completionDate
+                  properties:
+                    studentName:
+                      type: string
+                    courseTitle:
+                      type: string
+                    instructorName:
+                      type: string
+                    completionDate:
+                      type: string
+                    customData:
+                      type: object
+                      additionalProperties: true
+      responses:
+        "201":
+          description: Credential issued successfully.
+        "400":
+          description: Validation error or inactive template.
+        "401":
+          description: Authentication required.
+        "403":
+          description: Insufficient permissions.
+        "404":
+          description: Template not found.
+        "409":
+          description: Duplicate active credential exists for this user and course.
+  /credentials/verify:
+    post:
+      summary: Verify a credential using its verification token (public endpoint)
+      tags:
+        - Credentials
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - verificationToken
+                - source
+              properties:
+                verificationToken:
+                  type: string
+                  description: Raw verification token from the certificate URL
+                source:
+                  type: string
+                  enum:
+                    - PUBLIC_PAGE
+                    - API
+                    - ADMIN
+      responses:
+        "200":
+          description: Credential verified successfully.
+        "400":
+          description: Credential is revoked or expired.
+        "404":
+          description: Verification token not found.
+  /credentials/revoke:
+    post:
+      summary: Revoke an issued credential
+      tags:
+        - Credentials
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - credentialId
+                - reason
+              properties:
+                credentialId:
+                  type: string
+                  format: uuid
+                reason:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                metadata:
+                  type: object
+                  additionalProperties: true
+      responses:
+        "200":
+          description: Credential revoked successfully.
+        "400":
+          description: Credential is already revoked.
+        "401":
+          description: Authentication required.
+        "403":
+          description: Insufficient permissions.
+        "404":
+          description: Credential not found.
+  /credentials/my:
+    get:
+      summary: Retrieve all credentials issued to the authenticated user
+      tags:
+        - Credentials
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User credential list fetched successfully.
+        "401":
+          description: Authentication required.
+  /courses:
+    get:
+      summary: Retrieve a paginated and filtered catalog of courses
+      tags:
+        - Courses
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: categoryId
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: difficulty
+          schema:
+            type: string
+            enum:
+              - BEGINNER
+              - INTERMEDIATE
+              - ADVANCED
+              - EXPERT
+        - in: query
+          name: language
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paginated course catalog retrieved successfully.
+    post:
+      summary: Create a new course (Instructor/Admin restricted)
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - categoryId
+              properties:
+                title:
+                  type: string
+                categoryId:
+                  type: string
+                  format: uuid
+                subtitle:
+                  type: string
+                description:
+                  type: string
+                language:
+                  type: string
+                difficulty:
+                  type: string
+                  enum:
+                    - BEGINNER
+                    - INTERMEDIATE
+                    - ADVANCED
+                    - EXPERT
+      responses:
+        "201":
+          description: Course created successfully.
+        "400":
+          description: Structural validation failure.
+  /courses/{id}:
+    get:
+      summary: Retrieve details of a single course by ID
+      tags:
+        - Courses
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course details retrieved successfully.
+        "403":
+          description: Forbidden from accessing draft or private course.
+        "404":
+          description: Course not found.
+    patch:
+      summary: Update course details (requires ownership/admin)
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                categoryId:
+                  type: string
+                  format: uuid
+                subtitle:
+                  type: string
+                description:
+                  type: string
+                language:
+                  type: string
+                difficulty:
+                  type: string
+                  enum:
+                    - BEGINNER
+                    - INTERMEDIATE
+                    - ADVANCED
+                    - EXPERT
+                status:
+                  type: string
+                  enum:
+                    - DRAFT
+                    - REVIEW
+                    - PUBLISHED
+                    - ARCHIVED
+                visibility:
+                  type: string
+                  enum:
+                    - PUBLIC
+                    - PRIVATE
+                    - UNLISTED
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Course updated successfully.
+        "403":
+          description: Not authorized to edit this course.
+    delete:
+      summary: Archive a course (soft delete)
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Course archived successfully.
+        "430":
+          description: Not authorized.
+  /courses/slug/{slug}:
+    get:
+      summary: Retrieve details of a single course by URL slug
+      tags:
+        - Courses
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Course details retrieved successfully.
+        "403":
+          description: Forbidden.
+        "404":
+          description: Course not found.
+  /courses/{courseId}/modules:
+    post:
+      summary: Create a course module
+      tags:
+        - Course Modules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Course module created successfully.
+  /courses/{courseId}/modules/{moduleId}:
+    patch:
+      summary: Update course module details
+      tags:
+        - Course Modules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Module updated successfully.
+    delete:
+      summary: Delete a course module
+      tags:
+        - Course Modules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: moduleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Module deleted successfully.
+  /courses/{courseId}/modules/reorder:
+    post:
+      summary: Bulk reorder modules in a course
+      tags:
+        - Course Modules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: courseId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - moduleIds
+              properties:
+                moduleIds:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+      responses:
+        "200":
+          description: Modules reordered successfully.
+  /payments/checkout:
+    post:
+      summary: Initiate a course purchase checkout session
+      tags:
+        - Payments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - productId
+                - priceId
+              properties:
+                productId:
+                  type: string
+                  format: uuid
+                priceId:
+                  type: string
+                  format: uuid
+                couponCode:
+                  type: string
+                  maxLength: 50
+                billingRegion:
+                  type: string
+                  length: 2
+                gateway:
+                  type: string
+                  enum:
+                    - RAZORPAY
+                    - STRIPE
+                    - PAYPAL
+      responses:
+        "201":
+          description: Checkout session successfully initiated.
+        "400":
+          description: Schema validation failure.
+        "401":
+          description: Unauthorized credentials.
+        "409":
+          description: Concurrent checkout attempt conflict.
+  /payments/webhook:
+    post:
+      summary: Receive verified payment webhook payloads from Razorpay
+      tags:
+        - Payments
+      parameters:
+        - in: header
+          name: x-razorpay-signature
+          required: true
+          schema:
+            type: string
+          description: The cryptographic signature from Razorpay
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: Webhook event parsed and enqueued successfully.
+        "400":
+          description: Bad request, missing headers or payload validation error.
+        "409":
+          description: Conflict, duplicate processing detected.
+  /categories:
+    get:
+      summary: Retrieve categories formatted as a recursive tree node hierarchy
+      tags:
+        - Categories
+      responses:
+        "200":
+          description: Categories tree fetched successfully.
+    post:
+      summary: Create a new category
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                parentId:
+                  type: string
+                  format: uuid
+                slug:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Category created successfully.
+        "409":
+          description: Duplicate slug or name conflict.
+  /categories/{id}:
+    get:
+      summary: Retrieve details of a single category by ID
+      tags:
+        - Categories
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Category details fetched successfully.
+        "404":
+          description: Category not found.
+    patch:
+      summary: Update category details
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                parentId:
+                  type: string
+                  format: uuid
+                slug:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Category updated successfully.
+        "400":
+          description: Category loop cycle error.
+        "409":
+          description: Slug conflict.
+    delete:
+      summary: Delete a category (restricted by child counts)
+      tags:
+        - Categories
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Category deleted successfully.
+        "400":
+          description: Cannot delete category due to nested children or courses.
+  /auth/register:
+    post:
+      summary: Register a new student account
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+      responses:
+        "201":
+          description: Registered successfully
+        "400":
+          description: Validation schema failed
+        "409":
+          description: Email conflict
+  /auth/login:
+    post:
+      summary: Sign in with credentials
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        "200":
+          description: Login successful
+        "401":
+          description: Unauthorized credentials
+        "403":
+          description: Account temporarily locked
+  /auth/refresh:
+    post:
+      summary: Rotate refresh session tokens
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Tokens rotated successfully
+        "401":
+          description: Invalid session token
+  /auth/logout:
+    post:
+      summary: Terminate current session
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Current session logged out
+  /auth/logout-all:
+    post:
+      summary: Invalidate all sessions
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: All device sessions terminated
+        "401":
+          description: Unauthorized access
+  /auth/forgot-password:
+    post:
+      summary: Request password reset link
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "200":
+          description: Operation completed
+  /auth/reset-password:
+    post:
+      summary: Reset password with token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - password
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        "200":
+          description: Password reset completed
+        "400":
+          description: Invalid token link
+  /auth/verify-email:
+    get:
+      summary: Confirm account email address
+      tags:
+        - Authentication
+      parameters:
+        - in: query
+          name: token
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Email verified successfully
+        "400":
+          description: Invalid verification link
+tags: []
