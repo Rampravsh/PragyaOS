@@ -54,11 +54,11 @@ model User {
   lockedUntil           DateTime? @map("locked_until") @db.Timestamptz
 
   // User Profile Fields
-  displayName           String?   @map("display_name") @db.VarChar(100)
-  bio                   String?   @db.Text
-  timezone              String?   @default("UTC") @db.VarChar(100)
-  language              String?   @default("en") @db.VarChar(10)
-  preferences           Json?     @db.JsonB
+  displayName String? @map("display_name") @db.VarChar(100)
+  bio         String? @db.Text
+  timezone    String? @default("UTC") @db.VarChar(100)
+  language    String? @default("en") @db.VarChar(10)
+  preferences Json?   @db.JsonB
 
   organizationId String?       @map("organization_id") @db.Uuid
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
@@ -73,6 +73,8 @@ model User {
   emailVerificationTokens EmailVerificationToken[]
   media                   Media[]
   enrollments             Enrollment[]
+  orders                  Order[]
+  couponRedemptions       CouponRedemption[]
 
   @@index([organizationId])
   @@map("users")
@@ -286,10 +288,10 @@ model Media {
   userId    String?       @map("user_id") @db.Uuid
 
   // Relations
-  user             User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
-  coursesThumbnail Course[]           @relation("CourseThumbnail")
-  coursesTrailer   Course[]           @relation("CourseTrailer")
-  learningUnits    LearningUnit[]
+  user              User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  coursesThumbnail  Course[]           @relation("CourseThumbnail")
+  coursesTrailer    Course[]           @relation("CourseTrailer")
+  learningUnits     LearningUnit[]
   learningResources LearningResource[]
 
   @@index([userId])
@@ -297,19 +299,19 @@ model Media {
 }
 
 model Category {
-  id          String    @id @default(uuid()) @db.Uuid
-  parentId    String?   @map("parent_id") @db.Uuid
-  name        String    @db.VarChar(100)
-  slug        String    @unique @db.VarChar(120)
-  description String?   @db.Text
-  version     Int       @default(1)
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  id          String   @id @default(uuid()) @db.Uuid
+  parentId    String?  @map("parent_id") @db.Uuid
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(120)
+  description String?  @db.Text
+  version     Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // Relations
-  parent         Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
-  subCategories  Category[] @relation("CategoryHierarchy")
-  courses        Course[]
+  parent        Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  subCategories Category[] @relation("CategoryHierarchy")
+  courses       Course[]
 
   @@unique([parentId, name])
   @@map("categories")
@@ -339,9 +341,9 @@ model Course {
   publishedAt       DateTime?        @map("published_at") @db.Timestamptz
 
   // Relations
-  category    Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  thumbnail   Media?       @relation("CourseThumbnail", fields: [thumbnailId], references: [id], onDelete: SetNull)
-  trailer     Media?       @relation("CourseTrailer", fields: [trailerId], references: [id], onDelete: SetNull)
+  category  Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  thumbnail Media?   @relation("CourseThumbnail", fields: [thumbnailId], references: [id], onDelete: SetNull)
+  trailer   Media?   @relation("CourseTrailer", fields: [trailerId], references: [id], onDelete: SetNull)
 
   modules      CourseModule[]
   instructors  CourseInstructor[]
@@ -357,11 +359,11 @@ model Course {
 }
 
 model Tag {
-  id        String      @id @default(uuid()) @db.Uuid
-  name      String      @unique @db.VarChar(100)
-  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  courses   CourseTag[]
+  courses CourseTag[]
 
   @@map("tags")
 }
@@ -396,10 +398,10 @@ model CourseInstructor {
 }
 
 model CourseRequirement {
-  id          String   @id @default(uuid()) @db.Uuid
-  courseId    String   @map("course_id") @db.Uuid
-  description String   @db.VarChar(512)
-  sequence    Int      @default(0)
+  id          String @id @default(uuid()) @db.Uuid
+  courseId    String @map("course_id") @db.Uuid
+  description String @db.VarChar(512)
+  sequence    Int    @default(0)
 
   // Relations
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -408,10 +410,10 @@ model CourseRequirement {
 }
 
 model CourseObjective {
-  id          String   @id @default(uuid()) @db.Uuid
-  courseId    String   @map("course_id") @db.Uuid
-  description String   @db.VarChar(512)
-  sequence    Int      @default(0)
+  id          String @id @default(uuid()) @db.Uuid
+  courseId    String @map("course_id") @db.Uuid
+  description String @db.VarChar(512)
+  sequence    Int    @default(0)
 
   // Relations
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -420,11 +422,11 @@ model CourseObjective {
 }
 
 model CourseFAQ {
-  id        String   @id @default(uuid()) @db.Uuid
-  courseId  String   @map("course_id") @db.Uuid
-  question  String   @db.VarChar(512)
-  answer    String   @db.Text
-  sequence  Int      @default(0)
+  id       String @id @default(uuid()) @db.Uuid
+  courseId String @map("course_id") @db.Uuid
+  question String @db.VarChar(512)
+  answer   String @db.Text
+  sequence Int    @default(0)
 
   // Relations
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -473,11 +475,11 @@ model LearningUnit {
 }
 
 model LearningResource {
-  id             String   @id @default(uuid()) @db.Uuid
-  learningUnitId String   @map("learning_unit_id") @db.Uuid
-  mediaId        String   @map("media_id") @db.Uuid
-  title          String   @db.VarChar(255)
-  sequence       Int      @default(0)
+  id             String @id @default(uuid()) @db.Uuid
+  learningUnitId String @map("learning_unit_id") @db.Uuid
+  mediaId        String @map("media_id") @db.Uuid
+  title          String @db.VarChar(255)
+  sequence       Int    @default(0)
 
   // Relations
   learningUnit LearningUnit @relation(fields: [learningUnitId], references: [id], onDelete: Cascade)
@@ -525,24 +527,24 @@ enum CourseCompletionReason {
 }
 
 model Enrollment {
-  id           String           @id @default(uuid()) @db.Uuid
-  userId       String           @map("user_id") @db.Uuid
-  courseId     String           @map("course_id") @db.Uuid
-  status       EnrollmentStatus @default(ACTIVE)
-  source       String           @default("MANUAL") @db.VarChar(50)
-  purchaseRef  String?          @map("purchase_ref") @db.VarChar(100)
-  enrolledAt   DateTime         @default(now()) @map("enrolled_at") @db.Timestamptz
-  completedAt  DateTime?        @map("completed_at") @db.Timestamptz
-  createdAt    DateTime         @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  id          String           @id @default(uuid()) @db.Uuid
+  userId      String           @map("user_id") @db.Uuid
+  courseId    String           @map("course_id") @db.Uuid
+  status      EnrollmentStatus @default(ACTIVE)
+  source      String           @default("MANUAL") @db.VarChar(50)
+  purchaseRef String?          @map("purchase_ref") @db.VarChar(100)
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at") @db.Timestamptz
+  completedAt DateTime?        @map("completed_at") @db.Timestamptz
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamptz
 
   // Relations
-  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course       Course             @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  progress     LearningProgress[]
-  sessions     LearningSession[]
-  timeline     LearningTimeline[]
-  completion   CourseCompletion?
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course             @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  progress   LearningProgress[]
+  sessions   LearningSession[]
+  timeline   LearningTimeline[]
+  completion CourseCompletion?
 
   @@unique([userId, courseId])
   @@index([userId])
@@ -584,7 +586,7 @@ model LearningSession {
   status         SessionStatus @default(ACTIVE)
   startedAt      DateTime      @default(now()) @map("started_at") @db.Timestamptz
   endedAt        DateTime?     @map("ended_at") @db.Timestamptz
-  duration       Int?          // seconds
+  duration       Int? // seconds
   createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz
   updatedAt      DateTime      @updatedAt @map("updated_at") @db.Timestamptz
 
@@ -605,7 +607,7 @@ model LearningTimeline {
   createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz
 
   // Relations
-  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
 
   @@index([enrollmentId])
   @@map("learning_timeline")
@@ -623,8 +625,270 @@ model CourseCompletion {
   updatedAt                 DateTime               @updatedAt @map("updated_at") @db.Timestamptz
 
   // Relations
-  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
 
   @@map("course_completions")
 }
 
+enum ProductType {
+  COURSE
+  BUNDLE
+  MEMBERSHIP
+  DIGITAL_DOWNLOAD
+  CERTIFICATE
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum PriceType {
+  ONE_TIME
+  RECURRING
+}
+
+enum OrderStatus {
+  CREATED
+  PENDING_PAYMENT
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentGateway {
+  RAZORPAY
+  STRIPE
+  MANUAL
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum RefundStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum CouponType {
+  PERCENTAGE
+  FLAT
+}
+
+enum CouponStatus {
+  ACTIVE
+  EXPIRED
+  EXHAUSTED
+  INACTIVE
+}
+
+model Product {
+  id           String        @id @default(uuid()) @db.Uuid
+  sellableId   String        @map("sellable_id") @db.Uuid
+  sellableType ProductType   @map("sellable_type")
+  sku          String        @unique @db.VarChar(255)
+  status       ProductStatus @default(DRAFT)
+  version      Int           @default(1)
+  createdAt    DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt    DateTime?     @map("deleted_at") @db.Timestamptz
+  createdBy    String?       @map("created_by") @db.Uuid
+  updatedBy    String?       @map("updated_by") @db.Uuid
+
+  // Relations
+  prices     ProductPrice[]
+  orderItems OrderItem[]
+
+  @@index([sellableId, sellableType])
+  @@index([status])
+  @@map("products")
+}
+
+model ProductPrice {
+  id              String    @id @default(uuid()) @db.Uuid
+  productId       String    @map("product_id") @db.Uuid
+  currency        String    @db.VarChar(3)
+  amount          Int       @db.Integer // Stored in smallest currency unit (cents/paise)
+  priceType       PriceType @map("price_type")
+  billingInterval String?   @map("billing_interval") @db.VarChar(50)
+  active          Boolean   @default(true)
+  effectiveFrom   DateTime  @default(now()) @map("effective_from") @db.Timestamptz
+  effectiveTo     DateTime? @map("effective_to") @db.Timestamptz
+  version         Int       @default(1)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt       DateTime? @map("deleted_at") @db.Timestamptz
+  createdBy       String?   @map("created_by") @db.Uuid
+  updatedBy       String?   @map("updated_by") @db.Uuid
+
+  // Relations
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  orderItems OrderItem[]
+
+  @@index([productId])
+  @@map("product_prices")
+}
+
+model Coupon {
+  id               String       @id @default(uuid()) @db.Uuid
+  code             String       @unique @db.VarChar(50)
+  discountType     CouponType   @map("discount_type")
+  discountValue    Int          @map("discount_value") // Integer percent or flat cents
+  minOrderValue    Int          @default(0) @map("min_order_value")
+  usageLimit       Int?         @map("usage_limit")
+  redemptionsCount Int          @default(0) @map("redemptions_count")
+  perUserLimit     Int          @default(1) @map("per_user_limit")
+  exclusive        Boolean      @default(true)
+  status           CouponStatus @default(ACTIVE)
+  expiresAt        DateTime?    @map("expires_at") @db.Timestamptz
+  active           Boolean      @default(true)
+  scopeConstraints Json?        @map("scope_constraints") @db.JsonB // e.g. { productIds: [...], categoryIds: [...] }
+  version          Int          @default(1)
+  createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt        DateTime?    @map("deleted_at") @db.Timestamptz
+  createdBy        String?      @map("created_by") @db.Uuid
+  updatedBy        String?      @map("updated_by") @db.Uuid
+
+  // Relations
+  redemptions CouponRedemption[]
+  orders      Order[]
+
+  @@map("coupons")
+}
+
+model CouponRedemption {
+  id        String   @id @default(uuid()) @db.Uuid
+  couponId  String   @map("coupon_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  orderId   String   @map("order_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  coupon Coupon @relation(fields: [couponId], references: [id], onDelete: Restrict)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order  Order  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, couponId, orderId])
+  @@index([userId])
+  @@index([couponId])
+  @@index([orderId])
+  @@map("coupon_redemptions")
+}
+
+model Order {
+  id                     String      @id @default(uuid()) @db.Uuid
+  orderNumber            String      @unique @map("order_number") @db.VarChar(50)
+  userId                 String      @map("user_id") @db.Uuid
+  status                 OrderStatus @default(CREATED)
+  currency               String      @db.VarChar(3)
+  subtotalAmount         Int         @map("subtotal_amount")
+  discountAmount         Int         @default(0) @map("discount_amount")
+  taxAmount              Int         @default(0) @map("tax_amount")
+  netAmount              Int         @map("net_amount")
+  activeCouponId         String?     @map("active_coupon_id") @db.Uuid
+  customerNameSnapshot   String      @map("customer_name_snapshot") @db.VarChar(255)
+  customerEmailSnapshot  String      @map("customer_email_snapshot") @db.VarChar(255)
+  billingAddressSnapshot String?     @map("billing_address_snapshot") @db.Text
+  version                Int         @default(1)
+  createdAt              DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt              DateTime    @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt              DateTime?   @map("deleted_at") @db.Timestamptz
+  createdBy              String?     @map("created_by") @db.Uuid
+  updatedBy              String?     @map("updated_by") @db.Uuid
+
+  // Relations
+  user        User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  coupon      Coupon?            @relation(fields: [activeCouponId], references: [id], onDelete: Restrict)
+  items       OrderItem[]
+  payments    PaymentAttempt[]
+  invoice     Invoice?
+  redemptions CouponRedemption[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id               String @id @default(uuid()) @db.Uuid
+  orderId          String @map("order_id") @db.Uuid
+  productId        String @map("product_id") @db.Uuid
+  priceId          String @map("price_id") @db.Uuid
+  priceSnapshot    Int    @map("price_snapshot")
+  discountSnapshot Int    @default(0) @map("discount_snapshot")
+  quantity         Int    @default(1)
+
+  // Relations
+  order   Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product      @relation(fields: [productId], references: [id], onDelete: Restrict)
+  price   ProductPrice @relation(fields: [priceId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([priceId])
+  @@map("order_items")
+}
+
+model PaymentAttempt {
+  id               String         @id @default(uuid()) @db.Uuid
+  orderId          String         @map("order_id") @db.Uuid
+  gateway          PaymentGateway
+  gatewayOrderId   String?        @map("gateway_order_id") @db.VarChar(100)
+  gatewayPaymentId String?        @unique @map("gateway_payment_id") @db.VarChar(100)
+  status           PaymentStatus  @default(PENDING)
+  amount           Int
+  errorCode        String?        @map("error_code") @db.VarChar(100)
+  errorDescription String?        @map("error_description") @db.VarChar(255)
+  createdAt        DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  refunds Refund[]
+
+  @@index([orderId])
+  @@index([gatewayOrderId])
+  @@map("payment_attempts")
+}
+
+model Invoice {
+  id             String   @id @default(uuid()) @db.Uuid
+  invoiceNumber  String   @unique @map("invoice_number") @db.VarChar(50)
+  orderId        String   @unique @map("order_id") @db.Uuid
+  issuedAt       DateTime @default(now()) @map("issued_at") @db.Timestamptz
+  taxDetails     Json?    @map("tax_details") @db.JsonB
+  billingAddress String?  @map("billing_address") @db.Text
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@map("invoices")
+}
+
+model Refund {
+  id               String       @id @default(uuid()) @db.Uuid
+  paymentAttemptId String       @map("payment_attempt_id") @db.Uuid
+  gatewayRefundId  String?      @unique @map("gateway_refund_id") @db.VarChar(100)
+  status           RefundStatus @default(PENDING)
+  amount           Int
+  reason           String?      @db.Text
+  version          Int          @default(1)
+  createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+  createdBy        String?      @map("created_by") @db.Uuid
+  updatedBy        String?      @map("updated_by") @db.Uuid
+
+  // Relations
+  paymentAttempt PaymentAttempt @relation(fields: [paymentAttemptId], references: [id], onDelete: Restrict)
+
+  @@index([paymentAttemptId])
+  @@map("refunds")
+}
