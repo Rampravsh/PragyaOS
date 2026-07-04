@@ -13,6 +13,8 @@ export * from "./order.repository";
 export * from "./payment.repository";
 export * from "./invoice.repository";
 export * from "./refund.repository";
+export * from "./coupon-redemption.repository";
 
 export * from "./checkout";
 export * from "./payment";
+export * from "./fulfillment";

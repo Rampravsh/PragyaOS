@@ -57,7 +57,7 @@ import { paymentEvents } from "../modules/commerce/payment/payment.events";
 import { webhookVerifier, webhookParser, webhookDispatcher } from "../modules/commerce/payment/payment.webhook";
 import { paymentIdempotencyService } from "../modules/commerce/payment/payment-idempotency.service";
 import { webhookEventRepository } from "../modules/commerce/payment/webhook-event.repository";
-import { enrollmentQueue, invoiceQueue, notificationQueue, analyticsQueue } from "../modules/commerce/payment/payment.worker";
+import { enrollmentQueue, invoiceQueue, notificationQueue, analyticsQueue } from "../modules/commerce/fulfillment";
 
 describe("Payment Processing Platform tests", () => {
   const webhookSecret = "rzp_test_placeholder_webhook_secret";

@@ -4,6 +4,11 @@ import { logger } from "./lib/logger";
 import { mailWorker } from "./modules/mail/mail.worker";
 import { mediaWorker } from "./modules/media/media.worker";
 import { paymentWorker } from "./modules/commerce/payment/payment.worker";
+import { fulfillmentWorker } from "./modules/commerce/fulfillment/fulfillment.worker";
+import { enrollmentWorker } from "./modules/commerce/fulfillment/enrollment.worker";
+import { invoiceWorker } from "./modules/commerce/fulfillment/invoice.worker";
+import { notificationWorker } from "./modules/commerce/fulfillment/notification.worker";
+import { analyticsWorker } from "./modules/commerce/fulfillment/analytics.worker";
 
 const server = app.listen(config.port, () => {
   logger.info(`🚀 [API Server] Active on port ${config.port} in [${config.env}] environment`);
@@ -32,6 +37,17 @@ const handleFatalError = async (error: Error) => {
     logger.info("[Payment Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Payment Worker] Error during close: ${err.message}`);
+  }
+
+  try {
+    await fulfillmentWorker.close();
+    await enrollmentWorker.close();
+    await invoiceWorker.close();
+    await notificationWorker.close();
+    await analyticsWorker.close();
+    logger.info("[Fulfillment Workers] Queue connections closed.");
+  } catch (err: any) {
+    logger.error(`[Fulfillment Workers] Error during close: ${err.message}`);
   }
 
   if (server) {
@@ -76,6 +92,17 @@ const handleShutdown = async (signal: string) => {
     logger.info("[Payment Worker] Queue connection closed.");
   } catch (err: any) {
     logger.error(`[Payment Worker] Error closing connection: ${err.message}`);
+  }
+
+  try {
+    await fulfillmentWorker.close();
+    await enrollmentWorker.close();
+    await invoiceWorker.close();
+    await notificationWorker.close();
+    await analyticsWorker.close();
+    logger.info("[Fulfillment Workers] Queue connections closed.");
+  } catch (err: any) {
+    logger.error(`[Fulfillment Workers] Error closing connection: ${err.message}`);
   }
 
   if (server) {

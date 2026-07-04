@@ -3,6 +3,7 @@ import {
   Product,
   ProductPrice,
   Coupon,
+  CouponRedemption,
   Order,
   PaymentAttempt,
   Invoice,
@@ -39,19 +40,19 @@ export interface CouponRepository {
 }
 
 export interface OrderRepository {
-  findById(id: string, ctx?: RepositoryContext): Promise<Order | null>;
-  findByOrderNumber(orderNumber: string, ctx?: RepositoryContext): Promise<Order | null>;
+  findById(id: string, ctx?: RepositoryContext): Promise<any | null>;
+  findByOrderNumber(orderNumber: string, ctx?: RepositoryContext): Promise<any | null>;
   createOrderWithItems(
     data: Prisma.OrderUncheckedCreateInput,
     items: Omit<Prisma.OrderItemCreateManyOrderInput, "orderId">[],
     ctx?: RepositoryContext
-  ): Promise<Order>;
+  ): Promise<any>;
   updateOrderStatus(
     id: string,
     status: OrderStatus,
     expectedStatus: OrderStatus,
     ctx?: RepositoryContext
-  ): Promise<Order>;
+  ): Promise<any>;
 }
 
 export interface PaymentRepository {
@@ -65,11 +66,19 @@ export interface PaymentRepository {
 export interface InvoiceRepository {
   findById(id: string, ctx?: RepositoryContext): Promise<Invoice | null>;
   findByInvoiceNumber(invoiceNumber: string, ctx?: RepositoryContext): Promise<Invoice | null>;
+  findByOrderId(orderId: string, ctx?: RepositoryContext): Promise<Invoice | null>;
   create(data: Prisma.InvoiceUncheckedCreateInput, ctx?: RepositoryContext): Promise<Invoice>;
+  delete(id: string, ctx?: RepositoryContext): Promise<Invoice>;
+  countTodayInvoices(ctx?: RepositoryContext): Promise<number>;
 }
 
 export interface RefundRepository {
   findById(id: string, ctx?: RepositoryContext): Promise<Refund | null>;
   findByGatewayRefundId(gatewayRefundId: string, ctx?: RepositoryContext): Promise<Refund | null>;
   create(data: Prisma.RefundUncheckedCreateInput, ctx?: RepositoryContext): Promise<Refund>;
+}
+
+export interface CouponRedemptionRepository {
+  countUserRedemptions(couponId: string, userId: string, ctx?: RepositoryContext): Promise<number>;
+  create(data: Prisma.CouponRedemptionUncheckedCreateInput, ctx?: RepositoryContext): Promise<CouponRedemption>;
 }

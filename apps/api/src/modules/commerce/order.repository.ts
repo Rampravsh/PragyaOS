@@ -7,7 +7,7 @@ export class PrismaOrderRepository implements OrderRepository {
     return ctx?.tx || prisma;
   }
 
-  public async findById(id: string, ctx?: RepositoryContext): Promise<Order | null> {
+  public async findById(id: string, ctx?: RepositoryContext): Promise<any | null> {
     return this.getClient(ctx).order.findUnique({
       where: { id },
       include: {
@@ -17,10 +17,10 @@ export class PrismaOrderRepository implements OrderRepository {
         payments: true,
         invoice: true,
       },
-    }) as Promise<Order | null>;
+    });
   }
 
-  public async findByOrderNumber(orderNumber: string, ctx?: RepositoryContext): Promise<Order | null> {
+  public async findByOrderNumber(orderNumber: string, ctx?: RepositoryContext): Promise<any | null> {
     return this.getClient(ctx).order.findUnique({
       where: { orderNumber },
       include: {
@@ -30,14 +30,14 @@ export class PrismaOrderRepository implements OrderRepository {
         payments: true,
         invoice: true,
       },
-    }) as Promise<Order | null>;
+    });
   }
 
   public async createOrderWithItems(
     data: Prisma.OrderUncheckedCreateInput,
     items: Omit<Prisma.OrderItemCreateManyOrderInput, "orderId">[],
     ctx?: RepositoryContext
-  ): Promise<Order> {
+  ): Promise<any> {
     const client = this.getClient(ctx);
     
     const execute = async (dbClient: Prisma.TransactionClient | typeof prisma) => {
@@ -72,8 +72,34 @@ export class PrismaOrderRepository implements OrderRepository {
   ): Promise<Order> {
     return this.getClient(ctx).order.update({
       where: { id, status: expectedStatus },
-      data: { status },
+      data: {
+        status,
+        version: { increment: 1 },
+      },
     }) as Promise<Order>;
+  }
+
+  public async countTodayOrders(ctx?: RepositoryContext): Promise<number> {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    return this.getClient(ctx).order.count({
+      where: { createdAt: { gte: startOfDay } },
+    });
+  }
+
+  public async hasActivePurchase(
+    userId: string,
+    productId: string,
+    ctx?: RepositoryContext
+  ): Promise<boolean> {
+    const order = await this.getClient(ctx).order.findFirst({
+      where: {
+        userId,
+        status: { in: [OrderStatus.PAID, OrderStatus.PENDING_PAYMENT] },
+        items: { some: { productId } },
+      },
+    });
+    return !!order;
   }
 }
 

@@ -155,11 +155,38 @@ function buildService(overrides: Partial<{
     findByCode: vi.fn().mockResolvedValue(null),
     incrementRedemptions: vi.fn(),
   };
-  const orders = overrides.ordersMock ?? {
-    createOrderWithItems: vi.fn().mockResolvedValue(mockOrder),
-  };
+  const orders = overrides.ordersMock ?? {};
+  if (!orders.createOrderWithItems) {
+    orders.createOrderWithItems = vi.fn().mockResolvedValue(mockOrder);
+  }
+  if (!orders.hasActivePurchase) {
+    orders.hasActivePurchase = vi.fn().mockImplementation(async () => {
+      const existing = await prisma.order.findFirst({} as any);
+      return !!existing;
+    });
+  }
+  if (!orders.countTodayOrders) {
+    orders.countTodayOrders = vi.fn().mockImplementation(async () => {
+      return await prisma.order.count({} as any);
+    });
+  }
   const payments = overrides.paymentsMock ?? {
     create: vi.fn().mockResolvedValue(mockPaymentAttempt),
+  };
+
+  const couponRedemptionsMock = {
+    countUserRedemptions: vi.fn().mockImplementation(async () => {
+      return await prisma.couponRedemption.count({} as any);
+    }),
+    create: vi.fn().mockImplementation(async (data: any) => {
+      return await prisma.couponRedemption.create({ data } as any);
+    }),
+  };
+
+  const idempotencyMock = {
+    acquireLock: vi.fn().mockResolvedValue(true),
+    releaseLock: vi.fn().mockResolvedValue(true),
+    markProcessed: vi.fn(),
   };
 
   // Wire transaction to call through to the fn callback
@@ -174,7 +201,9 @@ function buildService(overrides: Partial<{
     orders as any,
     payments as any,
     zeroTaxEngine,
-    checkoutEvents
+    checkoutEvents,
+    couponRedemptionsMock as any,
+    idempotencyMock as any
   );
 }
 

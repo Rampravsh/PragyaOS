@@ -1,7 +1,6 @@
 import { Worker, Job, Queue } from "bullmq";
 import { config } from "../../../config";
 import { logger } from "../../../lib/logger";
-import { prisma } from "../../../database/client";
 import { paymentService } from "./payment.service";
 import { webhookEventRepository } from "./webhook-event.repository";
 import { paymentIdempotencyService } from "./payment-idempotency.service";
@@ -9,23 +8,12 @@ import { WebhookEventStatus, OrderStatus, PaymentStatus } from "@prisma/client";
 import { paymentEvents } from "./payment.events";
 import { randomUUID } from "crypto";
 import { NormalizedWebhookEvent } from "./payment.webhook";
+import { orderRepository } from "../order.repository";
 
-// Declare downstream queues
-export const enrollmentQueue = new Queue("enrollment-queue", {
-  connection: { url: config.redis.url },
-});
-
-export const invoiceQueue = new Queue("invoice-queue", {
-  connection: { url: config.redis.url },
-});
-
-export const notificationQueue = new Queue("notification-queue", {
-  connection: { url: config.redis.url },
-});
-
-export const analyticsQueue = new Queue("analytics-queue", {
-  connection: { url: config.redis.url },
-});
+import { enrollmentQueue } from "../fulfillment/enrollment.worker";
+import { invoiceQueue } from "../fulfillment/invoice.worker";
+import { notificationQueue } from "../fulfillment/notification.worker";
+import { analyticsQueue } from "../fulfillment/analytics.worker";
 
 export class PaymentWorker {
   private worker: Worker<NormalizedWebhookEvent>;
@@ -34,6 +22,7 @@ export class PaymentWorker {
     this.worker = new Worker<NormalizedWebhookEvent>(
       "payment-queue",
       async (job: Job<NormalizedWebhookEvent>) => {
+        const { prisma } = await import("../../../database/client");
         const {
           eventId,
           eventType,
@@ -47,11 +36,8 @@ export class PaymentWorker {
           `🔄 [Payment Worker] Processing job ${job.id} | EventType: ${eventType} | OrderNo: ${gatewayOrderId}`
         );
 
-        // Fetch Order by receipt / orderNumber mapped on creation
-        const order = await prisma.order.findUnique({
-          where: { orderNumber: gatewayOrderId },
-          include: { items: { include: { product: true } }, payments: true },
-        });
+        // Fetch Order by receipt / orderNumber mapped on creation using repository
+        const order = await orderRepository.findByOrderNumber(gatewayOrderId);
 
         if (!order) {
           logger.error(`❌ [Payment Worker] Order ${gatewayOrderId} not found.`);
@@ -59,7 +45,7 @@ export class PaymentWorker {
         }
 
         // Locate pending payment attempt
-        const attempt = order.payments.find((p) => p.status === PaymentStatus.PENDING);
+        const attempt = order.payments.find((p: any) => p.status === PaymentStatus.PENDING);
         if (!attempt) {
           logger.warn(`⚠️ [Payment Worker] No pending payment attempt found for Order ${order.id}.`);
           return;
@@ -100,7 +86,7 @@ export class PaymentWorker {
             await paymentIdempotencyService.markProcessed(lockKey, 86400 * 7);
 
             // 4. Enqueue downstream fulfillment jobs
-            const courseItem = order.items.find((item) => item.product.sellableType === "COURSE");
+            const courseItem = order.items.find((item: any) => item.product.sellableType === "COURSE");
             const courseId = courseItem?.product.sellableId;
 
             const jobsEnqueued: string[] = [];
