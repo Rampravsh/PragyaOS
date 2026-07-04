@@ -2,6 +2,8 @@ import { prisma } from "../../database/client";
 import { Course, CourseStatus, CourseVisibility, DifficultyLevel, CourseModule, LearningUnit } from "@prisma/client";
 import { AppError } from "../../common/errors/appError";
 import { logger } from "../../lib/logger";
+import { courseRepository } from "../courses/course.repository";
+import { userRepository } from "../users/user.repository";
 import { PublishingRuleEngine, RuleResult } from "./publishing.rules";
 import { CourseHealthEngine, HealthScoreResult } from "./health.engine";
 import { instructorStudioEvents } from "./instructor-studio.events";
@@ -64,12 +66,9 @@ export class InstructorStudioService {
       throw AppError.badRequest("Cannot submit course for review with critical publishing checklist failures.");
     }
 
-    const updated = await prisma.course.update({
-      where: { id: courseId },
-      data: {
-        status: CourseStatus.REVIEW,
-        changeSummary: input.changeSummary || "Submitted for review.",
-      },
+    const updated = await courseRepository.update(courseId, {
+      status: CourseStatus.REVIEW,
+      changeSummary: input.changeSummary || "Submitted for review.",
     });
 
     instructorStudioEvents.emitCourseSubmittedForReview({
@@ -107,14 +106,11 @@ export class InstructorStudioService {
 
     const nextRevision = course.revisionNumber + 1;
 
-    const updated = await prisma.course.update({
-      where: { id: courseId },
-      data: {
-        status: CourseStatus.PUBLISHED,
-        publishedAt: new Date(),
-        revisionNumber: nextRevision,
-        changeSummary: input.changeSummary || `Published Revision #${nextRevision}`,
-      },
+    const updated = await courseRepository.update(courseId, {
+      status: CourseStatus.PUBLISHED,
+      publishedAt: new Date(),
+      revisionNumber: nextRevision,
+      changeSummary: input.changeSummary || `Published Revision #${nextRevision}`,
     });
 
     instructorStudioEvents.emitCoursePublished({
@@ -138,11 +134,8 @@ export class InstructorStudioService {
       throw AppError.badRequest("Only published courses can be unpublished.");
     }
 
-    return prisma.course.update({
-      where: { id: courseId },
-      data: {
-        status: CourseStatus.DRAFT,
-      },
+    return courseRepository.update(courseId, {
+      status: CourseStatus.DRAFT,
     });
   }
 
@@ -154,16 +147,13 @@ export class InstructorStudioService {
     
     // Validate owner or admin
     const isAuthorized = await this.isAuthorizedToPublish(archiverId);
-    const isOwner = course.instructors.some((ci) => ci.userId === archiverId);
+    const isOwner = course.instructors.some((ci: any) => ci.userId === archiverId);
     if (!isAuthorized && !isOwner) {
       throw AppError.forbidden("You do not have permission to archive this course.");
     }
 
-    const updated = await prisma.course.update({
-      where: { id: courseId },
-      data: {
-        status: CourseStatus.ARCHIVED,
-      },
+    const updated = await courseRepository.update(courseId, {
+      status: CourseStatus.ARCHIVED,
     });
 
     instructorStudioEvents.emitCourseArchived({
@@ -186,11 +176,8 @@ export class InstructorStudioService {
       throw AppError.badRequest("Only archived courses can be restored.");
     }
 
-    const updated = await prisma.course.update({
-      where: { id: courseId },
-      data: {
-        status: CourseStatus.DRAFT,
-      },
+    const updated = await courseRepository.update(courseId, {
+      status: CourseStatus.DRAFT,
     });
 
     instructorStudioEvents.emitCourseRestored({
@@ -210,16 +197,13 @@ export class InstructorStudioService {
     userId: string,
     input: GeneratePreviewInput
   ): Promise<PreviewTokenResponse> {
-    const course = await prisma.course.findUnique({
-      where: { id: courseId },
-      include: { instructors: true },
-    });
+    const course = await courseRepository.findById(courseId);
     if (!course) {
       throw AppError.notFound("Course not found.");
     }
 
     // Verify collaborator status
-    const isCollaborator = course.instructors.some((ci) => ci.userId === userId);
+    const isCollaborator = course.instructors.some((ci: any) => ci.userId === userId);
     const isPrivileged = await this.isAuthorizedToPublish(userId);
 
     if (!isCollaborator && !isPrivileged && input.scope !== "PUBLIC") {
@@ -278,7 +262,7 @@ export class InstructorStudioService {
         },
         requirements: {
           createMany: {
-            data: course.requirements.map((r) => ({
+            data: course.requirements.map((r: any) => ({
               description: r.description,
               sequence: r.sequence,
             })),
@@ -286,7 +270,7 @@ export class InstructorStudioService {
         },
         objectives: {
           createMany: {
-            data: course.objectives.map((o) => ({
+            data: course.objectives.map((o: any) => ({
               description: o.description,
               sequence: o.sequence,
             })),
@@ -294,7 +278,7 @@ export class InstructorStudioService {
         },
         faqs: {
           createMany: {
-            data: course.faqs.map((f) => ({
+            data: course.faqs.map((f: any) => ({
               question: f.question,
               answer: f.answer,
               sequence: f.sequence,
@@ -314,7 +298,7 @@ export class InstructorStudioService {
           sequence: m.sequence,
           learningUnits: {
             createMany: {
-              data: m.learningUnits.map((u) => ({
+              data: m.learningUnits.map((u: any) => ({
                 title: u.title,
                 description: u.description,
                 type: u.type,
@@ -350,12 +334,12 @@ export class InstructorStudioService {
     const course = await this.fetchFullCourseDetails(courseId);
     await this.validateOwnership(course, instructorId);
 
-    const sourceModule = course.modules.find((m) => m.id === moduleId);
+    const sourceModule = course.modules.find((m: any) => m.id === moduleId);
     if (!sourceModule) {
       throw AppError.notFound("Module not found in course.");
     }
 
-    const nextSeq = course.modules.length > 0 ? Math.max(...course.modules.map((m) => m.sequence)) + 1 : 1;
+    const nextSeq = course.modules.length > 0 ? Math.max(...course.modules.map((m: any) => m.sequence)) + 1 : 1;
 
     const copy = await prisma.courseModule.create({
       data: {
@@ -365,7 +349,7 @@ export class InstructorStudioService {
         sequence: nextSeq,
         learningUnits: {
           createMany: {
-            data: sourceModule.learningUnits.map((u) => ({
+            data: sourceModule.learningUnits.map((u: any) => ({
               title: u.title,
               description: u.description,
               type: u.type,
@@ -405,7 +389,7 @@ export class InstructorStudioService {
     let siblings: LearningUnit[] = [];
 
     for (const m of course.modules) {
-      const u = m.learningUnits.find((lu) => lu.id === learningUnitId);
+      const u = m.learningUnits.find((lu: any) => lu.id === learningUnitId);
       if (u) {
         sourceUnit = u;
         targetModuleId = m.id;
@@ -500,7 +484,7 @@ export class InstructorStudioService {
     let unit: LearningUnit | undefined;
     let sourceModuleId = "";
     for (const m of course.modules) {
-      const u = m.learningUnits.find((lu) => lu.id === learningUnitId);
+      const u = m.learningUnits.find((lu: any) => lu.id === learningUnitId);
       if (u) {
         unit = u;
         sourceModuleId = m.id;
@@ -622,17 +606,7 @@ export class InstructorStudioService {
    * Gets instructor dashboard metrics.
    */
   public async getInstructorDashboard(instructorId: string): Promise<InstructorDashboardDTO> {
-    const courses = await prisma.course.findMany({
-      where: {
-        instructors: { some: { userId: instructorId } },
-      },
-      include: {
-        modules: { include: { learningUnits: { include: { media: true } } } },
-        thumbnail: true,
-        trailer: true,
-      },
-      orderBy: { updatedAt: "desc" },
-    });
+    const courses = await courseRepository.findManyByInstructorId(instructorId);
 
     let draftCount = 0;
     let inReviewCount = 0;
@@ -690,10 +664,7 @@ export class InstructorStudioService {
     if (isInstructor) return;
 
     // Check Admin bypass
-    const userRoles = await prisma.userRole.findMany({
-      where: { userId },
-      include: { role: true },
-    });
+    const userRoles = await userRepository.findRolesByUserId(userId);
     const names = userRoles.map((r) => r.role.name);
     const isPrivileged = names.includes("ADMIN") || names.includes("SUPER_ADMIN");
 
@@ -706,10 +677,7 @@ export class InstructorStudioService {
    * Checks if user has publish privileges.
    */
   private async isAuthorizedToPublish(userId: string): Promise<boolean> {
-    const roles = await prisma.userRole.findMany({
-      where: { userId },
-      include: { role: true },
-    });
+    const roles = await userRepository.findRolesByUserId(userId);
     const names = roles.map((r) => r.role.name);
     return names.includes("ADMIN") || names.includes("SUPER_ADMIN") || names.includes("REVIEWER");
   }
@@ -718,27 +686,7 @@ export class InstructorStudioService {
    * Helper to fetch course details cleanly.
    */
   private async fetchFullCourseDetails(courseId: string) {
-    const course = await prisma.course.findUnique({
-      where: { id: courseId },
-      include: {
-        category: true,
-        thumbnail: true,
-        trailer: true,
-        modules: {
-          orderBy: { sequence: "asc" },
-          include: {
-            learningUnits: {
-              orderBy: { sequence: "asc" },
-              include: { media: true },
-            },
-          },
-        },
-        instructors: true,
-        requirements: { orderBy: { sequence: "asc" } },
-        objectives: { orderBy: { sequence: "asc" } },
-        faqs: { orderBy: { sequence: "asc" } },
-      },
-    });
+    const course = await courseRepository.findFullCourseDetails(courseId);
 
     if (!course) {
       throw AppError.notFound("Course not found.");

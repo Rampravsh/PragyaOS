@@ -3,15 +3,16 @@ import { prisma } from "../../database/client";
 import { AppError } from "../../common/errors/appError";
 import { courseService } from "./course.service";
 import { CreateModuleInput, UpdateModuleInput } from "./course.schemas";
+import { courseModuleRepository, CourseModuleRepository } from "./course-module.repository";
 
 export class CourseModuleService {
+  constructor(private readonly repository: CourseModuleRepository = courseModuleRepository) {}
+
   /**
    * Resolves a module and confirms it belongs to the specified course.
    */
   public async getModule(courseId: string, moduleId: string): Promise<CourseModule> {
-    const module = await prisma.courseModule.findUnique({
-      where: { id: moduleId },
-    });
+    const module = await this.repository.findById(moduleId);
     if (!module || module.courseId !== courseId) {
       throw AppError.notFound("Course module not found.");
     }
@@ -31,20 +32,15 @@ export class CourseModuleService {
     // Auto-calculate sequence if not supplied
     let sequence = input.sequence;
     if (sequence === undefined || sequence === 0) {
-      const maxSeq = await prisma.courseModule.aggregate({
-        where: { courseId },
-        _max: { sequence: true },
-      });
-      sequence = (maxSeq._max.sequence || 0) + 1;
+      const maxSeq = await this.repository.getMaxSequence(courseId);
+      sequence = maxSeq + 1;
     }
 
-    return prisma.courseModule.create({
-      data: {
-        courseId,
-        title: input.title,
-        description: input.description || null,
-        sequence,
-      },
+    return this.repository.create({
+      courseId,
+      title: input.title,
+      description: input.description || null,
+      sequence,
     });
   }
 
@@ -60,13 +56,10 @@ export class CourseModuleService {
     await courseService.validateOwnership(courseId, userContext);
     await this.getModule(courseId, moduleId);
 
-    return prisma.courseModule.update({
-      where: { id: moduleId },
-      data: {
-        title: input.title,
-        description: input.description !== undefined ? input.description : undefined,
-        sequence: input.sequence !== undefined ? input.sequence : undefined,
-      },
+    return this.repository.update(moduleId, {
+      title: input.title,
+      description: input.description !== undefined ? input.description : undefined,
+      sequence: input.sequence !== undefined ? input.sequence : undefined,
     });
   }
 
@@ -81,9 +74,7 @@ export class CourseModuleService {
     await courseService.validateOwnership(courseId, userContext);
     await this.getModule(courseId, moduleId);
 
-    await prisma.courseModule.delete({
-      where: { id: moduleId },
-    });
+    await this.repository.delete(moduleId);
   }
 
   /**
@@ -97,17 +88,12 @@ export class CourseModuleService {
     await courseService.validateOwnership(courseId, userContext);
 
     // 1. Validate that all moduleIds belong to this course
-    const count = await prisma.courseModule.count({
-      where: {
-        courseId,
-        id: { in: moduleIds },
-      },
-    });
+    const count = await this.repository.countByCourseAndIds(courseId, moduleIds);
     if (count !== moduleIds.length) {
       throw AppError.badRequest("Invalid module IDs in reordering request.");
     }
 
-    // 2. Perform updates inside a transaction block
+    // 2. Perform updates inside a transaction block (kept at Service layer)
     await prisma.$transaction(
       moduleIds.map((id, index) =>
         prisma.courseModule.update({
@@ -117,10 +103,7 @@ export class CourseModuleService {
       )
     );
 
-    return prisma.courseModule.findMany({
-      where: { courseId },
-      orderBy: { sequence: "asc" },
-    });
+    return this.repository.findManyByCourseId(courseId);
   }
 }
 

@@ -12,6 +12,7 @@ import {
 import { AppError } from "../../common/errors/appError";
 import { hashToken } from "../auth/auth.utils";
 import { validate } from "../../common/dto/base.dto";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class UserController {
   constructor(private readonly service: UserService = userService) {}
@@ -22,10 +23,7 @@ export class UserController {
   public getCurrentProfile = async (req: Request, res: Response): Promise<void> => {
     const userId = req.user!.id;
     const user = await this.service.getProfile(userId);
-    res.status(200).json({
-      success: true,
-      data: UserMapper.toProfileDTO(user),
-    });
+    SuccessResponse.send(res, UserMapper.toProfileDTO(user));
   };
 
   /**
@@ -46,10 +44,7 @@ export class UserController {
     }
 
     const user = await this.service.getProfile(id);
-    res.status(200).json({
-      success: true,
-      data: UserMapper.toProfileDTO(user),
-    });
+    SuccessResponse.send(res, UserMapper.toProfileDTO(user));
   };
 
   /**
@@ -65,11 +60,11 @@ export class UserController {
     };
 
     const user = await this.service.updateProfile(userId, input, audit);
-    res.status(200).json({
-      success: true,
-      message: "Profile updated successfully.",
-      data: UserMapper.toProfileDTO(user),
-    });
+    SuccessResponse.send(
+      res,
+      UserMapper.toProfileDTO(user),
+      "Profile updated successfully."
+    );
   };
 
   /**
@@ -85,11 +80,11 @@ export class UserController {
     };
 
     const user = await this.service.updateAvatar(userId, avatarUrl, audit);
-    res.status(200).json({
-      success: true,
-      message: "Avatar updated successfully.",
-      data: UserMapper.toProfileDTO(user),
-    });
+    SuccessResponse.send(
+      res,
+      UserMapper.toProfileDTO(user),
+      "Avatar updated successfully."
+    );
   };
 
   /**
@@ -105,11 +100,11 @@ export class UserController {
     };
 
     const user = await this.service.updatePreferences(userId, input, audit);
-    res.status(200).json({
-      success: true,
-      message: "Preferences updated successfully.",
-      data: UserMapper.toProfileDTO(user),
-    });
+    SuccessResponse.send(
+      res,
+      UserMapper.toProfileDTO(user),
+      "Preferences updated successfully."
+    );
   };
 
   /**
@@ -129,10 +124,11 @@ export class UserController {
     };
 
     await this.service.changePassword(userId, input, currentToken, audit);
-    res.status(200).json({
-      success: true,
-      message: "Password changed successfully. Terminated all other active sessions.",
-    });
+    SuccessResponse.send(
+      res,
+      null,
+      "Password changed successfully. Terminated all other active sessions."
+    );
   };
 
   /**
@@ -146,10 +142,7 @@ export class UserController {
     const currentToken = authHeader.split(" ")[1];
     const currentHash = hashToken(currentToken);
 
-    res.status(200).json({
-      success: true,
-      data: UserMapper.toSessionDTOs(sessions, currentHash),
-    });
+    SuccessResponse.send(res, UserMapper.toSessionDTOs(sessions, currentHash));
   };
 
   /**
@@ -165,10 +158,7 @@ export class UserController {
     };
 
     await this.service.logoutSession(userId, sessionId, audit);
-    res.status(200).json({
-      success: true,
-      message: "Session terminated successfully.",
-    });
+    SuccessResponse.send(res, null, "Session terminated successfully.");
   };
 
   /**
@@ -186,10 +176,7 @@ export class UserController {
     };
 
     await this.service.logoutOtherSessions(userId, currentToken, audit);
-    res.status(200).json({
-      success: true,
-      message: "Terminated all other active sessions successfully.",
-    });
+    SuccessResponse.send(res, null, "Terminated all other active sessions successfully.");
   };
 
   /**
@@ -204,10 +191,11 @@ export class UserController {
     };
 
     await this.service.deactivateAccount(userId, audit);
-    res.status(200).json({
-      success: true,
-      message: "Account deactivated successfully. Terminated all active sessions.",
-    });
+    SuccessResponse.send(
+      res,
+      null,
+      "Account deactivated successfully. Terminated all active sessions."
+    );
   };
 
   /**
@@ -223,10 +211,7 @@ export class UserController {
     };
 
     await this.service.reactivateAccount(adminUserId, id, audit);
-    res.status(200).json({
-      success: true,
-      message: "Account reactivated successfully.",
-    });
+    SuccessResponse.send(res, null, "Account reactivated successfully.");
   };
 
   /**
@@ -252,10 +237,7 @@ export class UserController {
     };
 
     await this.service.softDeleteAccount(currentUserId, id, audit);
-    res.status(200).json({
-      success: true,
-      message: "Account soft-deleted successfully.",
-    });
+    SuccessResponse.send(res, null, "Account soft-deleted successfully.");
   };
 
   /**
@@ -267,16 +249,13 @@ export class UserController {
 
     const { logs, total } = await this.service.listAuditLogs(userId, query);
 
-    res.status(200).json({
-      success: true,
-      data: {
-        logs,
-        pagination: {
-          page: query.page,
-          limit: query.limit,
-          total,
-          pages: Math.ceil(total / query.limit),
-        },
+    SuccessResponse.send(res, {
+      logs,
+      pagination: {
+        page: query.page,
+        limit: query.limit,
+        total,
+        pages: Math.ceil(total / query.limit),
       },
     });
   };

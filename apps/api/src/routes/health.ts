@@ -20,12 +20,13 @@ router.get("/health", (req: Request, res: Response) => {
  * @openapi
  * /live:
  *   get:
- *     summary: Verify application runtime liveness
+ *     summary: Verify application runtime liveness (K8s Probe Exception - raw response required)
  *     responses:
  *       200:
  *         description: Application is alive
  */
 router.get("/live", (req: Request, res: Response) => {
+  // Exception to SuccessResponse: Kubernetes liveness probes require high-performance, raw plaintext payloads.
   res.status(200).send("OK");
 });
 
@@ -33,13 +34,14 @@ router.get("/live", (req: Request, res: Response) => {
  * @openapi
  * /ready:
  *   get:
- *     summary: Verify application readiness to consume requests
+ *     summary: Verify application readiness to consume requests (K8s Probe Exception - raw response required)
  *     responses:
  *       200:
  *         description: Application is ready
  */
 router.get("/ready", (req: Request, res: Response) => {
-  // If we had active databases/queues, we would check connectivity state here
+  // Exception to SuccessResponse: Kubernetes readiness probes require lightweight, raw plaintext payloads.
+  // If we had active databases/queues, we would check connectivity state here.
   res.status(200).send("READY");
 });
 

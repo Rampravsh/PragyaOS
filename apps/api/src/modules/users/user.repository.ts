@@ -176,6 +176,16 @@ export class UserRepository {
       },
     });
   }
+
+  /**
+   * Fetches user roles from the user_roles table.
+   */
+  public async findRolesByUserId(userId: string): Promise<any[]> {
+    return prisma.userRole.findMany({
+      where: { userId },
+      include: { role: true },
+    });
+  }
 }
 
 export const userRepository = new UserRepository();

@@ -17,6 +17,7 @@ import {
   MoveLearningUnitInput,
   BulkReorderCurriculumInput
 } from "./instructor-studio.schemas";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class InstructorStudioController {
   constructor(private readonly service: InstructorStudioService = instructorStudioService) {}
@@ -26,11 +27,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const data = await this.service.getPublishingChecklist(courseId, userId);
-
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   public submitForReview = async (req: Request, res: Response): Promise<void> => {
@@ -39,12 +36,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.submitForReview(courseId, userId, input);
-
-    res.status(200).json({
-      success: true,
-      message: "Course submitted for review.",
-      data: course,
-    });
+    SuccessResponse.send(res, course, "Course submitted for review.");
   };
 
   public publishCourse = async (req: Request, res: Response): Promise<void> => {
@@ -53,12 +45,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.publishCourse(courseId, userId, input);
-
-    res.status(200).json({
-      success: true,
-      message: "Course approved and published successfully.",
-      data: course,
-    });
+    SuccessResponse.send(res, course, "Course approved and published successfully.");
   };
 
   public unpublishCourse = async (req: Request, res: Response): Promise<void> => {
@@ -66,12 +53,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.unpublishCourse(courseId, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Course unpublished to DRAFT.",
-      data: course,
-    });
+    SuccessResponse.send(res, course, "Course unpublished to DRAFT.");
   };
 
   public archiveCourse = async (req: Request, res: Response): Promise<void> => {
@@ -79,12 +61,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.archiveCourse(courseId, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Course archived successfully.",
-      data: course,
-    });
+    SuccessResponse.send(res, course, "Course archived successfully.");
   };
 
   public restoreCourse = async (req: Request, res: Response): Promise<void> => {
@@ -92,12 +69,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.restoreCourse(courseId, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Course restored to DRAFT status.",
-      data: course,
-    });
+    SuccessResponse.send(res, course, "Course restored to DRAFT status.");
   };
 
   public generatePreviewToken = async (req: Request, res: Response): Promise<void> => {
@@ -106,11 +78,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const data = await this.service.generatePreviewToken(courseId, userId, input);
-
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   public duplicateCourse = async (req: Request, res: Response): Promise<void> => {
@@ -119,12 +87,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const course = await this.service.duplicateCourse(courseId, userId, input);
-
-    res.status(201).json({
-      success: true,
-      message: "Course duplicated successfully.",
-      data: course,
-    });
+    SuccessResponse.created(res, course, "Course duplicated successfully.");
   };
 
   public duplicateModule = async (req: Request, res: Response): Promise<void> => {
@@ -132,12 +95,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const newModule = await this.service.duplicateModule(courseId, moduleId, userId);
-
-    res.status(201).json({
-      success: true,
-      message: "Module duplicated successfully.",
-      data: newModule,
-    });
+    SuccessResponse.created(res, newModule, "Module duplicated successfully.");
   };
 
   public duplicateLearningUnit = async (req: Request, res: Response): Promise<void> => {
@@ -145,12 +103,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const newUnit = await this.service.duplicateLearningUnit(courseId, learningUnitId, userId);
-
-    res.status(201).json({
-      success: true,
-      message: "Learning Unit duplicated successfully.",
-      data: newUnit,
-    });
+    SuccessResponse.created(res, newUnit, "Learning Unit duplicated successfully.");
   };
 
   public moveModule = async (req: Request, res: Response): Promise<void> => {
@@ -159,11 +112,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     await this.service.moveModule(courseId, moduleId, input.targetIndex, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Module sequence updated successfully.",
-    });
+    SuccessResponse.send(res, null, "Module sequence updated successfully.");
   };
 
   public moveLearningUnit = async (req: Request, res: Response): Promise<void> => {
@@ -172,11 +121,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     await this.service.moveLearningUnit(courseId, learningUnitId, input.targetModuleId, input.targetIndex, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Learning Unit relocated successfully.",
-    });
+    SuccessResponse.send(res, null, "Learning Unit relocated successfully.");
   };
 
   public bulkReorderCurriculum = async (req: Request, res: Response): Promise<void> => {
@@ -185,22 +130,14 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     await this.service.bulkReorderCurriculum(courseId, input, userId);
-
-    res.status(200).json({
-      success: true,
-      message: "Curriculum bulk reordering transaction completed.",
-    });
+    SuccessResponse.send(res, null, "Curriculum bulk reordering transaction completed.");
   };
 
   public getInstructorDashboard = async (req: Request, res: Response): Promise<void> => {
     const userId = req.user!.id;
 
     const data = await this.service.getInstructorDashboard(userId);
-
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   public getCourseHealthReport = async (req: Request, res: Response): Promise<void> => {
@@ -208,11 +145,7 @@ export class InstructorStudioController {
     const userId = req.user!.id;
 
     const data = await this.service.getCourseHealthReport(courseId, userId);
-
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 }
 

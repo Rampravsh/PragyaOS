@@ -12,6 +12,7 @@ import {
   CompleteMultipartInput
 } from "./media.schemas";
 import { validate } from "../../common/dto/base.dto";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class MediaController {
   constructor(private readonly service: MediaService = mediaService) {}
@@ -31,10 +32,7 @@ export class MediaController {
       input.hash
     );
 
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   /**
@@ -45,12 +43,11 @@ export class MediaController {
     const userId = req.user!.id;
 
     const media = await this.service.confirmUploadComplete(userId, id);
-
-    res.status(200).json({
-      success: true,
-      message: "Media upload confirmed. Background processing enqueued.",
-      data: MediaMapper.toResponseDTO(media),
-    });
+    SuccessResponse.send(
+      res,
+      MediaMapper.toResponseDTO(media),
+      "Media upload confirmed. Background processing enqueued."
+    );
   };
 
   /**
@@ -68,10 +65,7 @@ export class MediaController {
       input.hash
     );
 
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   /**
@@ -90,10 +84,7 @@ export class MediaController {
       input.partNumber
     );
 
-    res.status(200).json({
-      success: true,
-      data,
-    });
+    SuccessResponse.send(res, data);
   };
 
   /**
@@ -112,11 +103,11 @@ export class MediaController {
       input.parts
     );
 
-    res.status(200).json({
-      success: true,
-      message: "Multipart upload completed. Background processing enqueued.",
-      data: MediaMapper.toResponseDTO(media),
-    });
+    SuccessResponse.send(
+      res,
+      MediaMapper.toResponseDTO(media),
+      "Multipart upload completed. Background processing enqueued."
+    );
   };
 
   /**
@@ -127,11 +118,7 @@ export class MediaController {
     const userId = req.user!.id;
 
     const downloadUrl = await this.service.generateDownloadPresignedUrl(userId, id);
-
-    res.status(200).json({
-      success: true,
-      data: { downloadUrl },
-    });
+    SuccessResponse.send(res, { downloadUrl });
   };
 
   /**
@@ -142,11 +129,7 @@ export class MediaController {
     const userId = req.user!.id;
 
     await this.service.deleteMedia(userId, id);
-
-    res.status(200).json({
-      success: true,
-      message: "Media deleted successfully.",
-    });
+    SuccessResponse.send(res, null, "Media deleted successfully.");
   };
 }
 

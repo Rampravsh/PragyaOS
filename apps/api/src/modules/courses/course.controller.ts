@@ -4,6 +4,8 @@ import { CourseMapper } from "./course.mapper";
 import { createCourseSchema, updateCourseSchema, CreateCourseInput, UpdateCourseInput } from "./course.schemas";
 import { validate } from "../../common/dto/base.dto";
 import { CourseStatus, CourseVisibility } from "@prisma/client";
+import { SuccessResponse } from "../../common/responses/successResponse";
+import { AppError } from "../../common/errors/appError";
 
 export class CourseController {
   constructor(private readonly service: CourseService = courseService) {}
@@ -23,16 +25,12 @@ export class CourseController {
 
     if (isRestricted) {
       if (!req.user) {
-        res.status(401).json({ success: false, message: "Authentication required." });
-        return;
+        throw AppError.unauthorized("Authentication required.");
       }
       await this.service.validateOwnership(id, req.user);
     }
 
-    res.status(200).json({
-      success: true,
-      data: CourseMapper.toResponseDTO(course),
-    });
+    SuccessResponse.send(res, CourseMapper.toResponseDTO(course));
   };
 
   /**
@@ -49,16 +47,12 @@ export class CourseController {
 
     if (isRestricted) {
       if (!req.user) {
-        res.status(401).json({ success: false, message: "Authentication required." });
-        return;
+        throw AppError.unauthorized("Authentication required.");
       }
       await this.service.validateOwnership(course.id, req.user);
     }
 
-    res.status(200).json({
-      success: true,
-      data: CourseMapper.toResponseDTO(course),
-    });
+    SuccessResponse.send(res, CourseMapper.toResponseDTO(course));
   };
 
   /**
@@ -94,16 +88,13 @@ export class CourseController {
 
     const { courses, total } = await this.service.listCourses(filters);
 
-    res.status(200).json({
-      success: true,
-      data: {
-        courses: CourseMapper.toResponseDTOs(courses),
-        pagination: {
-          page,
-          limit,
-          total,
-          pages: Math.ceil(total / limit),
-        },
+    SuccessResponse.send(res, {
+      courses: CourseMapper.toResponseDTOs(courses),
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
       },
     });
   };
@@ -116,11 +107,11 @@ export class CourseController {
     const userId = req.user!.id;
 
     const course = await this.service.createCourse(input, userId);
-    res.status(201).json({
-      success: true,
-      message: "Course created successfully as draft.",
-      data: CourseMapper.toResponseDTO(course),
-    });
+    SuccessResponse.created(
+      res,
+      CourseMapper.toResponseDTO(course),
+      "Course created successfully as draft."
+    );
   };
 
   /**
@@ -132,11 +123,11 @@ export class CourseController {
     const userContext = req.user!;
 
     const course = await this.service.updateCourse(id, input, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Course updated successfully.",
-      data: CourseMapper.toResponseDTO(course),
-    });
+    SuccessResponse.send(
+      res,
+      CourseMapper.toResponseDTO(course),
+      "Course updated successfully."
+    );
   };
 
   /**
@@ -147,10 +138,7 @@ export class CourseController {
     const userContext = req.user!;
 
     await this.service.archiveCourse(id, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Course archived successfully.",
-    });
+    SuccessResponse.send(res, null, "Course archived successfully.");
   };
 }
 

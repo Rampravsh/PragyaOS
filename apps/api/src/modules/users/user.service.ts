@@ -10,7 +10,6 @@ import {
 } from "./user.schemas";
 import { comparePassword, hashPassword, hashToken } from "../auth/auth.utils";
 import { AppError } from "../../common/errors/appError";
-import { prisma } from "../../database/client";
 
 export class UserService {
   constructor(private readonly repository: UserRepository = userRepository) {}
@@ -320,10 +319,7 @@ export class UserService {
    * Helper check to verify if a user has SUPER_ADMIN role.
    */
   private async checkUserIsSuperAdmin(userId: string): Promise<boolean> {
-    const roles = await prisma.userRole.findMany({
-      where: { userId },
-      include: { role: true },
-    });
+    const roles = await this.repository.findRolesByUserId(userId);
     return roles.some((ur) => ur.role.name === "SUPER_ADMIN");
   }
 }

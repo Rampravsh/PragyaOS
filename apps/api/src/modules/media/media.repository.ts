@@ -69,6 +69,30 @@ export class MediaRepository {
   public async delete(id: string): Promise<void> {
     await prisma.media.delete({ where: { id } });
   }
+
+  /**
+   * Checks if media is currently referenced by other entities.
+   */
+  public async countUsage(mediaId: string): Promise<{
+    courseThumbnails: number;
+    courseTrailers: number;
+    learningUnits: number;
+    learningResources: number;
+  }> {
+    const [courseThumbnails, courseTrailers, learningUnits, learningResources] = await Promise.all([
+      prisma.course.count({ where: { thumbnailId: mediaId } }),
+      prisma.course.count({ where: { trailerId: mediaId } }),
+      prisma.learningUnit.count({ where: { mediaId } }),
+      prisma.learningResource.count({ where: { mediaId } }),
+    ]);
+
+    return {
+      courseThumbnails,
+      courseTrailers,
+      learningUnits,
+      learningResources,
+    };
+  }
 }
 
 export const mediaRepository = new MediaRepository();

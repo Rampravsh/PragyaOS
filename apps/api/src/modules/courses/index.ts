@@ -5,5 +5,7 @@ export * from "./course-module.controller";
 export * from "./course.service";
 export * from "./course-module.service";
 export * from "./course.repository";
+export * from "./course-module.repository";
 export * from "./course.types";
 export * from "./course.mapper";
+

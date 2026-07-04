@@ -2,18 +2,19 @@ import { LearningUnit, LearningResource } from "@prisma/client";
 import { prisma } from "../../database/client";
 import { AppError } from "../../common/errors/appError";
 import { courseService } from "../courses/course.service";
-import { courseModuleService } from "../courses/course-module.service";
+import { courseModuleRepository } from "../courses/course-module.repository";
+import { mediaRepository } from "../media/media.repository";
 import { CreateLearningUnitInput, UpdateLearningUnitInput, CreateLearningResourceInput, UpdateLearningResourceInput } from "./learning-unit.schemas";
+import { learningUnitRepository, LearningUnitRepository } from "./learning-unit.repository";
 
 export class LearningUnitService {
+  constructor(private readonly repository: LearningUnitRepository = learningUnitRepository) {}
+
   /**
    * Resolves a learning unit or throws NotFound.
    */
   public async getLearningUnit(moduleId: string, unitId: string): Promise<any> {
-    const unit = await prisma.learningUnit.findUnique({
-      where: { id: unitId },
-      include: { resources: true },
-    });
+    const unit = await this.repository.findByIdWithResources(unitId);
     if (!unit || unit.moduleId !== moduleId) {
       throw AppError.notFound("Learning unit not found.");
     }
@@ -24,10 +25,7 @@ export class LearningUnitService {
    * Resolves parent course of a module.
    */
   private async getCourseIdFromModule(moduleId: string): Promise<string> {
-    const module = await prisma.courseModule.findUnique({
-      where: { id: moduleId },
-      select: { courseId: true },
-    });
+    const module = await courseModuleRepository.findById(moduleId);
     if (!module) {
       throw AppError.notFound("Course module not found.");
     }
@@ -47,7 +45,7 @@ export class LearningUnitService {
 
     // 1. Verify media if referenced
     if (input.mediaId) {
-      const media = await prisma.media.findUnique({ where: { id: input.mediaId } });
+      const media = await mediaRepository.findById(input.mediaId);
       if (!media) {
         throw AppError.badRequest("Invalid media ID reference.");
       }
@@ -56,24 +54,19 @@ export class LearningUnitService {
     // 2. Auto-sequence index
     let sequence = input.sequence;
     if (sequence === undefined || sequence === 0) {
-      const maxSeq = await prisma.learningUnit.aggregate({
-        where: { moduleId },
-        _max: { sequence: true },
-      });
-      sequence = (maxSeq._max.sequence || 0) + 1;
+      const maxSeq = await this.repository.getMaxSequence(moduleId);
+      sequence = maxSeq + 1;
     }
 
-    return prisma.learningUnit.create({
-      data: {
-        moduleId,
-        title: input.title,
-        description: input.description || null,
-        type: input.type,
-        sequence,
-        mediaId: input.mediaId || null,
-        content: (input.content as any) || null,
-        duration: input.duration || 0,
-      },
+    return this.repository.create({
+      moduleId,
+      title: input.title,
+      description: input.description || null,
+      type: input.type,
+      sequence,
+      mediaId: input.mediaId || null,
+      content: (input.content as any) || null,
+      duration: input.duration || 0,
     });
   }
 
@@ -93,7 +86,7 @@ export class LearningUnitService {
 
     // Verify media if referenced
     if (input.mediaId) {
-      const media = await prisma.media.findUnique({ where: { id: input.mediaId } });
+      const media = await mediaRepository.findById(input.mediaId);
       if (!media) {
         throw AppError.badRequest("Invalid media ID reference.");
       }
@@ -111,25 +104,19 @@ export class LearningUnitService {
       nextModuleId = targetModuleId;
       
       // Auto-sequence to tail of new module
-      const maxSeq = await prisma.learningUnit.aggregate({
-        where: { moduleId: targetModuleId },
-        _max: { sequence: true },
-      });
-      sequence = (maxSeq._max.sequence || 0) + 1;
+      const maxSeq = await this.repository.getMaxSequence(targetModuleId);
+      sequence = maxSeq + 1;
     }
 
-    return prisma.learningUnit.update({
-      where: { id: unitId },
-      data: {
-        moduleId: nextModuleId,
-        title: input.title,
-        description: input.description !== undefined ? input.description : undefined,
-        type: input.type,
-        sequence,
-        mediaId: input.mediaId !== undefined ? input.mediaId : undefined,
-        content: input.content !== undefined ? (input.content as any) : undefined,
-        duration: input.duration !== undefined ? input.duration : undefined,
-      },
+    return this.repository.update(unitId, {
+      moduleId: nextModuleId,
+      title: input.title,
+      description: input.description !== undefined ? input.description : undefined,
+      type: input.type,
+      sequence,
+      mediaId: input.mediaId !== undefined ? input.mediaId : undefined,
+      content: input.content !== undefined ? (input.content as any) : undefined,
+      duration: input.duration !== undefined ? input.duration : undefined,
     });
   }
 
@@ -145,9 +132,7 @@ export class LearningUnitService {
     await courseService.validateOwnership(courseId, userContext);
     await this.getLearningUnit(moduleId, unitId);
 
-    await prisma.learningUnit.delete({
-      where: { id: unitId },
-    });
+    await this.repository.delete(unitId);
   }
 
   /**
@@ -162,17 +147,12 @@ export class LearningUnitService {
     await courseService.validateOwnership(courseId, userContext);
 
     // 1. Validate all unitIds belong to this module
-    const count = await prisma.learningUnit.count({
-      where: {
-        moduleId,
-        id: { in: unitIds },
-      },
-    });
+    const count = await this.repository.countByModuleAndIds(moduleId, unitIds);
     if (count !== unitIds.length) {
       throw AppError.badRequest("Invalid learning unit IDs in reordering request.");
     }
 
-    // 2. Perform updates in a transaction
+    // 2. Perform updates in a transaction (kept at Service layer)
     await prisma.$transaction(
       unitIds.map((id, index) =>
         prisma.learningUnit.update({
@@ -182,10 +162,7 @@ export class LearningUnitService {
       )
     );
 
-    return prisma.learningUnit.findMany({
-      where: { moduleId },
-      orderBy: { sequence: "asc" },
-    });
+    return this.repository.findManyByModuleId(moduleId);
   }
 
   // --- Supporting Resources Actions ---
@@ -203,27 +180,22 @@ export class LearningUnitService {
     await courseService.validateOwnership(courseId, userContext);
     await this.getLearningUnit(moduleId, unitId);
 
-    const media = await prisma.media.findUnique({ where: { id: input.mediaId } });
+    const media = await mediaRepository.findById(input.mediaId);
     if (!media) {
       throw AppError.badRequest("Invalid media ID reference.");
     }
 
     let sequence = input.sequence;
     if (sequence === undefined || sequence === 0) {
-      const maxSeq = await prisma.learningResource.aggregate({
-        where: { learningUnitId: unitId },
-        _max: { sequence: true },
-      });
-      sequence = (maxSeq._max.sequence || 0) + 1;
+      const maxSeq = await this.repository.getMaxResourceSequence(unitId);
+      sequence = maxSeq + 1;
     }
 
-    return prisma.learningResource.create({
-      data: {
-        learningUnitId: unitId,
-        mediaId: input.mediaId,
-        title: input.title,
-        sequence,
-      },
+    return this.repository.createResource({
+      learningUnitId: unitId,
+      mediaId: input.mediaId,
+      title: input.title,
+      sequence,
     });
   }
 
@@ -240,16 +212,12 @@ export class LearningUnitService {
     await courseService.validateOwnership(courseId, userContext);
     await this.getLearningUnit(moduleId, unitId);
 
-    const resource = await prisma.learningResource.findUnique({
-      where: { id: resourceId },
-    });
+    const resource = await this.repository.findResourceById(resourceId);
     if (!resource || resource.learningUnitId !== unitId) {
       throw AppError.notFound("Learning resource attachment not found.");
     }
 
-    await prisma.learningResource.delete({
-      where: { id: resourceId },
-    });
+    await this.repository.deleteResource(resourceId);
   }
 }
 

@@ -12,6 +12,7 @@ import {
 } from "./learning-engine.schemas";
 import { courseCompletionRepo, learningTimelineRepo } from "./learning-engine.repository";
 import { AppError } from "../../common/errors/appError";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class LearningEngineController {
   constructor(private readonly service: LearningEngineService = learningEngineService) {}
@@ -27,11 +28,11 @@ export class LearningEngineController {
       input.purchaseRef
     );
 
-    res.status(201).json({
-      success: true,
-      message: "Enrolled in course successfully.",
-      data: LearningEngineMapper.toEnrollmentDTO(enrollment),
-    });
+    SuccessResponse.created(
+      res,
+      LearningEngineMapper.toEnrollmentDTO(enrollment),
+      "Enrolled in course successfully."
+    );
   };
 
   public suspendEnrollment = async (req: Request, res: Response): Promise<void> => {
@@ -39,12 +40,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const enrollment = await this.service.suspendEnrollment(userId, id);
-
-    res.status(200).json({
-      success: true,
-      message: "Enrollment suspended.",
-      data: LearningEngineMapper.toEnrollmentDTO(enrollment),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toEnrollmentDTO(enrollment),
+      "Enrollment suspended."
+    );
   };
 
   public resumeEnrollment = async (req: Request, res: Response): Promise<void> => {
@@ -52,12 +52,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const enrollment = await this.service.resumeEnrollment(userId, id);
-
-    res.status(200).json({
-      success: true,
-      message: "Enrollment resumed.",
-      data: LearningEngineMapper.toEnrollmentDTO(enrollment),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toEnrollmentDTO(enrollment),
+      "Enrollment resumed."
+    );
   };
 
   public cancelEnrollment = async (req: Request, res: Response): Promise<void> => {
@@ -65,12 +64,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const enrollment = await this.service.cancelEnrollment(userId, id);
-
-    res.status(200).json({
-      success: true,
-      message: "Enrollment cancelled.",
-      data: LearningEngineMapper.toEnrollmentDTO(enrollment),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toEnrollmentDTO(enrollment),
+      "Enrollment cancelled."
+    );
   };
 
   public updateProgress = async (req: Request, res: Response): Promise<void> => {
@@ -79,12 +77,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const progress = await this.service.updateProgress(userId, id, input);
-
-    res.status(200).json({
-      success: true,
-      message: "Progress updated successfully.",
-      data: LearningEngineMapper.toProgressDTO(progress),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toProgressDTO(progress),
+      "Progress updated successfully."
+    );
   };
 
   public startSession = async (req: Request, res: Response): Promise<void> => {
@@ -93,12 +90,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const session = await this.service.startSession(userId, id, input);
-
-    res.status(200).json({
-      success: true,
-      message: "Learning session started.",
-      data: LearningEngineMapper.toSessionDTO(session),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toSessionDTO(session),
+      "Learning session started."
+    );
   };
 
   public endSession = async (req: Request, res: Response): Promise<void> => {
@@ -106,12 +102,11 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const session = await this.service.endSession(userId, sessionId);
-
-    res.status(200).json({
-      success: true,
-      message: "Learning session completed.",
-      data: LearningEngineMapper.toSessionDTO(session),
-    });
+    SuccessResponse.send(
+      res,
+      LearningEngineMapper.toSessionDTO(session),
+      "Learning session completed."
+    );
   };
 
   public continueLearning = async (req: Request, res: Response): Promise<void> => {
@@ -119,11 +114,7 @@ export class LearningEngineController {
     const userId = req.user!.id;
 
     const result = await this.service.continueLearning(userId, id);
-
-    res.status(200).json({
-      success: true,
-      data: result,
-    });
+    SuccessResponse.send(res, result);
   };
 
   public getCourseCompletion = async (req: Request, res: Response): Promise<void> => {
@@ -138,10 +129,7 @@ export class LearningEngineController {
       throw AppError.notFound("Course completion record not found.");
     }
 
-    res.status(200).json({
-      success: true,
-      data: LearningEngineMapper.toCompletionDTO(completion),
-    });
+    SuccessResponse.send(res, LearningEngineMapper.toCompletionDTO(completion));
   };
 
   public getTimeline = async (req: Request, res: Response): Promise<void> => {
@@ -152,11 +140,7 @@ export class LearningEngineController {
     await this.service.continueLearning(userId, id);
 
     const timeline = await learningTimelineRepo.findManyByEnrollment(id);
-
-    res.status(200).json({
-      success: true,
-      data: timeline.map((t) => LearningEngineMapper.toTimelineDTO(t)),
-    });
+    SuccessResponse.send(res, timeline.map((t) => LearningEngineMapper.toTimelineDTO(t)));
   };
 }
 

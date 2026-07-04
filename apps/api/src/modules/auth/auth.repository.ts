@@ -288,6 +288,26 @@ export class AuthRepository {
       },
     });
   }
+
+  /**
+   * Fetches distinct roles and permissions connected to a user.
+   */
+  public async findRolesWithPermissionsByUserId(userId: string) {
+    return prisma.userRole.findMany({
+      where: { userId },
+      include: {
+        role: {
+          include: {
+            rolePermissions: {
+              include: {
+                permission: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
 }
 
 export const authRepository = new AuthRepository();

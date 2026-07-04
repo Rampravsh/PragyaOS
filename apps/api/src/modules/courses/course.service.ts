@@ -4,7 +4,6 @@ import { CreateCourseInput, UpdateCourseInput } from "./course.schemas";
 import { categoryRepository } from "../categories/category.repository";
 import { AppError } from "../../common/errors/appError";
 import { slugify } from "../../utils/slugify";
-import { prisma } from "../../database/client";
 
 export class CourseService {
   constructor(private readonly repository: CourseRepository = courseRepository) {}
@@ -72,11 +71,7 @@ export class CourseService {
       for (const tagName of input.tags) {
         const normalized = tagName.trim().toLowerCase();
         if (normalized) {
-          const tagRecord = await prisma.tag.upsert({
-            where: { name: normalized },
-            update: {},
-            create: { name: normalized },
-          });
+          const tagRecord = await this.repository.upsertTag(normalized);
           tagsConnect.push({
             tag: { connect: { id: tagRecord.id } },
           });
@@ -171,19 +166,13 @@ export class CourseService {
     // Manage tags inside transaction
     if (input.tags !== undefined) {
       // Clear old course tags
-      await prisma.courseTag.deleteMany({
-        where: { courseId: id },
-      });
+      await this.repository.deleteCourseTags(id);
 
       const tagsConnect: any[] = [];
       for (const tagName of input.tags) {
         const normalized = tagName.trim().toLowerCase();
         if (normalized) {
-          const tagRecord = await prisma.tag.upsert({
-            where: { name: normalized },
-            update: {},
-            create: { name: normalized },
-          });
+          const tagRecord = await this.repository.upsertTag(normalized);
           tagsConnect.push({
             tag: { connect: { id: tagRecord.id } },
           });
@@ -196,7 +185,7 @@ export class CourseService {
 
     // Manage requirements
     if (input.requirements !== undefined) {
-      await prisma.courseRequirement.deleteMany({ where: { courseId: id } });
+      await this.repository.deleteCourseRequirements(id);
       updateData.requirements = {
         create: input.requirements.map((desc, idx) => ({
           description: desc,
@@ -207,7 +196,7 @@ export class CourseService {
 
     // Manage objectives
     if (input.objectives !== undefined) {
-      await prisma.courseObjective.deleteMany({ where: { courseId: id } });
+      await this.repository.deleteCourseObjectives(id);
       updateData.objectives = {
         create: input.objectives.map((desc, idx) => ({
           description: desc,
@@ -222,7 +211,7 @@ export class CourseService {
       const hasSelf = input.instructors.includes(userContext.id);
       const updatedInstructors = hasSelf ? input.instructors : [...input.instructors, userContext.id];
 
-      await prisma.courseInstructor.deleteMany({ where: { courseId: id } });
+      await this.repository.deleteCourseInstructors(id);
       updateData.instructors = {
         create: updatedInstructors.map((instructorId) => ({
           user: { connect: { id: instructorId } },

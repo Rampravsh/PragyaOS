@@ -1,5 +1,7 @@
 import { Enrollment, LearningProgress, LearningSession, LearningTimeline, CourseCompletion, EnrollmentStatus, ProgressStatus, SessionStatus, TimelineEventType, CourseCompletionReason, LearningUnit } from "@prisma/client";
-import { prisma } from "../../database/client";
+import { courseRepository } from "../courses/course.repository";
+import { learningUnitRepository } from "../learning-units/learning-unit.repository";
+import { userRepository } from "../users/user.repository";
 import { AppError } from "../../common/errors/appError";
 import { logger } from "../../lib/logger";
 import {
@@ -38,7 +40,7 @@ export class LearningEngineService {
     purchaseRef?: string
   ): Promise<Enrollment> {
     // 1. Verify if course exists
-    const course = await prisma.course.findUnique({ where: { id: courseId } });
+    const course = await courseRepository.findById(courseId);
     if (!course) {
       throw AppError.notFound("Course not found.");
     }
@@ -171,7 +173,7 @@ export class LearningEngineService {
       throw AppError.badRequest("Cannot update progress on an inactive enrollment.");
     }
 
-    const unit = await prisma.learningUnit.findUnique({ where: { id: input.learningUnitId } });
+    const unit = await learningUnitRepository.findById(input.learningUnitId);
     if (!unit) {
       throw AppError.notFound("Learning unit not found.");
     }
@@ -256,11 +258,7 @@ export class LearningEngineService {
     }
 
     // Fetch all course units
-    const units = await prisma.learningUnit.findMany({
-      where: {
-        module: { courseId: enrollment.courseId },
-      },
-    });
+    const units = await learningUnitRepository.findManyByCourseId(enrollment.courseId);
 
     const totalUnits = units.length;
     if (totalUnits === 0) {
@@ -469,15 +467,7 @@ export class LearningEngineService {
     const enrollment = await this.validateAccess(enrollmentId, userId);
 
     // Fetch all course units ordered sequentially
-    const units = await prisma.learningUnit.findMany({
-      where: {
-        module: { courseId: enrollment.courseId },
-      },
-      orderBy: [
-        { module: { sequence: "asc" } },
-        { sequence: "asc" },
-      ],
-    });
+    const units = await learningUnitRepository.findManyByCourseId(enrollment.courseId);
 
     if (units.length === 0) {
       return { lastViewedUnit: null, lastPosition: 0, nextUnit: null };
@@ -537,15 +527,7 @@ export class LearningEngineService {
    * Helper to fetch course's total duration in minutes.
    */
   private async getCourseDurationMinutes(courseId: string): Promise<number> {
-    const agg = await prisma.learningUnit.aggregate({
-      where: {
-        module: { courseId },
-      },
-      _sum: {
-        duration: true,
-      },
-    });
-    return agg._sum.duration || 0;
+    return learningUnitRepository.getSumDurationByCourseId(courseId);
   }
 
   /**
@@ -559,10 +541,7 @@ export class LearningEngineService {
 
     if (enrollment.userId !== userId) {
       // Admin bypass
-      const userRoles = await prisma.userRole.findMany({
-        where: { userId },
-        include: { role: true },
-      });
+      const userRoles = await userRepository.findRolesByUserId(userId);
       const roleNames = userRoles.map((ur) => ur.role.name);
       const isPrivileged = roleNames.includes("ADMIN") || roleNames.includes("SUPER_ADMIN");
 

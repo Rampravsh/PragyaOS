@@ -7,7 +7,7 @@ import { mediaStorage, StorageProvider } from "./media.storage";
 import { mediaQueue } from "./media.queue";
 import { resolveMediaType, MEDIA_URL_EXPIRATION } from "./media.constants";
 import { PresignedUploadResponse, MultipartUploadInitResponse, PresignedPartResponse } from "./media.types";
-import { prisma } from "../../database/client";
+import { userRepository } from "../users/user.repository";
 
 export class MediaService {
   constructor(
@@ -231,10 +231,7 @@ export class MediaService {
     const hasAccess = media.userId === userId || media.userId === null;
     if (!hasAccess) {
       // Check if user is Admin or Instructor
-      const userRoles = await prisma.userRole.findMany({
-        where: { userId },
-        include: { role: true },
-      });
+      const userRoles = await userRepository.findRolesByUserId(userId);
       const roleNames = userRoles.map((ur) => ur.role.name);
       const isPrivileged = roleNames.includes("ADMIN") || roleNames.includes("INSTRUCTOR") || roleNames.includes("SUPER_ADMIN");
 
@@ -291,10 +288,7 @@ export class MediaService {
 
     if (media.userId && media.userId !== userId) {
       // Admin bypass check
-      const userRoles = await prisma.userRole.findMany({
-        where: { userId },
-        include: { role: true },
-      });
+      const userRoles = await userRepository.findRolesByUserId(userId);
       const roleNames = userRoles.map((ur) => ur.role.name);
       const isAdmin = roleNames.includes("ADMIN") || roleNames.includes("SUPER_ADMIN");
 
@@ -330,12 +324,9 @@ export class MediaService {
    * Verifies if any database relations reference this media file before allowing deletion.
    */
   private async checkReferentialIntegrity(mediaId: string): Promise<void> {
-    const courseThumbnailCount = await prisma.course.count({ where: { thumbnailId: mediaId } });
-    const courseTrailerCount = await prisma.course.count({ where: { trailerId: mediaId } });
-    const unitCount = await prisma.learningUnit.count({ where: { mediaId } });
-    const resourceCount = await prisma.learningResource.count({ where: { mediaId } });
+    const usage = await this.repo.countUsage(mediaId);
 
-    if (courseThumbnailCount > 0 || courseTrailerCount > 0 || unitCount > 0 || resourceCount > 0) {
+    if (usage.courseThumbnails > 0 || usage.courseTrailers > 0 || usage.learningUnits > 0 || usage.learningResources > 0) {
       throw AppError.badRequest("Cannot delete media file that is currently associated with a course or learning unit.");
     }
   }

@@ -3,7 +3,7 @@ import { verifyAccessToken } from "./auth.tokens";
 import { permissionResolver } from "./auth.resolver";
 import { AppError } from "../../common/errors/appError";
 import { asyncHandler } from "../../utils/asyncHandler";
-import { prisma } from "../../database/client";
+import { userRepository } from "../users/user.repository";
 import { logger } from "../../lib/logger";
 
 /**
@@ -111,10 +111,7 @@ export const requireRole = (role: string) => {
     }
 
     // Resolve roles fresh from the database to prevent token spoofing
-    const userRoles = await prisma.userRole.findMany({
-      where: { userId: req.user.id },
-      include: { role: true },
-    });
+    const userRoles = await userRepository.findRolesByUserId(req.user.id);
 
     const roleNames = userRoles.map((ur) => ur.role.name);
 

@@ -3,6 +3,7 @@ import { learningUnitService, LearningUnitService } from "./learning-unit.servic
 import { createLearningUnitSchema, updateLearningUnitSchema, createLearningResourceSchema, CreateLearningUnitInput, UpdateLearningUnitInput, CreateLearningResourceInput } from "./learning-unit.schemas";
 import { validate } from "../../common/dto/base.dto";
 import { z } from "zod";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class LearningUnitController {
   constructor(private readonly service: LearningUnitService = learningUnitService) {}
@@ -16,11 +17,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     const unit = await this.service.createLearningUnit(moduleId, input, userContext);
-    res.status(201).json({
-      success: true,
-      message: "Learning unit created successfully.",
-      data: unit,
-    });
+    SuccessResponse.created(res, unit, "Learning unit created successfully.");
   };
 
   /**
@@ -33,11 +30,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     const unit = await this.service.updateLearningUnit(moduleId, id, input, targetModuleId, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Learning unit updated successfully.",
-      data: unit,
-    });
+    SuccessResponse.send(res, unit, "Learning unit updated successfully.");
   };
 
   /**
@@ -48,10 +41,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     await this.service.deleteLearningUnit(moduleId, id, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Learning unit deleted successfully.",
-    });
+    SuccessResponse.send(res, null, "Learning unit deleted successfully.");
   };
 
   /**
@@ -66,11 +56,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     const units = await this.service.reorderLearningUnits(moduleId, unitIds, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Learning units reordered successfully.",
-      data: units,
-    });
+    SuccessResponse.send(res, units, "Learning units reordered successfully.");
   };
 
   // --- Supporting Resources Actions ---
@@ -84,11 +70,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     const resource = await this.service.createLearningResource(moduleId, unitId, input, userContext);
-    res.status(201).json({
-      success: true,
-      message: "Learning resource attachment registered successfully.",
-      data: resource,
-    });
+    SuccessResponse.created(res, resource, "Learning resource attachment registered successfully.");
   };
 
   /**
@@ -99,10 +81,7 @@ export class LearningUnitController {
     const userContext = req.user!;
 
     await this.service.deleteLearningResource(moduleId, unitId, resourceId, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Learning resource attachment deleted successfully.",
-    });
+    SuccessResponse.send(res, null, "Learning resource attachment deleted successfully.");
   };
 }
 

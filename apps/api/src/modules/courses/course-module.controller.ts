@@ -3,6 +3,7 @@ import { courseModuleService, CourseModuleService } from "./course-module.servic
 import { createModuleSchema, updateModuleSchema, CreateModuleInput, UpdateModuleInput } from "./course.schemas";
 import { validate } from "../../common/dto/base.dto";
 import { z } from "zod";
+import { SuccessResponse } from "../../common/responses/successResponse";
 
 export class CourseModuleController {
   constructor(private readonly service: CourseModuleService = courseModuleService) {}
@@ -16,11 +17,7 @@ export class CourseModuleController {
     const userContext = req.user!;
 
     const module = await this.service.createModule(courseId, input, userContext);
-    res.status(201).json({
-      success: true,
-      message: "Module created successfully.",
-      data: module,
-    });
+    SuccessResponse.created(res, module, "Module created successfully.");
   };
 
   /**
@@ -32,11 +29,7 @@ export class CourseModuleController {
     const userContext = req.user!;
 
     const module = await this.service.updateModule(courseId, moduleId, input, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Module updated successfully.",
-      data: module,
-    });
+    SuccessResponse.send(res, module, "Module updated successfully.");
   };
 
   /**
@@ -47,10 +40,7 @@ export class CourseModuleController {
     const userContext = req.user!;
 
     await this.service.deleteModule(courseId, moduleId, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Module deleted successfully.",
-    });
+    SuccessResponse.send(res, null, "Module deleted successfully.");
   };
 
   /**
@@ -65,11 +55,7 @@ export class CourseModuleController {
     const userContext = req.user!;
 
     const modules = await this.service.reorderModules(courseId, moduleIds, userContext);
-    res.status(200).json({
-      success: true,
-      message: "Modules reordered successfully.",
-      data: modules,
-    });
+    SuccessResponse.send(res, modules, "Modules reordered successfully.");
   };
 }
 

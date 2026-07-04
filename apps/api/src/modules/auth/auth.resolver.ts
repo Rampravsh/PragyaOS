@@ -1,4 +1,4 @@
-import { prisma } from "../../database/client";
+import { authRepository } from "./auth.repository";
 import { redisClient } from "../../lib/redis";
 import { ALL_SYSTEM_PERMISSIONS } from "./auth.permissions";
 import { logger } from "../../lib/logger";
@@ -25,20 +25,7 @@ export class PermissionResolver {
     }
 
     // 2. Fetch roles and permissions from database
-    const userRoles = await prisma.userRole.findMany({
-      where: { userId },
-      include: {
-        role: {
-          include: {
-            rolePermissions: {
-              include: {
-                permission: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    const userRoles = await authRepository.findRolesWithPermissionsByUserId(userId);
 
     const roleNames = userRoles.map((ur) => ur.role.name);
 
