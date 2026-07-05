@@ -24,7 +24,10 @@ export interface AssetProps {
   ariaHidden?: boolean;
 }
 
-type AssetFC = React.FC<AssetProps>;
+export interface AssetFC {
+  (props: AssetProps): React.JSX.Element;
+  displayName?: string;
+}
 
 // ─── FACTORY ──────────────────────────────────────────────────────────────────
 
@@ -34,14 +37,14 @@ function makeAsset(
   height: number,
   renderFn: (color: string, sw: number, op: number) => React.ReactNode
 ): AssetFC {
-  const Comp: AssetFC = ({
+  const Comp = ({
     className = "",
     color = "currentColor",
     strokeWidth = 1.5,
     opacity = 1,
     ariaLabel,
     ariaHidden = true,
-  }) => (
+  }: AssetProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
@@ -57,7 +60,7 @@ function makeAsset(
     </svg>
   );
   Comp.displayName = displayName;
-  return Comp;
+  return Comp as unknown as AssetFC;
 }
 
 // ─── SVG ELEMENT HELPERS ──────────────────────────────────────────────────────

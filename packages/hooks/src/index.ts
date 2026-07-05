@@ -82,3 +82,51 @@ export const useLocalStorage = <T>(
 
   return [storedValue, setValue];
 };
+
+// ─── useScrollY ───────────────────────────────────────────────────────────────
+// Tracks window.scrollY with a passive event listener.
+// Used by MarketingHeader to transition from transparent → frosted glass.
+// Returns current vertical scroll position in pixels.
+export const useScrollY = (): number => {
+  const [scrollY, setScrollY] = useState<number>(
+    typeof window !== "undefined" ? window.scrollY : 0
+  );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return scrollY;
+};
+
+// ─── useMediaQuery ────────────────────────────────────────────────────────────
+// Evaluates a CSS media query string reactively.
+// Used by MarketingHeader to switch between desktop nav and mobile hamburger.
+//
+// Example:
+//   const isMobile = useMediaQuery("(max-width: 767px)");
+export const useMediaQuery = (query: string): boolean => {
+  const [matches, setMatches] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia(query).matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaList = window.matchMedia(query);
+    const handleChange = (event: MediaQueryListEvent) =>
+      setMatches(event.matches);
+    if (mediaList.addEventListener) {
+      mediaList.addEventListener("change", handleChange);
+      return () => mediaList.removeEventListener("change", handleChange);
+    } else {
+      mediaList.addListener(handleChange);
+      return () => mediaList.removeListener(handleChange);
+    }
+  }, [query]);
+
+  return matches;
+};
