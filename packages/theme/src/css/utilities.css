@@ -1,0 +1,31 @@
+/* PragyaOS core utility utility overrides */
+.focus-ring-standard {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.focus-ring-editorial {
+  outline: 1px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.interaction-hover {
+  transition: opacity var(--duration-fast) var(--ease-in-out);
+}
+.interaction-hover:hover {
+  opacity: 0.85;
+}
+
+.interaction-active:active {
+  transform: scale(0.98);
+  opacity: 0.95;
+  transition: transform var(--duration-fast) var(--ease-in-out);
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
