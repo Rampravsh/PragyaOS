@@ -4,12 +4,14 @@
   "private": true,
   "license": "MIT",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
   },
   "devDependencies": {
+    "tailwindcss": "^3.4.1",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   }

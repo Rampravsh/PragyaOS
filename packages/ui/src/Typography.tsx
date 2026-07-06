@@ -1,26 +1,41 @@
-/**
- * shared/Typography.tsx
- *
- * Marketing Typography Component Library.
- * Implements headers, paragraphs, inline highlights, and blockquotes with layout token properties.
- */
-
 import React from "react";
 import { cn } from "@pragyaos/utils";
 import { HighlightScribble, UnderlineShort } from "@pragyaos/assets";
-import type { EditorialHeadlineProps, EditorialParagraphProps } from "./types";
+
+export type HeadlineLevel = 1 | 2 | 3 | 4 | 5 | 6;
+export type HeadlineSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+
+export interface EditorialHeadlineProps {
+  children: React.ReactNode;
+  level?: HeadlineLevel;
+  size?: HeadlineSize;
+  serif?: boolean;
+  align?: "left" | "center" | "right";
+  className?: string;
+  id?: string;
+  style?: React.CSSProperties;
+}
+
+export interface EditorialParagraphProps {
+  children: React.ReactNode;
+  lead?: boolean;
+  align?: "left" | "center" | "right" | "justify";
+  className?: string;
+  id?: string;
+  style?: React.CSSProperties;
+}
 
 const sizeStyles = {
-  xs: "text-[var(--text-xs)]",
-  sm: "text-[var(--text-sm)]",
-  base: "text-[var(--text-base)]",
-  md: "text-[var(--text-base)]",
-  lg: "text-[var(--text-lg)]",
-  xl: "text-[var(--text-xl)]",
-  "2xl": "text-[var(--text-2xl)]",
-  "3xl": "text-[var(--text-3xl)]",
-  "4xl": "text-[var(--text-4xl)]",
-  "5xl": "text-[var(--text-5xl)]",
+  xs: "text-xs",
+  sm: "text-sm",
+  base: "text-base",
+  md: "text-base",
+  lg: "text-lg",
+  xl: "text-xl",
+  "2xl": "text-2xl",
+  "3xl": "text-3xl",
+  "4xl": "text-4xl",
+  "5xl": "text-5xl",
 };
 
 const alignStyles = {
@@ -41,7 +56,6 @@ export const EditorialHeadline: React.FC<EditorialHeadlineProps> = ({
 }) => {
   const Tag = `h${level}` as React.ElementType;
   
-  // Default sizes per level
   const defaultSizeMap: Record<number, keyof typeof sizeStyles> = {
     1: "5xl",
     2: "4xl",
@@ -56,7 +70,7 @@ export const EditorialHeadline: React.FC<EditorialHeadlineProps> = ({
     <Tag
       id={id}
       className={cn(
-        "font-light tracking-tight leading-tight m-0 text-[var(--foreground)]",
+        "font-light tracking-tight leading-tight m-0 text-foreground",
         serif ? "font-serif" : "font-sans font-medium",
         sizeStyles[activeSize],
         alignStyles[align],
@@ -83,8 +97,8 @@ export const EditorialParagraph: React.FC<EditorialParagraphProps> = ({
     <p
       id={id}
       className={cn(
-        "font-sans leading-relaxed text-[var(--muted-foreground)] m-0",
-        lead ? "text-[var(--text-lg)] font-light" : "text-[var(--text-base)]",
+        "font-sans leading-relaxed text-muted-foreground m-0",
+        lead ? "text-lg font-light" : "text-base",
         alignStyles[align],
         className
       )}
@@ -101,7 +115,7 @@ export const EditorialCaption: React.FC<{ children: React.ReactNode; className?:
   return (
     <span
       className={cn(
-        "font-sans text-[var(--text-xs)] uppercase tracking-wider text-[var(--muted-foreground)]/80 font-medium",
+        "font-sans text-xs uppercase tracking-wider text-muted-foreground/80 font-medium",
         className
       )}
     >
@@ -117,13 +131,13 @@ export const EditorialQuote: React.FC<{
   className?: string;
 }> = ({ quote, author, title, className }) => {
   return (
-    <blockquote className={cn("m-0 pl-[var(--spacing-6)] border-l-2 border-[var(--border)]", className)}>
-      <p className="font-serif italic text-[var(--text-xl)] font-light text-[var(--foreground)] leading-relaxed mb-[var(--spacing-3)]">
+    <blockquote className={cn("m-0 pl-6 border-l-2 border-border", className)}>
+      <p className="font-serif italic text-xl font-light text-foreground leading-relaxed mb-3">
         “{quote}”
       </p>
-      <footer className="font-sans text-[var(--text-sm)]">
-        <strong className="text-[var(--foreground)] font-semibold">{author}</strong>
-        {title && <span className="text-[var(--muted-foreground)]">, {title}</span>}
+      <footer className="font-sans text-sm">
+        <strong className="text-foreground font-semibold">{author}</strong>
+        {title && <span className="text-muted-foreground">, {title}</span>}
       </footer>
     </blockquote>
   );
@@ -140,14 +154,14 @@ export const EditorialHighlight: React.FC<{
       <span className="relative z-10">{children}</span>
       {decoration === "scribble" && (
         <HighlightScribble
-          className="absolute -bottom-1.5 left-0 w-full h-[18px] text-[var(--primary)]/30 pointer-events-none z-0"
+          className="absolute -bottom-1.5 left-0 w-full h-[18px] text-primary/30 pointer-events-none z-0"
           color={color}
           strokeWidth={1.5}
         />
       )}
       {decoration === "underline" && (
         <UnderlineShort
-          className="absolute -bottom-1 left-0 w-full h-2 text-[var(--primary)]/40 pointer-events-none z-0"
+          className="absolute -bottom-1 left-0 w-full h-2 text-primary/40 pointer-events-none z-0"
           color={color}
           strokeWidth={2}
         />

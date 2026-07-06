@@ -76,3 +76,32 @@ export const UserIcon = createIcon("UserIcon", [
   React.createElement("path", { key: "u1", d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" }),
   React.createElement("circle", { key: "u2", cx: 12, cy: 7, r: 4 }),
 ]);
+
+export const MenuIcon = createIcon("MenuIcon", [
+  React.createElement("line", { key: "m1", x1: 4, y1: 12, x2: 20, y2: 12 }),
+  React.createElement("line", { key: "m2", x1: 4, y1: 6, x2: 20, y2: 6 }),
+  React.createElement("line", { key: "m3", x1: 4, y1: 18, x2: 20, y2: 18 }),
+]);
+
+export const CloseIcon = createIcon("CloseIcon", [
+  React.createElement("line", { key: "c1", x1: 18, y1: 6, x2: 6, y2: 18 }),
+  React.createElement("line", { key: "c2", x1: 6, y1: 6, x2: 18, y2: 18 }),
+]);
+
+export const MonitorIcon = createIcon("MonitorIcon", [
+  React.createElement("rect", { key: "mo1", x: 2, y: 3, width: 20, height: 14, rx: 2, ry: 2 }),
+  React.createElement("line", { key: "mo2", x1: 8, y1: 21, x2: 16, y2: 21 }),
+  React.createElement("line", { key: "mo3", x1: 12, y1: 17, x2: 12, y2: 21 }),
+]);
+
+export const StarIcon = createIcon("StarIcon", [
+  React.createElement("polygon", {
+    key: "st1",
+    points: "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2",
+  }),
+]);
+
+export const PlayIcon = createIcon("PlayIcon", [
+  React.createElement("polygon", { key: "pl1", points: "5 3 19 12 5 21 5 3" }),
+]);
+

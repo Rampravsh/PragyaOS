@@ -2,7 +2,7 @@ import plugin from "tailwindcss/plugin";
 import { customUtilities } from "./utilities";
 
 export const themePlugin = plugin(function ({ addUtilities }) {
-  addUtilities(customUtilities);
+  // addUtilities(customUtilities);
 });
 
 export default themePlugin;
