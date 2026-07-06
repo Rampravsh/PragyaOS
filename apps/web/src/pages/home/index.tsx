@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import HomeComposition from '@/compositions/marketing/HomeComposition';
+import HomeComposition from '@/compositions/marketing/home/HomeComposition';
 
 /**
  * Home Page entry controller.
