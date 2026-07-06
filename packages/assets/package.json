@@ -25,11 +25,11 @@
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "^19.0.0"
   },
   "devDependencies": {
     "@pragyaos/typescript-config": "workspace:*",
-    "@types/react": "^18.2.56",
+    "@types/react": "^19.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   }
