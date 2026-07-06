@@ -1,10 +1,13 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-// CombineReducers is configured empty as feature slices are not yet defined.
-const rootReducer = combineReducers({});
+// Redux combineReducers requires at least one reducer slice.
+// We configure a dummy metadata slice that will be replaced in future feature prompts.
+const rootReducer = combineReducers({
+  _metadata: (state = { initialized: true }) => state,
+});
 
 /**
- * Configure Redux Store with an empty rootReducer and standard middleware.
+ * Configure Redux Store with rootReducer and standard middleware.
  */
 export const store = configureStore({
   reducer: rootReducer,
