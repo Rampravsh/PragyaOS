@@ -1,30 +1,38 @@
+import React from 'react';
 import { Outlet } from 'react-router';
+import SkipToContent from '@/layouts/marketing/SkipToContent';
+import AnnouncementBar from '@/layouts/marketing/AnnouncementBar';
+import MarketingHeader from '@/layouts/marketing/MarketingHeader';
+import MarketingFooter from '@/layouts/marketing/MarketingFooter';
 
 /**
- * MarketingLayout structural composition.
- * Layout outline for marketing public pages (Home, Landing, Discovery catalog).
- * Composes: Header placeholder -> Main Content -> Footer placeholder.
- * Strict: No styling or theme-local visual properties.
+ * MarketingLayout: Parent shell wrapping public-facing page routes.
+ * Composes: SkipToContent -> AnnouncementBar -> MarketingHeader -> Main Outlet -> MarketingFooter.
  */
 export function MarketingLayout(): React.JSX.Element {
   return (
-    <div className="marketing-layout">
-      {/* Header Placeholder */}
-      <header className="marketing-header-placeholder">
-        <nav>
-          <span>PragyaOS Marketing Nav</span>
-        </nav>
-      </header>
+    <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-normal ease-in-out">
+      {/* 1. Skip Link for keyboard navigation accessibility */}
+      <SkipToContent />
 
-      {/* Main Content Area */}
-      <main className="marketing-main-content">
+      {/* 2. Dismissible Notification strip */}
+      <AnnouncementBar />
+
+      {/* 3. Sticky navigation header */}
+      <MarketingHeader />
+
+      {/* 4. Main content viewport slot */}
+      {/* tabIndex={-1} is required to safely receive keyboard focus from skip link */}
+      <main
+        id="main-content"
+        className="flex-1 flex flex-col focus:outline-none"
+        tabIndex={-1}
+      >
         <Outlet />
       </main>
 
-      {/* Footer Placeholder */}
-      <footer className="marketing-footer-placeholder">
-        <span>&copy; PragyaOS Marketing Footer</span>
-      </footer>
+      {/* 5. Master navigation footer */}
+      <MarketingFooter />
     </div>
   );
 }
