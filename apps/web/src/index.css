@@ -1,0 +1,38 @@
+/* =============================================================================
+   apps/web — Global Stylesheet
+   
+   Import order is intentional and must not be changed:
+   1. Tailwind v4 base directive (generates all utilities)
+   2. @pragyaos/theme CSS (injects @theme tokens + @utility custom classes)
+   3. Font assets (loaded locally via @fontsource — no CDN requests)
+   ============================================================================= */
+
+/* 1. Tailwind CSS v4 — base directive */
+@import "tailwindcss";
+
+/* 2. PragyaOS Design System
+      Source: packages/theme/src/css/theme.css
+      Provides: all color, spacing, radius, shadow, motion CSS variables
+                all semantic theme variants via [data-theme="..."]
+                custom @utility classes (scrollbar-hidden, interaction-*, etc.)
+      DO NOT add @theme, @utility, or CSS custom properties in this file.
+      All tokens belong in @pragyaos/theme. */
+@import "@pragyaos/theme/theme.css";
+
+/* 3. Font Assets — Manrope (--font-sans)
+      Weight coverage: Light → Black
+      No Google CDN requests — assets bundled at build time */
+@import "@fontsource/manrope/300.css";
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+
+/* 4. Font Assets — Cormorant Garamond (--font-serif)
+      Weight coverage: Light → Bold
+      Used for editorial/marketing headings */
+@import "@fontsource/cormorant-garamond/300.css";
+@import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cormorant-garamond/500.css";
+@import "@fontsource/cormorant-garamond/600.css";
+@import "@fontsource/cormorant-garamond/700.css";
