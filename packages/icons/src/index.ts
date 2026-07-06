@@ -105,3 +105,22 @@ export const PlayIcon = createIcon("PlayIcon", [
   React.createElement("polygon", { key: "pl1", points: "5 3 19 12 5 21 5 3" }),
 ]);
 
+export const PencilIcon = createIcon("PencilIcon", [
+  React.createElement("path", { key: "pe1", d: "M12 20h9" }),
+  React.createElement("path", { key: "pe2", d: "M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" }),
+]);
+
+export const LayersIcon = createIcon("LayersIcon", [
+  React.createElement("polygon", { key: "la1", points: "12 2 2 7 12 12 22 7 12 2" }),
+  React.createElement("polyline", { key: "la2", points: "2 17 12 22 22 17" }),
+  React.createElement("polyline", { key: "la3", points: "2 12 12 17 22 12" }),
+]);
+
+export const TrophyIcon = createIcon("TrophyIcon", [
+  React.createElement("path", { key: "tr1", d: "M6 9H4.5a2.5 2.5 0 0 1 0-5H6" }),
+  React.createElement("path", { key: "tr2", d: "M18 9h1.5a2.5 2.5 0 0 0 0-5H18" }),
+  React.createElement("path", { key: "tr3", d: "M4 22h16" }),
+  React.createElement("path", { key: "tr4", d: "M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34" }),
+  React.createElement("path", { key: "tr5", d: "M12 2a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4Z" }),
+]);
+
