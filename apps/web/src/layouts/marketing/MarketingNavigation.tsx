@@ -1,21 +1,28 @@
 import React, { useState, useRef } from 'react';
 import { cn } from '@pragyaos/utils';
-import { AnimatedNavLink, AnimatedNavButton } from '@/components/marketing/shared/AnimatedNavLink';
+import {
+  AnimatedNavLink,
+  AnimatedNavButton,
+  UnderlineVariant,
+  CircleVariant
+} from '@/components/marketing/shared/AnimatedNavLink';
 
 export interface NavItem {
   label: string;
   href: string;
   hasDropdown?: boolean;
-  color: string;
-  circleColor: string;
+  color?: string;
+  circleColor?: string;
+  underlineVariant?: UnderlineVariant;
+  circleVariant?: CircleVariant;
 }
 
 export const MARKETING_NAV_ITEMS: NavItem[] = [
-  { label: 'Courses', href: '/courses', color: '#059669', circleColor: '#059669' },
-  { label: 'For Instructors', href: '/instructors', color: '#D97706', circleColor: '#D97706' },
-  { label: 'Features', href: '/features', color: '#2563EB', circleColor: '#2563EB' },
-  { label: 'Pricing', href: '/pricing', color: '#7C3AED', circleColor: '#7C3AED' },
-  { label: 'Resources', href: '/resources', hasDropdown: true, color: '#A97E3E', circleColor: '#A97E3E' },
+  { label: 'Courses', href: '/courses', underlineVariant: 'short', circleVariant: 'random' },
+  { label: 'For Instructors', href: '/instructors', underlineVariant: 'double', circleVariant: 'random' },
+  { label: 'Features', href: '/features', underlineVariant: 'short', circleVariant: 'random' },
+  { label: 'Pricing', href: '/pricing', underlineVariant: 'double', circleVariant: 'random' },
+  { label: 'Resources', href: '/resources', hasDropdown: true, underlineVariant: 'short', circleVariant: 'random' },
 ];
 
 /**
@@ -39,6 +46,8 @@ export function MarketingNavigation(): React.JSX.Element {
                   onBlur={() => setTimeout(() => setResourcesOpen(false), 150)}
                   underlineColor={item.color}
                   circleColor={item.circleColor}
+                  underlineVariant={item.underlineVariant}
+                  circleVariant={item.circleVariant}
                   aria-haspopup="true"
                   aria-expanded={resourcesOpen}
                   className="flex items-center"
@@ -58,15 +67,19 @@ export function MarketingNavigation(): React.JSX.Element {
                   </svg>
                 </AnimatedNavButton>
                 {resourcesOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-44 bg-white border border-stone-200 rounded-lg shadow-lg py-1.5 z-50">
+                  <div className="absolute top-full left-0 mt-1 w-44 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg shadow-lg py-1.5 z-50">
                     {['Documentation', 'Help Center', 'Blog', 'Community'].map((r) => (
-                      <a
+                      <AnimatedNavLink
                         key={r}
-                        href={`/resources/${r.toLowerCase()}`}
-                        className="block px-4 py-2 text-sm text-[#1C1917]/70 hover:text-[#1C1917] hover:bg-stone-50 transition-colors"
+                        to={`/resources/${r.toLowerCase()}`}
+                        underlineVariant="random"
+                        circleVariant="random"
+                        className="block px-4 py-2 text-sm font-sans font-medium"
+                        activeClassName="text-[#1C1917] dark:text-white font-semibold"
+                        inactiveClassName="text-[#1C1917]/70 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-stone-200"
                       >
                         {r}
-                      </a>
+                      </AnimatedNavLink>
                     ))}
                   </div>
                 )}
@@ -80,6 +93,8 @@ export function MarketingNavigation(): React.JSX.Element {
                 to={item.href}
                 underlineColor={item.color}
                 circleColor={item.circleColor}
+                underlineVariant={item.underlineVariant}
+                circleVariant={item.circleVariant}
               >
                 {item.label}
               </AnimatedNavLink>

@@ -115,11 +115,11 @@ const JourneyStep = memo(function JourneyStep({
           >
             {step.num}
           </span>
-          <span className="text-[13px] font-serif font-semibold text-[#1C1917] dark:text-white/90">
+          <span className="text-[13px] font-serif font-semibold text-[#1C1917]">
             {step.label}
           </span>
         </div>
-        <p className="text-[10px] text-[#1C1917]/60 dark:text-white/60 font-sans leading-relaxed">
+        <p className="text-[10px] text-[#1C1917]/60 font-sans leading-relaxed">
           {step.description}
         </p>
       </div>
@@ -140,7 +140,7 @@ function JourneyPath(): React.JSX.Element {
       <path
         d="M 140,60 C 300,60 340,175 360,175 C 200,175 200,300 170,310 C 330,310 350,420 360,440"
         stroke="currentColor"
-        className="text-[#C4B9A8] dark:text-stone-700 transition-colors duration-300"
+        className="text-[#C4B9A8] transition-colors duration-300"
         strokeWidth="1.5"
         strokeDasharray="6 6"
         strokeLinecap="round"
@@ -163,7 +163,7 @@ function StickyNote({
   return (
     <FloatingDecoration duration={6} yOffset={3}>
       <div
-        className={`bg-[#FEFCE8] dark:bg-stone-900 border border-amber-200/60 dark:border-stone-850 shadow-sm px-3 py-2 font-serif italic text-[10px] text-[#1C1917]/65 dark:text-stone-300 leading-tight max-w-[110px] pointer-events-none transition-colors duration-300 ${className ?? ''}`}
+        className={`bg-[#FEFCE8] border border-amber-200/60 shadow-sm px-3 py-2 font-serif italic text-[10px] text-[#1C1917]/65 leading-tight max-w-[110px] pointer-events-none transition-colors duration-300 ${className ?? ''}`}
         style={{ transform: `rotate(${rotate}deg)` }}
         aria-hidden="true"
       >
@@ -198,12 +198,12 @@ export function HeroSection(): React.JSX.Element {
   return (
     <section
       id="hero-section"
-      className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 overflow-hidden w-full"
+      className="relative bg-[#FAF7F2] text-[#1C1917] transition-colors duration-300 overflow-hidden w-full"
       aria-labelledby="hero-headline"
     >
       {/* Page-wide background texture dots */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         aria-hidden="true"
         style={{
           backgroundImage: 'radial-gradient(circle, var(--color-foreground) 1px, transparent 1px)',
@@ -232,7 +232,7 @@ export function HeroSection(): React.JSX.Element {
               <div>
                 <h1
                   id="hero-headline"
-                  className="font-serif font-light text-[#1C1917] dark:text-[#f5f5f4] leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
+                  className="font-serif font-light text-[#1C1917] leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
                 >
                   Every learner
                   <br />
@@ -247,7 +247,7 @@ export function HeroSection(): React.JSX.Element {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-[#1C1917]/70 dark:text-[#f5f5f4]/70 font-sans leading-relaxed max-w-sm">
+              <p className="text-sm text-[#1C1917]/70 font-sans leading-relaxed max-w-sm">
                 PragyaOS is your space to learn, practice, build and grow. From your
                 first lesson to your greatest achievement—we're with you at every step.
               </p>
@@ -256,13 +256,13 @@ export function HeroSection(): React.JSX.Element {
               <div className="flex flex-wrap items-center gap-3 mt-1">
                 <Link
                   to="/login"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#1C1917] dark:bg-[#FAF7F2] hover:bg-black dark:hover:bg-white text-white dark:text-[#0C0C12] text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#1C1917] hover:bg-black text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Start Your Journey →
                 </Link>
                 <Link
                   to="/courses"
-                  className="inline-flex items-center px-5 py-2.5 border border-[#1C1917]/25 dark:border-white/20 hover:border-[#1C1917]/60 dark:hover:border-white/50 text-[#1C1917] dark:text-[#FAF7F2] text-sm font-sans font-medium rounded-md transition-all duration-200 hover:bg-stone-100 dark:hover:bg-white/5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center px-5 py-2.5 border border-[#1C1917]/25 hover:border-[#1C1917]/60 text-[#1C1917] text-sm font-sans font-medium rounded-md transition-all duration-200 hover:bg-stone-100 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Explore Courses
                 </Link>
@@ -277,7 +277,7 @@ export function HeroSection(): React.JSX.Element {
                       key={i}
                       src={url}
                       alt=""
-                      className="w-8 h-8 rounded-full border-2 border-[#FAF7F2] dark:border-[#0f0f10] object-cover shadow-sm"
+                      className="w-8 h-8 rounded-full border-2 border-[#FAF7F2] object-cover shadow-sm"
                       loading="lazy"
                     />
                   ))}
@@ -289,9 +289,9 @@ export function HeroSection(): React.JSX.Element {
                       <StarIcon key={i} size={12} fill="#F59E0B" stroke="#F59E0B" strokeWidth={0} />
                     ))}
                   </div>
-                  <span className="text-[11px] font-sans text-[#1C1917]/60 dark:text-[#f5f5f4]/60 leading-tight">
+                  <span className="text-[11px] font-sans text-[#1C1917]/60 leading-tight">
                     Trusted by{' '}
-                    <strong className="font-semibold text-[#1C1917]/80 dark:text-[#f5f5f4]/80">50,000+</strong>{' '}
+                    <strong className="font-semibold text-[#1C1917]/80">50,000+</strong>{' '}
                     learners<br />and educators worldwide
                   </span>
                 </div>
@@ -308,16 +308,16 @@ export function HeroSection(): React.JSX.Element {
 
               {/* Background tilted paper shadow */}
               <div
-                className="absolute inset-2 bg-[#EFE9DF] dark:bg-stone-900 rounded-2xl shadow-sm rotate-[1.5deg]"
+                className="absolute inset-2 bg-[#EFE9DF] rounded-2xl shadow-sm rotate-[1.5deg]"
                 aria-hidden="true"
               />
 
               {/* Main paper card */}
-              <div className="relative w-full bg-[#FDFCF9] dark:bg-[#161622] border border-stone-200/60 dark:border-stone-800/80 rounded-xl shadow-lg -rotate-[1deg] p-6 md:p-8 min-h-[480px] md:min-h-[520px] overflow-hidden select-none transition-colors duration-300">
+              <div className="relative w-full bg-[#FDFCF9] border border-stone-200/60 rounded-xl shadow-lg -rotate-[1deg] p-6 md:p-8 min-h-[480px] md:min-h-[520px] overflow-hidden select-none transition-colors duration-300">
 
                 {/* Subtle cross-dot pattern background */}
                 <div
-                  className="absolute inset-0 opacity-[0.04] dark:opacity-[0.08] pointer-events-none"
+                  className="absolute inset-0 opacity-[0.04] pointer-events-none"
                   aria-hidden="true"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%231C1917'/%3E%3C/svg%3E")`,

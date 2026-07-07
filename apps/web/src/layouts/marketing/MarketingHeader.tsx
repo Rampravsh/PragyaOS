@@ -22,8 +22,8 @@ export function MarketingHeader(): React.JSX.Element {
       className={cn(
         'sticky top-0 left-0 right-0 z-[1000] w-full transition-all duration-300 ease-in-out',
         isScrolled
-          ? 'bg-[#FAF7F2]/90 backdrop-blur-md border-b border-stone-200/60 shadow-sm py-3'
-          : 'bg-[#FAF7F2] border-b border-stone-200/50 py-3'
+          ? 'bg-[#FAF7F2]/90 dark:bg-stone-900/90 backdrop-blur-md border-b border-stone-200/60 dark:border-stone-800/60 shadow-sm py-3'
+          : 'bg-[#FAF7F2] dark:bg-stone-950 border-b border-stone-200/50 dark:border-stone-900 py-3'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between">
@@ -49,14 +49,14 @@ export function MarketingHeader(): React.JSX.Element {
 
           <Link
             to="/login"
-            className="hidden sm:inline-flex items-center px-3 py-1.5 text-sm font-sans font-medium text-[#1C1917]/80 hover:text-[#1C1917] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+            className="hidden sm:inline-flex items-center px-3 py-1.5 text-sm font-sans font-medium text-[#1C1917]/80 hover:text-[#1C1917] dark:text-stone-300 dark:hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
           >
             Log in
           </Link>
 
           <Link
             to="/login"
-            className="hidden sm:inline-flex items-center px-4 py-2 bg-[#1C1917] hover:bg-black text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="hidden sm:inline-flex items-center px-4 py-2 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             Get Started
           </Link>
@@ -64,7 +64,7 @@ export function MarketingHeader(): React.JSX.Element {
           {/* Mobile menu toggle */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="lg:hidden text-[#1C1917] hover:text-[#1C1917]/70 p-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="lg:hidden text-[#1C1917] hover:text-[#1C1917]/70 dark:text-stone-300 dark:hover:text-white p-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-controls="mobile-menu-drawer"
             aria-expanded={isMobileOpen}
