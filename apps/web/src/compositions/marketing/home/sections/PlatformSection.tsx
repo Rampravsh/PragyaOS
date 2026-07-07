@@ -101,7 +101,7 @@ export function PlatformSection(): React.JSX.Element {
   return (
     <>
       {/* Paper-torn divider: dark → cream */}
-      <div className="relative w-full overflow-hidden bg-[#0F0F1A]" style={{ height: 64 }} aria-hidden="true">
+      <div className="relative w-full overflow-hidden bg-[#0F0F1A] dark:bg-[#FAF7F2] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
           className="absolute bottom-0 left-0 w-full text-[#FAF7F2] dark:text-[#0f0f10] transition-colors duration-300"
           viewBox="0 0 1440 64"

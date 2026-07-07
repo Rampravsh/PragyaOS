@@ -1,16 +1,15 @@
 import React from 'react';
 import { useLocalStorage } from '@pragyaos/hooks';
 import { CloseIcon } from '@pragyaos/icons';
-import { cn } from '@pragyaos/utils';
+import { Link } from 'react-router';
 
 /**
- * AnnouncementBar: Reusable editorial announcement strip.
- * Features dismissible state synced with localStorage using the shared hook.
- * Uses CloseIcon from @pragyaos/icons.
+ * AnnouncementBar: Black top strip matching the design.
+ * "NEW" green badge | announcement text | "Learn more →" | × dismiss
  */
 export function AnnouncementBar(): React.JSX.Element | null {
   const [dismissed, setDismissed] = useLocalStorage<boolean>(
-    'pragyaos-announcement-dismissed',
+    'pragyaos-announcement-v2-dismissed',
     false
   );
 
@@ -19,31 +18,35 @@ export function AnnouncementBar(): React.JSX.Element | null {
   return (
     <div
       role="status"
-      className={cn(
-        'w-full bg-primary text-primary-foreground py-2 px-4 flex items-center justify-between text-xs font-sans tracking-wide transition-all duration-normal border-b border-primary/20 relative z-[1001]'
-      )}
+      aria-live="polite"
+      className="w-full bg-[#0C0C12] text-white py-2.5 px-4 flex items-center justify-center gap-3 text-xs font-sans relative z-[1001]"
     >
-      <div className="flex-1 flex justify-center items-center gap-2">
-        <span className="font-semibold uppercase tracking-wider bg-primary-foreground text-primary px-1.5 py-0.5 rounded-[2px] text-[10px]">
-          New
-        </span>
-        <span className="font-medium text-primary-foreground/90">
-          Introducing PragyaOS Workspace: The future of interactive learning platforms.
-        </span>
-        <a
-          href="/courses"
-          className="underline hover:opacity-hover transition-opacity font-semibold ml-1.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-foreground"
-        >
-          Learn more &rarr;
-        </a>
-      </div>
+      {/* NEW badge */}
+      <span className="bg-emerald-500 text-white text-[9px] font-bold tracking-wider uppercase px-1.5 py-0.5 rounded-sm shrink-0">
+        NEW
+      </span>
 
+      {/* Announcement text */}
+      <span className="text-white/80 font-medium">
+        Introducing PragyaOS Workspace — Plan, create and teach better, together.
+      </span>
+
+      {/* Learn more link */}
+      <Link
+        to="/courses"
+        className="text-white font-semibold underline underline-offset-2 hover:text-white/80 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50"
+        aria-label="Learn more about PragyaOS Workspace"
+      >
+        Learn more →
+      </Link>
+
+      {/* Dismiss button — pushed to the right */}
       <button
         onClick={() => setDismissed(true)}
-        className="text-primary-foreground/80 hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-foreground p-1 transition-colors rounded-sm"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/90 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 rounded p-0.5"
         aria-label="Dismiss announcement"
       >
-        <CloseIcon size={14} strokeWidth={2.5} />
+        <CloseIcon size={13} strokeWidth={2.5} />
       </button>
     </div>
   );

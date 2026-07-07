@@ -1,8 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { NavLink, NavLinkProps } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UnderlineShort, HighlightOval } from '@pragyaos/assets';
+import {
+  UnderlineShort,
+  UnderlineLong,
+  DoubleUnderline,
+  TripleUnderline,
+  HighlightCircle,
+  HighlightOval,
+  HighlightDoubleCircle,
+  ImperfectCircle,
+  RoughCircle,
+  BrushCircle,
+  OpenCircle
+} from '@pragyaos/assets';
 import { cn } from '@pragyaos/utils';
+
+// Premium accent colors matching the editorial tone
+export const ACCENT_COLORS = [
+  '#059669', // Emerald
+  '#D97706', // Amber
+  '#2563EB', // Blue
+  '#7C3AED', // Purple
+  '#A97E3E', // Gold
+  '#0D9488', // Teal
+  '#BE185D', // Rose
+];
+
+/** Returns a random premium accent color from the palette */
+export function getRandomAccentColor(): string {
+  const index = Math.floor(Math.random() * ACCENT_COLORS.length);
+  return ACCENT_COLORS[index];
+}
+
+const UNDERLINE_COMPONENTS = {
+  short: UnderlineShort,
+  long: UnderlineLong,
+  double: DoubleUnderline,
+  triple: TripleUnderline,
+};
+
+const CIRCLE_COMPONENTS = {
+  circle: HighlightCircle,
+  oval: HighlightOval,
+  'double-circle': HighlightDoubleCircle,
+  imperfect: ImperfectCircle,
+  rough: RoughCircle,
+  brush: BrushCircle,
+  open: OpenCircle,
+};
+
+export type UnderlineVariant = keyof typeof UNDERLINE_COMPONENTS | 'random';
+export type CircleVariant = keyof typeof CIRCLE_COMPONENTS | 'random';
 
 export interface AnimatedNavLinkProps extends Omit<NavLinkProps, 'children'> {
   children: React.ReactNode;
@@ -11,11 +60,13 @@ export interface AnimatedNavLinkProps extends Omit<NavLinkProps, 'children'> {
   className?: string;
   underlineColor?: string;
   circleColor?: string;
+  underlineVariant?: UnderlineVariant;
+  circleVariant?: CircleVariant;
 }
 
 /**
  * AnimatedNavLink: Standard NavLink with hand-drawn hover underline and active circle annotations.
- * Uses Framer Motion for smooth transitions.
+ * Selects accent colors and doodle shapes randomly if not specified, keeping them stable per instance.
  */
 export function AnimatedNavLink({
   children,
@@ -23,11 +74,37 @@ export function AnimatedNavLink({
   className = '',
   activeClassName = 'text-[#1C1917] font-semibold dark:text-white',
   inactiveClassName = 'text-[#1C1917]/70 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-stone-200',
-  underlineColor = '#A97E3E', // gold / brown accent
-  circleColor = '#059669',    // sage green active circle
+  underlineColor,
+  circleColor,
+  underlineVariant = 'short',
+  circleVariant = 'oval',
   ...props
 }: AnimatedNavLinkProps): React.JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Pick colors stably on render mount
+  const selectedUnderlineColor = useMemo(() => underlineColor || getRandomAccentColor(), [underlineColor]);
+  const selectedCircleColor = useMemo(() => circleColor || getRandomAccentColor(), [circleColor]);
+
+  // Pick underline component stably
+  const SelectedUnderline = useMemo(() => {
+    if (underlineVariant === 'random') {
+      const keys = Object.keys(UNDERLINE_COMPONENTS) as Array<keyof typeof UNDERLINE_COMPONENTS>;
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      return UNDERLINE_COMPONENTS[randomKey];
+    }
+    return UNDERLINE_COMPONENTS[underlineVariant] || UnderlineShort;
+  }, [underlineVariant]);
+
+  // Pick circle component stably
+  const SelectedCircle = useMemo(() => {
+    if (circleVariant === 'random') {
+      const keys = Object.keys(CIRCLE_COMPONENTS) as Array<keyof typeof CIRCLE_COMPONENTS>;
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      return CIRCLE_COMPONENTS[randomKey];
+    }
+    return CIRCLE_COMPONENTS[circleVariant] || HighlightOval;
+  }, [circleVariant]);
 
   return (
     <NavLink
@@ -58,8 +135,8 @@ export function AnimatedNavLink({
                 transition={{ duration: 0.2, ease: 'easeOut' }}
                 style={{ originX: 0.5 }}
               >
-                <UnderlineShort
-                  color={underlineColor}
+                <SelectedUnderline
+                  color={selectedUnderlineColor}
                   strokeWidth={2.2}
                   className="w-full h-full object-contain"
                 />
@@ -75,8 +152,8 @@ export function AnimatedNavLink({
               animate={{ scale: 1, opacity: 0.75, rotate: 1 }}
               transition={{ duration: 0.35, ease: 'backOut' }}
             >
-              <HighlightOval
-                color={circleColor}
+              <SelectedCircle
+                color={selectedCircleColor}
                 strokeWidth={2}
                 className="w-full h-full object-contain"
               />
@@ -95,6 +172,8 @@ export interface AnimatedNavButtonProps extends React.ButtonHTMLAttributes<HTMLB
   inactiveClassName?: string;
   underlineColor?: string;
   circleColor?: string;
+  underlineVariant?: UnderlineVariant;
+  circleVariant?: CircleVariant;
 }
 
 /**
@@ -106,11 +185,37 @@ export function AnimatedNavButton({
   className = '',
   activeClassName = 'text-[#1C1917] font-semibold dark:text-white',
   inactiveClassName = 'text-[#1C1917]/70 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-stone-200',
-  underlineColor = '#A97E3E',
-  circleColor = '#059669',
+  underlineColor,
+  circleColor,
+  underlineVariant = 'short',
+  circleVariant = 'oval',
   ...props
 }: AnimatedNavButtonProps): React.JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Pick colors stably on render mount
+  const selectedUnderlineColor = useMemo(() => underlineColor || getRandomAccentColor(), [underlineColor]);
+  const selectedCircleColor = useMemo(() => circleColor || getRandomAccentColor(), [circleColor]);
+
+  // Pick underline component stably
+  const SelectedUnderline = useMemo(() => {
+    if (underlineVariant === 'random') {
+      const keys = Object.keys(UNDERLINE_COMPONENTS) as Array<keyof typeof UNDERLINE_COMPONENTS>;
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      return UNDERLINE_COMPONENTS[randomKey];
+    }
+    return UNDERLINE_COMPONENTS[underlineVariant] || UnderlineShort;
+  }, [underlineVariant]);
+
+  // Pick circle component stably
+  const SelectedCircle = useMemo(() => {
+    if (circleVariant === 'random') {
+      const keys = Object.keys(CIRCLE_COMPONENTS) as Array<keyof typeof CIRCLE_COMPONENTS>;
+      const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      return CIRCLE_COMPONENTS[randomKey];
+    }
+    return CIRCLE_COMPONENTS[circleVariant] || HighlightOval;
+  }, [circleVariant]);
 
   return (
     <button
@@ -137,8 +242,8 @@ export function AnimatedNavButton({
               transition={{ duration: 0.2, ease: 'easeOut' }}
               style={{ originX: 0.5 }}
             >
-              <UnderlineShort
-                color={underlineColor}
+              <SelectedUnderline
+                color={selectedUnderlineColor}
                 strokeWidth={2.2}
                 className="w-full h-full object-contain"
               />
@@ -154,8 +259,8 @@ export function AnimatedNavButton({
             animate={{ scale: 1, opacity: 0.75, rotate: 1 }}
             transition={{ duration: 0.35, ease: 'backOut' }}
           >
-            <HighlightOval
-              color={circleColor}
+            <SelectedCircle
+              color={selectedCircleColor}
               strokeWidth={2}
               className="w-full h-full object-contain"
             />

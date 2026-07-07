@@ -6,7 +6,7 @@ This document serves as the master source of truth for backend, frontend, and sh
 
 ## 1. Monorepo Rules
 
-*   **Standardized React Version**: All apps and packages must be locked to React `^18.2.0` (with corresponding typescript definitions).
+*   **Standardized React Version**: All apps and packages must be locked to React `^19.2.0` (with corresponding typescript definitions).
 *   **Path Aliases**: All application imports must use absolute path mappings (e.g. `@/*`). Relative jumps like `../../` are prohibited in product code.
 *   **Documentation Synchronization**:
     *   Any change to tokens/theme requires updating `DESIGN_SYSTEM.md`.
