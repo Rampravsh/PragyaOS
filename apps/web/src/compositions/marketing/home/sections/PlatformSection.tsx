@@ -100,15 +100,22 @@ const LearnerCard = memo(function LearnerCard({
 export function PlatformSection(): React.JSX.Element {
   return (
     <>
-      {/* Paper-torn divider: dark → cream */}
-      <div className="relative w-full overflow-hidden bg-[#0F0F1A] dark:bg-[#FAF7F2] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
+      {/* Page divider: dark/light transition line */}
+      <div className="w-full overflow-hidden bg-[#0F0F1A] dark:bg-[#FAF7F2] transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
         <svg
-          className="absolute bottom-0 left-0 w-full text-[#FAF7F2] dark:text-[#0f0f10] transition-colors duration-300 translate-y-[1px]"
-          viewBox="0 0 1440 64"
+          viewBox="0 0 1440 80"
           preserveAspectRatio="none"
-          fill="currentColor"
+          className="w-full block text-stone-200/30 dark:text-stone-300/40 transition-colors duration-300 translate-y-[1px]"
+          style={{ height: 40 }}
         >
-          <path d="M0,32 C90,10 180,52 270,28 C360,4 450,50 540,30 C630,10 720,48 810,28 C900,8 990,46 1080,26 C1170,6 1260,44 1350,24 C1400,14 1425,34 1440,28 L1440,64 L0,64 Z" />
+          <path
+            d="M0,40 C180,28 360,52 540,40 C720,28 900,52 1080,40 C1260,28 1380,46 1440,40"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
         </svg>
       </div>
 

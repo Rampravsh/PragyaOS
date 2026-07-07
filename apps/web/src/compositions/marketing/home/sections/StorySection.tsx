@@ -56,12 +56,32 @@ const FEATURES = [
  */
 export function StorySection(): React.JSX.Element {
   return (
-    <section
-      id="story-section"
-      className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
-      aria-labelledby="story-heading"
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-20 md:pb-24 lg:pb-28 pt-12 relative">
+    <>
+      {/* Page divider line at the top */}
+      <div className="w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#0f0f10] transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 80"
+          preserveAspectRatio="none"
+          className="w-full block text-stone-200 dark:text-stone-800 transition-colors duration-300"
+          style={{ height: 40 }}
+        >
+          <path
+            d="M0,40 C180,28 360,52 540,40 C720,28 900,52 1080,40 C1260,28 1380,46 1440,40"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
+      </div>
+
+      <section
+        id="story-section"
+        className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        aria-labelledby="story-heading"
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-20 md:pb-24 lg:pb-28 pt-8 relative">
         {/* Floating decorations */}
         <div className="absolute top-8 right-12 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={6} yOffset={3}>
@@ -170,6 +190,7 @@ export function StorySection(): React.JSX.Element {
         </div>
       </div>
     </section>
+  </>
   );
 }
 
