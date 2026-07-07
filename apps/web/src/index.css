@@ -10,6 +10,9 @@
 /* 1. Tailwind CSS v4 — base directive */
 @import "tailwindcss";
 
+/* Enable manual class-based dark mode toggling */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 2. PragyaOS Design System
       Source: packages/theme/src/css/theme.css
       Provides: all color, spacing, radius, shadow, motion CSS variables
