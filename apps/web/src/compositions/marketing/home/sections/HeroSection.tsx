@@ -80,7 +80,7 @@ function BotanicalLeaf(): React.JSX.Element {
     <img
       src={leafBranchHero}
       alt=""
-      className="absolute -left-10 bottom-0 w-44 h-auto opacity-75 mix-blend-multiply pointer-events-none hidden lg:block"
+      className="absolute -left-10 bottom-0 w-58 h-auto opacity-75 mix-blend-multiply pointer-events-none hidden lg:block"
       aria-hidden="true"
       loading="lazy"
     />

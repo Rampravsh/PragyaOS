@@ -1,74 +1,79 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { useScrollY } from '@pragyaos/hooks';
-import { MenuIcon } from '@pragyaos/icons';
-import { PrimaryButton } from '@/components/marketing/shared/Button';
+import { MenuIcon, CloseIcon, LogoIcon } from '@pragyaos/icons';
+import { cn } from '@pragyaos/utils';
 import MarketingNavigation from '@/layouts/marketing/MarketingNavigation';
 import MobileNavigation from '@/layouts/marketing/MobileNavigation';
 import ThemeToggle from '@/layouts/marketing/ThemeToggle';
-import { cn } from '@pragyaos/utils';
 
 /**
- * MarketingHeader: Responsive sticky header wrapping the navigation.
- * Transitions from transparent to a frosted glass background on scroll.
+ * MarketingHeader: Sticky header matching the approved design.
+ * Feather logo | PragyaOS wordmark | Center nav | Theme toggle | Log in | Get Started
+ * Frosted glass on scroll.
  */
 export function MarketingHeader(): React.JSX.Element {
   const scrollY = useScrollY();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-
-  // Transition glass surface when scroll surpasses 20px
   const isScrolled = scrollY > 20;
 
   return (
     <header
       className={cn(
-        'sticky top-0 left-0 right-0 z-[1000] w-full transition-all duration-normal ease-in-out border-b',
+        'sticky top-0 left-0 right-0 z-[1000] w-full transition-all duration-300 ease-in-out',
         isScrolled
-          ? 'bg-background/80 backdrop-blur-md border-border/80 shadow-sm py-3'
-          : 'bg-transparent border-transparent py-5'
+          ? 'bg-[#FAF7F2]/90 backdrop-blur-md border-b border-stone-200/60 shadow-sm py-3'
+          : 'bg-[#FAF7F2] border-b border-stone-200/50 py-3'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between">
-        {/* Left: Branding Identity */}
+
+        {/* Left: Logo + Wordmark */}
         <Link
           to="/"
-          className="text-base font-sans font-bold tracking-wider uppercase text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+          className="flex items-center gap-2 text-[#1C1917] dark:text-[#f5f5f4] hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
           aria-label="PragyaOS Homepage"
         >
-          PragyaOS
+          <LogoIcon size={22} className="text-[#1C1917] dark:text-[#f5f5f4]" />
+          <span className="font-sans font-bold text-base tracking-tight">
+            PragyaOS
+          </span>
         </Link>
 
-        {/* Center: Desktop Navigation Bar */}
+        {/* Center: Desktop Navigation */}
         <MarketingNavigation />
 
-        {/* Right: Controls & CTAs */}
-        <div className="flex items-center gap-3">
-          {/* Theme toggling controls */}
+        {/* Right: Theme toggle + Log in + Get Started */}
+        <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          {/* Core Sign In Action */}
-          <PrimaryButton
-            href="/login"
-            size="sm"
-            className="hidden sm:inline-flex"
+          <Link
+            to="/login"
+            className="hidden sm:inline-flex items-center px-3 py-1.5 text-sm font-sans font-medium text-[#1C1917]/80 hover:text-[#1C1917] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
           >
-            Sign In
-          </PrimaryButton>
+            Log in
+          </Link>
 
-          {/* Mobile hamburger menu toggle */}
+          <Link
+            to="/login"
+            className="hidden sm:inline-flex items-center px-4 py-2 bg-[#1C1917] hover:bg-black text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            Get Started
+          </Link>
+
+          {/* Mobile menu toggle */}
           <button
-            onClick={() => setIsMobileOpen(true)}
-            className="lg:hidden text-foreground hover:text-muted-foreground p-1.5 border border-border/80 hover:border-foreground/40 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            aria-label="Open navigation menu"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            className="lg:hidden text-[#1C1917] hover:text-[#1C1917]/70 p-1.5 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-controls="mobile-menu-drawer"
             aria-expanded={isMobileOpen}
           >
-            <MenuIcon size={18} />
+            {isMobileOpen ? <CloseIcon size={18} /> : <MenuIcon size={18} />}
           </button>
         </div>
       </div>
 
-      {/* Accessible Mobile navigation drawer drawer */}
       <MobileNavigation
         isOpen={isMobileOpen}
         onClose={() => setIsMobileOpen(false)}

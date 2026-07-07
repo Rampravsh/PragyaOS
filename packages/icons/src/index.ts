@@ -124,3 +124,18 @@ export const TrophyIcon = createIcon("TrophyIcon", [
   React.createElement("path", { key: "tr5", d: "M12 2a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V6a4 4 0 0 0-4-4Z" }),
 ]);
 
+export const LogoIcon = createIcon("LogoIcon", [
+  React.createElement("path", {
+    key: "lo1",
+    d: "M2 22C2 22 8 20 12 14C16 8 22 2 22 2C22 2 16 8 10 12C6 16 2 22 2 22Z",
+    fill: "currentColor",
+    fillOpacity: "0.15",
+  }),
+  React.createElement("path", { key: "lo2", d: "M2 22C8 16 16 8 22 2" }),
+  React.createElement("path", { key: "lo3", d: "M10 14c1.5-2.5 4-3.5 7-4.5" }),
+  React.createElement("path", { key: "lo4", d: "M7 17c1.5-2.5 4-3.5 6-4" }),
+  React.createElement("path", { key: "lo5", d: "M14 10c-1 1.5-2 4-2.5 7" }),
+  React.createElement("path", { key: "lo6", d: "M17 7c-1 1.5-2 4-2.5 7" }),
+]);
+
+
