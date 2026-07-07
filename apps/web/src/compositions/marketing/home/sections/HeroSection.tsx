@@ -73,6 +73,7 @@ const JOURNEY_STEPS = [
 ];
 
 import leafBranchHero from '@/assets/leaf_branch_hero.png';
+import heroJourneyVisual from '@/assets/hero_journey_visual.png';
 
 /** Botanical leaf branch illustration — left side decoration */
 function BotanicalLeaf(): React.JSX.Element {
@@ -115,7 +116,7 @@ const JourneyStep = memo(function JourneyStep({
           >
             {step.num}
           </span>
-          <span className="text-[13px] font-serif font-semibold text-[#1C1917]">
+          <span className="text-[13px] font-serif font-bold text-[#1C1917]">
             {step.label}
           </span>
         </div>
@@ -175,24 +176,6 @@ function StickyNote({
 
 /**
  * HeroSection: Pixel-faithful recreation of the approved design hero.
- *
- * LEFT COLUMN:
- *   - "The journey matters" eyebrow in amber
- *   - "Every learner has a path." serif heading (dark)
- *   - "We help you go further." italic gold bold heading
- *   - Description paragraph
- *   - "Start Your Journey →" + "Explore Courses" buttons
- *   - Avatar group + 5 stars + "Trusted by 50,000+ learners..." text
- *   - Botanical leaf decoration on left edge
- *
- * RIGHT COLUMN:
- *   - Paper card with slight tilt (-2°)
- *   - Journey path (dashed winding SVG line)
- *   - 4 step cards: Learn, Practice, Build, Achieve
- *   - "Keep learning, keep growing" sticky note
- *   - "You've got this!" annotation
- *   - "Small steps today, bright future tomorrow." sticky note
- *   - Floating paper plane + stars
  */
 export function HeroSection(): React.JSX.Element {
   return (
@@ -232,14 +215,14 @@ export function HeroSection(): React.JSX.Element {
               <div>
                 <h1
                   id="hero-headline"
-                  className="font-serif font-light text-[#1C1917] leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
+                  className="font-serif font-bold text-[#1C1917] leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
                 >
                   Every learner
                   <br />
                   has a path.
                 </h1>
                 {/* Italic gold subheadline */}
-                <p className="font-serif italic font-normal text-[#A97E3E] leading-[1.07] tracking-tight text-3xl sm:text-4xl lg:text-[44px] xl:text-[50px] mt-1">
+                <p className="font-serif italic font-bold text-[#A97E3E] leading-[1.07] tracking-tight text-3xl sm:text-4xl lg:text-[44px] xl:text-[50px] mt-1">
                   We help you
                   <br />
                   go further.
@@ -303,119 +286,14 @@ export function HeroSection(): React.JSX.Element {
           </FadeIn>
 
           {/* ──────── RIGHT COLUMN ──────── */}
-          <FadeIn direction="up" duration="slow" delay={0.15}>
-            <div className="relative w-full flex items-center justify-center">
-
-              {/* Background tilted paper shadow */}
-              <div
-                className="absolute inset-2 bg-[#EFE9DF] rounded-2xl shadow-sm rotate-[1.5deg]"
-                aria-hidden="true"
+          <FadeIn direction="up" duration="slow" delay={0.15} className="w-full flex justify-center">
+            <div className="relative w-full max-w-[480px] lg:max-w-[520px] select-none pointer-events-none drop-shadow-xl hover:rotate-[0.5deg] transition-transform duration-300">
+              <img
+                src={heroJourneyVisual}
+                alt="PragyaOS Learning Journey: Learn, Practice, Build, Achieve"
+                className="w-full h-auto object-contain"
+                loading="eager"
               />
-
-              {/* Main paper card */}
-              <div className="relative w-full bg-[#FDFCF9] border border-stone-200/60 rounded-xl shadow-lg -rotate-[1deg] p-6 md:p-8 min-h-[480px] md:min-h-[520px] overflow-hidden select-none transition-colors duration-300">
-
-                {/* Subtle cross-dot pattern background */}
-                <div
-                  className="absolute inset-0 opacity-[0.04] pointer-events-none"
-                  aria-hidden="true"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%231C1917'/%3E%3C/svg%3E")`,
-                    backgroundSize: '20px 20px',
-                  }}
-                />
-
-                {/* Winding dashed journey path */}
-                <JourneyPath />
-
-                {/* 4 journey step cards */}
-                {JOURNEY_STEPS.map((step) => (
-                  <JourneyStep key={step.num} step={step} />
-                ))}
-
-                {/* Floating sticky: "Keep learning, keep growing" — top right */}
-                <div className="absolute top-3 right-3">
-                  <StickyNote
-                    text={"Keep learning,\nkeep growing."}
-                    rotate={3}
-                    className="text-[9px]"
-                  />
-                </div>
-
-                {/* "You've got this!" annotation — bottom center-left */}
-                <div className="absolute bottom-[14%] left-[30%]">
-                  <FloatingDecoration duration={5} yOffset={2}>
-                    <div className="relative flex items-center justify-center" aria-hidden="true">
-                      <DecorativeAsset
-                        asset={StatementCircle01}
-                        className="absolute w-28 h-auto text-emerald-700/15"
-                        strokeWidth={1.2}
-                      />
-                      <span className="font-serif italic text-[11px] text-[#1C1917]/65 relative z-10 py-1.5 px-2">
-                        You&apos;ve got this!
-                      </span>
-                    </div>
-                  </FloatingDecoration>
-                </div>
-
-                {/* Sticky: "Small steps today, bright future tomorrow." — bottom right */}
-                <div className="absolute bottom-3 right-3">
-                  <StickyNote
-                    text={"Small steps\ntoday, bright\nfuture tomorrow. ♥"}
-                    rotate={-4}
-                    className="text-[8px]"
-                  />
-                </div>
-
-                {/* Floating paper plane — top area */}
-                <div className="absolute top-[12%] left-[36%] rotate-[-20deg] opacity-35 pointer-events-none" aria-hidden="true">
-                  <FloatingDecoration duration={7} yOffset={4}>
-                    <DecorativeAsset
-                      asset={PaperPlane}
-                      className="w-8 h-8 text-stone-500"
-                      strokeWidth={1.2}
-                    />
-                  </FloatingDecoration>
-                </div>
-
-                {/* Decorative arrow from step 1 toward step 2 */}
-                <div className="absolute top-[22%] left-[2%] rotate-[40deg] opacity-40 pointer-events-none" aria-hidden="true">
-                  <DecorativeAsset
-                    asset={StatementArrow01}
-                    className="w-8 h-auto text-stone-400"
-                    strokeWidth={1}
-                  />
-                </div>
-
-                {/* Small sparkle stars scattered */}
-                <div className="absolute top-[48%] right-[2%] pointer-events-none" aria-hidden="true">
-                  <FloatingDecoration duration={6} yOffset={2}>
-                    <DecorativeAsset
-                      asset={Sparkle}
-                      className="w-4 h-4 text-amber-400/50"
-                      strokeWidth={1}
-                    />
-                  </FloatingDecoration>
-                </div>
-                <div className="absolute top-[72%] left-[50%] pointer-events-none" aria-hidden="true">
-                  <FloatingDecoration duration={8} yOffset={2}>
-                    <DecorativeAsset
-                      asset={TinyStar}
-                      className="w-3 h-3 text-stone-400/50"
-                      strokeWidth={1}
-                    />
-                  </FloatingDecoration>
-                </div>
-                <div className="absolute top-[8%] left-[55%] pointer-events-none" aria-hidden="true">
-                  <FloatingDecoration duration={9} yOffset={3}>
-                    <DecorativeAsset
-                      asset={EditorialStar}
-                      className="w-4 h-4 text-amber-500/30"
-                      strokeWidth={1}
-                    />
-                  </FloatingDecoration>
-                </div>
-              </div>
             </div>
           </FadeIn>
 

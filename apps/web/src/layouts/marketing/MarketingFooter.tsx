@@ -138,7 +138,7 @@ export function MarketingFooter(): React.JSX.Element {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   role="listitem"
-                  className="w-7 h-7 rounded bg-white/5 border border-white/5 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+                  className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-stone-300 hover:text-white hover:bg-[#A97E3E] transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
                   whileHover={{ scale: 1.12, y: -1 }}
                   whileTap={{ scale: 0.93 }}
                 >
@@ -151,7 +151,7 @@ export function MarketingFooter(): React.JSX.Element {
           {/* Link columns */}
           {FOOTER_COLUMNS.map((col) => (
             <div key={col.title} className="flex flex-col gap-3">
-              <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-stone-500">
+              <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-stone-300">
                 {col.title}
               </span>
               <ul className="flex flex-col gap-2 list-none p-0 m-0">
@@ -159,7 +159,7 @@ export function MarketingFooter(): React.JSX.Element {
                   <li key={link.label}>
                     <Link
                       to={link.href}
-                      className="text-[12px] font-sans text-stone-500 hover:text-stone-300 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm inline-block py-0.5"
+                      className="text-[12px] font-sans text-stone-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm inline-block py-0.5"
                     >
                       {link.label}
                     </Link>
@@ -171,7 +171,7 @@ export function MarketingFooter(): React.JSX.Element {
 
           {/* Newsletter form */}
           <div className="col-span-2 md:col-span-1 flex flex-col gap-3">
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-stone-500">
+            <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-stone-300">
               Stay in the loop
             </span>
             {!subscribed ? (

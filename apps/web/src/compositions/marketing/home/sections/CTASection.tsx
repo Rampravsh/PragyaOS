@@ -96,7 +96,7 @@ export function CTASection(): React.JSX.Element {
             <div className="flex flex-col items-start gap-5 text-left">
               <h2
                 id="cta-heading"
-                className="font-serif font-light text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
+                className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
               >
                 Your journey
                 <br />

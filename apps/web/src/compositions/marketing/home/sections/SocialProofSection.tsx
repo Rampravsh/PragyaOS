@@ -134,7 +134,7 @@ export function SocialProofSection(): React.JSX.Element {
         <FadeIn direction="up" duration="slow" className="text-center mb-12 md:mb-14">
           <h2
             id="testimonials-heading"
-            className="font-serif font-light text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
+            className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
           >
             Loved by learners around the world
           </h2>

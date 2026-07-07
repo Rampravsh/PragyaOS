@@ -146,10 +146,10 @@ export function PlatformSection(): React.JSX.Element {
           <FadeIn direction="up" duration="slow" className="text-center mb-12 md:mb-16">
             <h2
               id="platform-heading"
-              className="font-serif font-light text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[46px]"
+              className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[46px]"
             >
               Designed{' '}
-              <em className="italic not-italic font-normal text-[#1C1917] dark:text-white transition-colors duration-300">for every kind</em>{' '}
+              <em className="italic not-italic font-bold text-[#1C1917] dark:text-white transition-colors duration-300">for every kind</em>{' '}
               of learner
             </h2>
           </FadeIn>

@@ -61,25 +61,7 @@ export function StorySection(): React.JSX.Element {
       className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
       aria-labelledby="story-heading"
     >
-      {/* Organic wavy top divider — connects from hero */}
-      <div className="w-full overflow-hidden leading-[0] mb-0" aria-hidden="true">
-        <svg
-          viewBox="0 0 1440 48"
-          preserveAspectRatio="none"
-          className="w-full block"
-          style={{ height: 48 }}
-        >
-          <path
-            d="M0,24 C200,48 400,0 600,24 C800,48 1000,0 1200,24 C1320,36 1380,16 1440,24 L1440,0 L0,0 Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="1"
-            className="text-[#FAF7F2] dark:text-[#0f0f10] stroke-[#E7E0D6] dark:stroke-stone-900 transition-colors duration-300"
-          />
-        </svg>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-20 md:pb-24 lg:pb-28 pt-4 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-20 md:pb-24 lg:pb-28 pt-12 relative">
         {/* Floating decorations */}
         <div className="absolute top-8 right-12 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={6} yOffset={3}>
@@ -105,7 +87,7 @@ export function StorySection(): React.JSX.Element {
               <div className="relative">
                 <h2
                   id="story-heading"
-                  className="font-serif font-light text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
+                  className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
                 >
                   A better way
                   <br />
