@@ -127,15 +127,19 @@ export const TrophyIcon = createIcon("TrophyIcon", [
 export const LogoIcon = createIcon("LogoIcon", [
   React.createElement("path", {
     key: "lo1",
-    d: "M2 22C2 22 8 20 12 14C16 8 22 2 22 2C22 2 16 8 10 12C6 16 2 22 2 22Z",
+    d: "M20 4c-3.5.5-8.5 3-11.5 6C5.5 13 4 17.5 4 20c0 1 .5 1.5 1.5 1.5 2.5 0 7-1.5 10-4.5 3-3 5.5-8 6-11.5.5-1-.5-2-1.5-1.5z",
     fill: "currentColor",
     fillOpacity: "0.15",
   }),
-  React.createElement("path", { key: "lo2", d: "M2 22C8 16 16 8 22 2" }),
-  React.createElement("path", { key: "lo3", d: "M10 14c1.5-2.5 4-3.5 7-4.5" }),
-  React.createElement("path", { key: "lo4", d: "M7 17c1.5-2.5 4-3.5 6-4" }),
-  React.createElement("path", { key: "lo5", d: "M14 10c-1 1.5-2 4-2.5 7" }),
-  React.createElement("path", { key: "lo6", d: "M17 7c-1 1.5-2 4-2.5 7" }),
+  React.createElement("path", { key: "lo2", d: "M20 4c-3.5.5-8.5 3-11.5 6C5.5 13 4 17.5 4 20c0 1 .5 1.5 1.5 1.5 2.5 0 7-1.5 10-4.5 3-3 5.5-8 6-11.5.5-1-.5-2-1.5-1.5z" }),
+  React.createElement("path", { key: "lo3", d: "M4 20c4-3 10-8 16-16" }),
+  React.createElement("path", { key: "lo4", d: "M9 15c1.5-.5 3.5-1.5 4.5-2.5" }),
+  React.createElement("path", { key: "lo5", d: "M12 12c1.5-.5 3.5-1.5 4.5-2.5" }),
+  React.createElement("path", { key: "lo6", d: "M15 9c1.5-.5 3.5-1.5 4.5-2.5" }),
+  React.createElement("path", { key: "lo7", d: "M10 14c-.5 1.5-1.5 3.5-2.5 4.5" }),
+  React.createElement("path", { key: "lo8", d: "M13 11c-.5 1.5-1.5 3.5-2.5 4.5" }),
+  React.createElement("path", { key: "lo9", d: "M16 8c-.5 1.5-1.5 3.5-2.5 4.5" }),
 ]);
+
 
 

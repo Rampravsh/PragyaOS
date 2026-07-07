@@ -117,11 +117,11 @@ export function MarketingFooter(): React.JSX.Element {
           <div className="col-span-2 md:col-span-3 lg:col-span-1 flex flex-col gap-4">
             <Link
               to="/"
-              className="flex items-center gap-2 text-white/80 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30 rounded-sm"
+              className="flex items-center gap-2 text-white hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30 rounded-sm"
               aria-label="PragyaOS homepage"
             >
-              <LogoIcon size={18} className="text-white/80" />
-              <span className="font-sans font-bold text-base tracking-tight">PragyaOS</span>
+              <LogoIcon size={18} className="text-white" />
+              <span className="font-serif font-bold text-lg md:text-xl tracking-tight text-white">PragyaOS</span>
             </Link>
 
             <p className="text-xs text-stone-500 font-sans leading-relaxed max-w-[200px]">

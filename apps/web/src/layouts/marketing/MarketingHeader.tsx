@@ -35,7 +35,7 @@ export function MarketingHeader(): React.JSX.Element {
           aria-label="PragyaOS Homepage"
         >
           <LogoIcon size={22} className="text-[#1C1917] dark:text-[#f5f5f4]" />
-          <span className="font-sans font-bold text-base tracking-tight">
+          <span className="font-serif font-bold text-lg md:text-xl tracking-tight text-[#1C1917] dark:text-white">
             PragyaOS
           </span>
         </Link>
