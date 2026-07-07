@@ -242,7 +242,7 @@ export function FeatureSection(): React.JSX.Element {
       {/* Paper-torn divider: cream → dark */}
       <div className="relative w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#0f0f10] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
-          className="absolute bottom-0 left-0 w-full text-[#0F0F1A] dark:text-[#FAF7F2] transition-colors duration-300 drop-shadow-[0_-4px_5px_rgba(0,0,0,0.06)]"
+          className="absolute bottom-0 left-0 w-full text-[#0F0F1A] dark:text-[#FAF7F2] transition-colors duration-300 translate-y-[1px]"
           viewBox="0 0 1440 64"
           preserveAspectRatio="none"
           fill="currentColor"
