@@ -1,8 +1,0 @@
-{
-  "extends": "@pragyaos/typescript-config/vite.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "jsx": "react-jsx"
-  },
-  "include": ["src"]
-}
