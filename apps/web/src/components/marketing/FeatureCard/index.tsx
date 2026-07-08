@@ -4,7 +4,8 @@ import { PaperCard } from '@/components/ui/PaperCard';
 export interface FeatureCardProps {
   icon?: React.ReactNode;
   title: string;
-  description: string;
+  description?: string;
+  desc?: string; // Backward compatibility
   variant?: 'plain' | 'notebook' | 'accent' | 'outlined';
   illustration?: React.ReactNode;
   className?: string;
@@ -14,10 +15,12 @@ export function FeatureCard({
   icon,
   title,
   description,
+  desc,
   variant = 'outlined',
   illustration,
   className = '',
 }: FeatureCardProps) {
+  const displayDescription = description || desc || '';
   const cardVariants = {
     plain: 'bg-surface border border-border hover:shadow-card transition-shadow',
     notebook: 'paper-notebook p-6 hover:shadow-card transition-shadow',
@@ -44,7 +47,7 @@ export function FeatureCard({
             {title}
           </h4>
           <p className="text-small text-text-secondary leading-relaxed font-body">
-            {description}
+            {displayDescription}
           </p>
         </div>
       </div>

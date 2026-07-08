@@ -9,11 +9,13 @@ export interface FeatureGridProps {
   columns?: 2 | 3 | 4;
   title?: string;
   eyebrow?: string;
+  tag?: string; // Backward compatibility
   description?: string;
   topDecoration?: React.ReactNode;
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function FeatureGrid({
@@ -21,11 +23,13 @@ export function FeatureGrid({
   columns = 3,
   title,
   eyebrow,
+  tag,
   description,
   topDecoration,
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'white',
+  overlap = false,
 }: FeatureGridProps) {
   const columnClasses = {
     2: 'grid-cols-1 sm:grid-cols-2',
@@ -33,17 +37,20 @@ export function FeatureGrid({
     4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
   };
 
+  const activeEyebrow = eyebrow || tag;
+
   return (
     <PaperSection
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="space-y-12">
         {title && (
           <SectionHeading
-            eyebrow={eyebrow}
+            eyebrow={activeEyebrow}
             title={title}
             description={description}
             alignment="center"

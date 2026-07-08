@@ -15,6 +15,7 @@ export interface AIShowcaseProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function AIShowcase({
@@ -28,6 +29,7 @@ export function AIShowcase({
   bottomDecoration,
   paperVariant = 'dark-showcase',
   backgroundVariant = 'dark',
+  overlap = false,
 }: AIShowcaseProps) {
   const handleAction = () => {
     if (onCtaClick) {
@@ -42,6 +44,7 @@ export function AIShowcase({
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">

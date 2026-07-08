@@ -21,6 +21,7 @@ export interface LearningJourneyProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function LearningJourney({
@@ -32,12 +33,14 @@ export function LearningJourney({
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'cream',
+  overlap = false,
 }: LearningJourneyProps) {
   return (
     <PaperSection
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="space-y-12">

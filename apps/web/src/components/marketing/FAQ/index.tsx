@@ -17,6 +17,7 @@ export interface FAQProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function FAQ({
@@ -27,6 +28,7 @@ export function FAQ({
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'white',
+  overlap = false,
 }: FAQProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
@@ -35,6 +37,7 @@ export function FAQ({
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="content" className="space-y-10">

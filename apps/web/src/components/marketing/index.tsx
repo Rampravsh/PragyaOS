@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, PaperCard, SectionHeading } from '@/components/ui';
+import { Button, PaperCard } from '@/components/ui';
 import { DoodleStar, DoodleUnderline } from '@/components/ui/Doodles';
 import { Container } from '../layout/Container';
 import { Section } from '../layout/Section';
@@ -69,41 +69,7 @@ export function MarketingHero({
   );
 }
 
-/**
- * FeatureGrid - Multi-column product features showcase
- */
-interface FeatureGridItem {
-  title: string;
-  desc: string;
-  icon: React.ReactNode;
-}
 
-export function FeatureGrid({ items, title, tag }: { items: FeatureGridItem[]; title?: string; tag?: string }) {
-  return (
-    <div className="space-y-12 py-6">
-      {title && (
-        <SectionHeading
-          label={tag || "Capabilities"}
-          title={title}
-          align="center"
-        />
-      )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-        {items.map((item, idx) => (
-          <PaperCard key={idx} variant="plain" className="p-6 flex flex-col justify-between h-48 border border-border bg-surface hover:shadow-card transition-shadow">
-            <div className="w-10 h-10 rounded-full bg-background-secondary border border-border flex items-center justify-center">
-              {item.icon}
-            </div>
-            <div className="space-y-1 mt-4">
-              <h4 className="text-body-lg font-heading font-extrabold text-text-primary">{item.title}</h4>
-              <p className="text-small text-text-muted leading-relaxed font-body">{item.desc}</p>
-            </div>
-          </PaperCard>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 /**
  * LogoCloud - Monochrome grid of institutional logos

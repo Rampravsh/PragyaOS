@@ -21,6 +21,7 @@ export interface TestimonialsProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function TestimonialCard({ quote, authorName, authorTitle, avatarSrc, avatarFallback }: TestimonialItem) {
@@ -51,6 +52,7 @@ export function Testimonials({
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'cream',
+  overlap = false,
 }: TestimonialsProps) {
   const [activeIdx, setActiveIdx] = useState(0);
 
@@ -69,6 +71,7 @@ export function Testimonials({
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="space-y-10 select-none text-center">
