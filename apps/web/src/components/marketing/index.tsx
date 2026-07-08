@@ -406,3 +406,21 @@ export function ContactForm() {
     </form>
   );
 }
+
+// Re-export modular marketing sub-components
+export * from './Hero';
+export * from './TrustedBy';
+export * from './FeatureGrid';
+export * from './LearningJourney';
+export * from './AIShowcase';
+export * from './AudienceCard';
+export * from './Stats';
+export * from './Testimonials';
+export * from './CTA';
+export * from './FAQ';
+export * from './LogoStrip';
+export * from './BackgroundIllustration';
+export * from './DecorativeDivider';
+export * from './FeatureHighlight';
+export * from './SectionHeading';
+export * from './FeatureCard';
