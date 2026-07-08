@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AuthGuard, GuestGuard } from './guards';
-import { MarketingLayout, BlankLayout } from '@/layouts';
+import { MarketingLayout, BlankLayout, AuthLayout } from '@/layouts';
 
 // Lazy load placeholder pages
 const HomePage = React.lazy(() => import('@/pages/Home'));
@@ -30,6 +30,23 @@ const FAQPage = React.lazy(() => import('@/pages/FAQ'));
 const PrivacyPage = React.lazy(() => import('@/pages/Legal').then(m => ({ default: m.PrivacyPage })));
 const TermsPage = React.lazy(() => import('@/pages/Legal').then(m => ({ default: m.TermsPage })));
 const CookiesPage = React.lazy(() => import('@/pages/Legal').then(m => ({ default: m.CookiesPage })));
+
+// Lazy load auth & recovery pages
+const ForgotPasswordPage = React.lazy(() => import('@/pages/auth/PasswordRecovery').then(m => ({ default: m.ForgotPasswordPage })));
+const ResetPasswordPage = React.lazy(() => import('@/pages/auth/PasswordRecovery').then(m => ({ default: m.ResetPasswordPage })));
+
+// Lazy load verification pages
+const VerifyEmailPage = React.lazy(() => import('@/pages/auth/VerificationFlow').then(m => ({ default: m.VerifyEmailPage })));
+const MagicLinkPage = React.lazy(() => import('@/pages/auth/VerificationFlow').then(m => ({ default: m.MagicLinkPage })));
+const TwoFactorPage = React.lazy(() => import('@/pages/auth/VerificationFlow').then(m => ({ default: m.TwoFactorPage })));
+
+// Lazy load session states
+const SessionExpiredPage = React.lazy(() => import('@/pages/auth/SessionState').then(m => ({ default: m.SessionExpiredPage })));
+const LoggedOutPage = React.lazy(() => import('@/pages/auth/SessionState').then(m => ({ default: m.LoggedOutPage })));
+const UnauthorizedPage = React.lazy(() => import('@/pages/auth/SessionState').then(m => ({ default: m.UnauthorizedPage })));
+
+// Lazy load profile onboarding
+const IdentityCompletionPage = React.lazy(() => import('@/pages/identity/IdentityCompletion'));
 
 export const router = createBrowserRouter([
   {
@@ -110,12 +127,37 @@ export const router = createBrowserRouter([
     element: <GuestGuard />,
     children: [
       {
-        path: 'login',
-        element: <LoginPage />,
-      },
-      {
-        path: 'register',
-        element: <RegisterPage />,
+        element: <AuthLayout />,
+        children: [
+          {
+            path: 'login',
+            element: <LoginPage />,
+          },
+          {
+            path: 'register',
+            element: <RegisterPage />,
+          },
+          {
+            path: 'auth/forgot-password',
+            element: <ForgotPasswordPage />,
+          },
+          {
+            path: 'auth/reset-password',
+            element: <ResetPasswordPage />,
+          },
+          {
+            path: 'auth/verify-email',
+            element: <VerifyEmailPage />,
+          },
+          {
+            path: 'auth/magic-link',
+            element: <MagicLinkPage />,
+          },
+          {
+            path: 'auth/2fa',
+            element: <TwoFactorPage />,
+          },
+        ],
       },
     ],
   },
@@ -125,6 +167,15 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardPage />,
+      },
+      {
+        element: <AuthLayout />,
+        children: [
+          {
+            path: 'identity/complete-profile',
+            element: <IdentityCompletionPage />,
+          },
+        ],
       },
     ],
   },
@@ -138,6 +189,18 @@ export const router = createBrowserRouter([
       {
         path: 'server-error',
         element: <ServerErrorPage />,
+      },
+      {
+        path: 'auth/session-expired',
+        element: <SessionExpiredPage />,
+      },
+      {
+        path: 'auth/logged-out',
+        element: <LoggedOutPage />,
+      },
+      {
+        path: 'auth/unauthorized',
+        element: <UnauthorizedPage />,
       },
     ],
   },

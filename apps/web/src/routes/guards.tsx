@@ -1,16 +1,18 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { PageLoader } from '@/components/feedback';
 
 interface GuardProps {
   children?: React.ReactNode;
 }
 
-/**
- * AuthGuard - Allows access only to authenticated users.
- * Placeholder implementation: currently always allows access.
- */
 export function AuthGuard({ children }: GuardProps) {
-  const isAuthenticated = true; // Placeholder for future auth hook/state
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
@@ -19,12 +21,12 @@ export function AuthGuard({ children }: GuardProps) {
   return children ? <>{children}</> : <Outlet />;
 }
 
-/**
- * GuestGuard - Allows access only to unauthenticated guests (e.g. login/register pages).
- * Placeholder implementation: currently always allows access.
- */
 export function GuestGuard({ children }: GuardProps) {
-  const isAuthenticated = false; // Placeholder for future auth hook/state
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
 
   if (isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
