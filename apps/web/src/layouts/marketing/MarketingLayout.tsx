@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import SkipToContent from '@/layouts/marketing/SkipToContent';
 import AnnouncementBar from '@/layouts/marketing/AnnouncementBar';
 import MarketingHeader from '@/layouts/marketing/MarketingHeader';
@@ -10,6 +10,17 @@ import MarketingFooter from '@/layouts/marketing/MarketingFooter';
  * Composes: SkipToContent -> AnnouncementBar -> MarketingHeader -> Main Outlet -> MarketingFooter.
  */
 export function MarketingLayout(): React.JSX.Element {
+  const { pathname } = useLocation();
+  const isAuthPage = pathname === '/login';
+
+  if (isAuthPage) {
+    return (
+      <main id="main-content" className="min-h-screen" tabIndex={-1}>
+        <Outlet />
+      </main>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground transition-colors duration-normal ease-in-out">
       {/* 1. Skip Link for keyboard navigation accessibility */}

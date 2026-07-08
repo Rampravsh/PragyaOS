@@ -7,6 +7,7 @@ import MarketingNavigation from '@/layouts/marketing/MarketingNavigation';
 import MobileNavigation from '@/layouts/marketing/MobileNavigation';
 import ThemeToggle from '@/layouts/marketing/ThemeToggle';
 
+
 /**
  * MarketingHeader: Sticky header matching the approved design.
  * Feather logo | PragyaOS wordmark | Center nav | Theme toggle | Log in | Get Started

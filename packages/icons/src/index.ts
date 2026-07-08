@@ -139,6 +139,72 @@ export const LogoIcon = createIcon("LogoIcon", [
   }),
 ]);
 
+export const FlameIcon = createIcon("FlameIcon", [
+  React.createElement("path", {
+    key: "fl1",
+    d: "M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z",
+  }),
+]);
 
+export const BookmarkIcon = createIcon("BookmarkIcon", [
+  React.createElement("path", { key: "bm1", d: "m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" }),
+]);
 
+export const CalendarIcon = createIcon("CalendarIcon", [
+  React.createElement("rect", { key: "ca1", x: 3, y: 4, width: 18, height: 18, rx: 2, ry: 2 }),
+  React.createElement("line", { key: "ca2", x1: 16, y1: 2, x2: 16, y2: 6 }),
+  React.createElement("line", { key: "ca3", x1: 8, y1: 2, x2: 8, y2: 6 }),
+  React.createElement("line", { key: "ca4", x1: 3, y1: 10, x2: 21, y2: 10 }),
+]);
+
+export const BarChartIcon = createIcon("BarChartIcon", [
+  React.createElement("line", { key: "bc1", x1: 18, y1: 20, x2: 18, y2: 10 }),
+  React.createElement("line", { key: "bc2", x1: 12, y1: 20, x2: 12, y2: 4 }),
+  React.createElement("line", { key: "bc3", x1: 6, y1: 20, x2: 6, y2: 14 }),
+]);
+
+export const MessageSquareIcon = createIcon("MessageSquareIcon", [
+  React.createElement("path", { key: "ms1", d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" }),
+]);
+
+export const AwardIcon = createIcon("AwardIcon", [
+  React.createElement("circle", { key: "aw1", cx: 12, cy: 8, r: 6 }),
+  React.createElement("path", { key: "aw2", d: "M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" }),
+]);
+
+export const ChevronRightIcon = createIcon("ChevronRightIcon", [
+  React.createElement("polyline", { key: "cr1", points: "9 18 15 12 9 6" }),
+]);
+
+export const ChevronDownIcon = createIcon("ChevronDownIcon", [
+  React.createElement("polyline", { key: "cd1", points: "6 9 12 15 18 9" }),
+]);
+
+export const SunIcon = createIcon("SunIcon", [
+  React.createElement("circle", { key: "su1", cx: 12, cy: 12, r: 5 }),
+  React.createElement("line", { key: "su2", x1: 12, y1: 1, x2: 12, y2: 3 }),
+  React.createElement("line", { key: "su3", x1: 12, y1: 21, x2: 12, y2: 23 }),
+  React.createElement("line", { key: "su4", x1: 4.22, y1: 4.22, x2: 5.64, y2: 5.64 }),
+  React.createElement("line", { key: "su5", x1: 18.36, y1: 18.36, x2: 19.78, y2: 19.78 }),
+  React.createElement("line", { key: "su6", x1: 1, y1: 12, x2: 3, y2: 12 }),
+  React.createElement("line", { key: "su7", x1: 21, y1: 12, x2: 23, y2: 12 }),
+  React.createElement("line", { key: "su8", x1: 4.22, y1: 19.78, x2: 5.64, y2: 18.36 }),
+  React.createElement("line", { key: "su9", x1: 18.36, y1: 5.64, x2: 19.78, y2: 4.22 }),
+]);
+
+export const MoonIcon = createIcon("MoonIcon", [
+  React.createElement("path", { key: "mo1", d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" }),
+]);
+
+export const UsersIcon = createIcon("UsersIcon", [
+  React.createElement("path", { key: "us1", d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" }),
+  React.createElement("circle", { key: "us2", cx: 9, cy: 7, r: 4 }),
+  React.createElement("path", { key: "us3", d: "M23 21v-2a4 4 0 0 0-3-3.87" }),
+  React.createElement("path", { key: "us4", d: "M16 3.13a4 4 0 0 1 0 7.75" }),
+]);
+
+export const ArrowRightIcon = createIcon("ArrowRightIcon", [
+  React.createElement("line", { key: "ar1", x1: 5, y1: 12, x2: 19, y2: 12 }),
+  React.createElement("polyline", { key: "ar2", points: "12 5 19 12 12 19" }),
+]);
 
