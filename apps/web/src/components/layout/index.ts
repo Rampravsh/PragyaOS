@@ -10,3 +10,4 @@ export * from './Footer';
 export * from './MobileMenu';
 export * from './Sidebar';
 export * from './Topbar';
+export * from './CtaBanner';

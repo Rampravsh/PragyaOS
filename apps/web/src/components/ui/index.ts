@@ -12,3 +12,4 @@ export * from './SectionHeading';
 export * from './QuoteBlock';
 export * from './FeatureBlock';
 export * from './Doodles';
+export * from './Decorations';

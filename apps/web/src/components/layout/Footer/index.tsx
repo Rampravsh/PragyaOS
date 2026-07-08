@@ -1,8 +1,25 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FooterLink } from '../Navigation';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus('loading');
+    setTimeout(() => {
+      if (email.includes('error')) {
+        setStatus('error');
+      } else {
+        setStatus('success');
+        setEmail('');
+      }
+    }, 800);
+  };
 
   const footerLinks = [
     {
@@ -107,23 +124,35 @@ export function Footer() {
           <p className="text-small text-text-muted leading-relaxed font-body">
             Get notes, feature highlights, and learning resources straight to your inbox.
           </p>
-          <div className="flex w-full items-center relative max-w-sm">
-            <input
-              type="email"
-              placeholder="Your email address"
-              readOnly
-              className="bg-[#242427] border border-stone-800 focus:border-accent-gold/45 text-background-secondary text-small px-3.5 py-2.5 rounded-paper w-full focus:outline-none placeholder-text-muted/65 cursor-pointer"
-            />
-            <button
-              type="button"
-              className="absolute right-1 px-3 py-1.5 text-accent-gold hover:text-white transition-colors cursor-pointer"
-              aria-label="Submit newsletter subscription"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-              </svg>
-            </button>
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-2 select-none text-left">
+            <div className="flex w-full items-center relative max-w-sm">
+              <input
+                required
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === 'loading'}
+                className="bg-[#242427] border border-stone-800 focus:border-accent-gold/45 text-background-secondary text-small px-3.5 py-2.5 rounded-paper w-full focus:outline-none placeholder-text-muted/65"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="absolute right-1 px-3 py-1.5 text-accent-gold hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                aria-label="Submit newsletter subscription"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                </svg>
+              </button>
+            </div>
+            {status === 'success' && (
+              <p className="text-caption text-success font-semibold">Subscribed successfully! Welcome to PragyaOS.</p>
+            )}
+            {status === 'error' && (
+              <p className="text-caption text-red-400 font-semibold">Could not coordinate subscription. Try again.</p>
+            )}
+          </form>
         </div>
       </div>
 

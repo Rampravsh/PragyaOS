@@ -32,3 +32,47 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
 );
 
 Container.displayName = 'Container';
+
+/**
+ * WideContainer - 1200px max width container
+ */
+export function WideContainer({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <Container width="desktop" className={className} {...props}>
+      {children}
+    </Container>
+  );
+}
+
+/**
+ * ContentContainer - 1000px max width container
+ */
+export function ContentContainer({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <Container width="content" className={className} {...props}>
+      {children}
+    </Container>
+  );
+}
+
+/**
+ * ReadingContainer - 680px max width container
+ */
+export function ReadingContainer({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <Container width="reading" className={className} {...props}>
+      {children}
+    </Container>
+  );
+}
+
+/**
+ * HeroContainer - fluid layout container
+ */
+export function HeroContainer({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <Container width="fluid" className={className} {...props}>
+      {children}
+    </Container>
+  );
+}
