@@ -4,13 +4,14 @@ import { cn } from '@pragyaos/utils';
 import {
   SearchIcon,
   BellIcon,
-  UserIcon,
   SunIcon,
   MoonIcon,
   ChevronDownIcon,
+  MenuIcon,
 } from '@pragyaos/icons';
 import { useScrollY } from '@pragyaos/hooks';
 import { useTheme } from '@/providers/ThemeProvider';
+import { useSidebar } from '@/layouts/workspace/SidebarContext';
 
 // ─── SearchBar ────────────────────────────────────────────────────────────────
 
@@ -27,7 +28,7 @@ function SearchBar() {
           ? 'border-ring ring-2 ring-ring/20'
           : 'border-border hover:border-ring/50'
       )}
-      style={{ minWidth: '260px', maxWidth: '340px' }}
+      style={{ minWidth: '220px', maxWidth: '340px' }}
     >
       <SearchIcon size={15} className="text-muted-foreground shrink-0" />
       <input
@@ -131,6 +132,7 @@ function ProfileChip() {
 export function WorkspaceTopbar(): React.JSX.Element {
   const scrollY = useScrollY();
   const isScrolled = scrollY > 4;
+  const { toggleOpen } = useSidebar();
 
   return (
     <header
@@ -144,6 +146,16 @@ export function WorkspaceTopbar(): React.JSX.Element {
           : 'border-transparent'
       )}
     >
+      {/* Mobile Hamburger toggle */}
+      <button
+        type="button"
+        aria-label="Toggle sidebar menu"
+        onClick={toggleOpen}
+        className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        <MenuIcon size={18} />
+      </button>
+
       {/* Search — grows to fill available space */}
       <div className="flex-1 flex items-center">
         <SearchBar />
@@ -160,3 +172,4 @@ export function WorkspaceTopbar(): React.JSX.Element {
 }
 
 export default WorkspaceTopbar;
+

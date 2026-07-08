@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router';
 import WorkspaceSidebar from '@/layouts/workspace/WorkspaceSidebar';
 import WorkspaceTopbar from '@/layouts/workspace/WorkspaceTopbar';
+import { SidebarProvider } from '@/layouts/workspace/SidebarContext';
 
 /**
  * WorkspaceLayout — Production shell for all internal workspace pages.
@@ -17,25 +18,28 @@ import WorkspaceTopbar from '@/layouts/workspace/WorkspaceTopbar';
  */
 export function WorkspaceLayout(): React.JSX.Element {
   return (
-    <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-normal ease-in-out">
-      {/* Sticky sidebar — always dark, anchored left */}
-      <WorkspaceSidebar />
+    <SidebarProvider>
+      <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-normal ease-in-out">
+        {/* Sticky sidebar — always dark, anchored left */}
+        <WorkspaceSidebar />
 
-      {/* Main column — topbar + scrollable content */}
-      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        <WorkspaceTopbar />
+        {/* Main column — topbar + scrollable content */}
+        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+          <WorkspaceTopbar />
 
-        {/* Page content outlet */}
-        <main
-          id="workspace-main"
-          tabIndex={-1}
-          className="flex-1 overflow-y-auto focus:outline-none"
-        >
-          <Outlet />
-        </main>
+          {/* Page content outlet */}
+          <main
+            id="workspace-main"
+            tabIndex={-1}
+            className="flex-1 overflow-y-auto focus:outline-none"
+          >
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }
 
 export default WorkspaceLayout;
+

@@ -14,11 +14,11 @@ import {
   MessageSquareIcon,
   AwardIcon,
   FlameIcon,
+  ChevronRightIcon,
 } from '@pragyaos/icons';
 import { ROUTES } from '@/routes/route.constants';
 import { useTheme } from '@/providers/ThemeProvider';
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import { useSidebar } from '@/layouts/workspace/SidebarContext';
 
 interface NavItem {
   id: string;
@@ -27,8 +27,6 @@ interface NavItem {
   to: string;
   badge?: 'dot' | string;
 }
-
-// ─── Nav configuration ────────────────────────────────────────────────────────
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: DashboardIcon, to: ROUTES.PORTAL },
@@ -45,23 +43,13 @@ const NAV_ITEMS: NavItem[] = [
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.03, delayChildren: 0.05 } },
 };
 
 const itemVariants = {
   hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.25 } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
 };
-
-// ─── Theme-aware style maps ───────────────────────────────────────────────────
-//
-// Light theme → sidebar DARK  (dark bg, light text) — matches reference image
-// Dark theme  → sidebar LIGHT (light bg, dark text) — creates contrast vs dark workspace
-//
-// This is the PragyaOS Workspace language: sidebar and workspace are always in contrast.
 
 interface SidebarStyles {
   aside: string;
@@ -81,7 +69,6 @@ interface SidebarStyles {
 
 function useSidebarStyles(isDark: boolean): SidebarStyles {
   if (isDark) {
-    // Dark workspace → LIGHT sidebar
     return {
       aside: 'bg-zinc-50 border-r border-zinc-200',
       logoBorder: 'border-b border-zinc-200',
@@ -98,8 +85,6 @@ function useSidebarStyles(isDark: boolean): SidebarStyles {
       focusRing: 'focus-visible:ring-zinc-400',
     };
   }
-
-  // Light workspace → DARK sidebar (matches reference image)
   return {
     aside: 'bg-zinc-900 border-r border-zinc-800',
     logoBorder: 'border-b border-zinc-800',
@@ -117,25 +102,18 @@ function useSidebarStyles(isDark: boolean): SidebarStyles {
   };
 }
 
-// ─── SidebarNavItem ───────────────────────────────────────────────────────────
-
-function SidebarNavItem({
-  item,
-  styles,
-}: {
-  item: NavItem;
-  styles: SidebarStyles;
-}) {
+function SidebarNavItem({ item, styles, isCollapsed }: { item: NavItem; styles: SidebarStyles; isCollapsed: boolean }) {
   const Icon = item.icon;
-
   return (
     <motion.li variants={itemVariants}>
       <NavLink
         to={item.to}
         id={`sidebar-nav-${item.id}`}
+        title={isCollapsed ? item.label : undefined}
         className={({ isActive }) =>
           cn(
             'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-fast ease-out relative group',
+            isCollapsed ? 'justify-center px-0' : '',
             `focus-visible:outline-none focus-visible:ring-2 ${styles.focusRing}`,
             isActive ? styles.navItemActive : styles.navItemInactive
           )
@@ -143,18 +121,10 @@ function SidebarNavItem({
       >
         {({ isActive }) => (
           <>
-            <Icon
-              size={16}
-              className={cn(
-                isActive ? styles.navIconActive : styles.navIconInactive
-              )}
-            />
-            <span className="flex-1 font-sans">{item.label}</span>
-            {item.badge === 'dot' && (
-              <span
-                aria-label="New notifications"
-                className="w-2 h-2 rounded-full bg-amber-500 shrink-0"
-              />
+            <Icon size={16} className={cn(isActive ? styles.navIconActive : styles.navIconInactive, 'shrink-0')} />
+            {!isCollapsed && <span className="flex-1 font-sans whitespace-nowrap overflow-hidden text-ellipsis">{item.label}</span>}
+            {item.badge === 'dot' && !isCollapsed && (
+              <span aria-label="New notifications" className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             )}
           </>
         )}
@@ -163,88 +133,101 @@ function SidebarNavItem({
   );
 }
 
-// ─── StreakCard ───────────────────────────────────────────────────────────────
-
 function StreakCard({ styles }: { styles: SidebarStyles }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.35 }}
+      transition={{ delay: 0.2, duration: 0.3 }}
       className={cn('mx-3 mb-4 p-4 rounded-xl', styles.streakCard)}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className={cn('text-xs font-sans font-medium uppercase tracking-wider', styles.streakLabel)}>
-          Keep it up!
-        </span>
+        <span className={cn('text-xs font-sans font-medium uppercase tracking-wider', styles.streakLabel)}>Keep it up!</span>
         <FlameIcon size={18} className="text-amber-400" />
       </div>
-
       <div className="flex items-end gap-2 mb-3">
         <span className={cn('text-3xl font-bold font-sans leading-none', styles.streakNumber)}>12</span>
         <span className={cn('text-xs font-sans pb-1', styles.streakMeta)}>Day Streak</span>
       </div>
-
-      {/* Progress bar */}
       <div className={cn('w-full h-1.5 rounded-full overflow-hidden', styles.streakTrack)}>
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
           initial={{ width: 0 }}
           animate={{ width: '68%' }}
-          transition={{ delay: 0.8, duration: 0.7, ease: 'easeOut' }}
+          transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
         />
       </div>
     </motion.div>
   );
 }
 
-// ─── WorkspaceSidebar ─────────────────────────────────────────────────────────
-
 export function WorkspaceSidebar(): React.JSX.Element {
   const { theme } = useTheme();
+  const { isOpen, setIsOpen, isCollapsed, toggleCollapse } = useSidebar();
   const isDark = theme === 'workspace-dark';
   const styles = useSidebarStyles(isDark);
 
   return (
-    <motion.aside
-      aria-label="Workspace navigation"
-      className={cn(
-        'flex flex-col w-[var(--size-sidebar-workspace)] h-full shrink-0 transition-colors duration-normal ease-in-out',
-        styles.aside
+    <>
+      {/* Mobile Drawer Backdrop */}
+      {isOpen && (
+        <div
+          role="presentation"
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/40 dark:bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+        />
       )}
-      initial={{ x: -8, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      {/* Logo */}
-      <div className={cn('flex items-center gap-2.5 px-5 py-4', styles.logoBorder)}>
-        <LogoIcon size={22} className={styles.logoText} fill="currentColor" />
-        <span className={cn('text-base font-bold font-sans tracking-tight', styles.logoText)}>
-          PragyaOS
-        </span>
-      </div>
 
-      {/* Navigation */}
-      <nav
-        aria-label="Main navigation"
-        className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-2 scrollbar-hidden"
+      {/* Main Sidebar Aside */}
+      <aside
+        aria-label="Workspace navigation"
+        className={cn(
+          'flex flex-col h-full shrink-0 transition-all duration-300 ease-in-out border-r z-50',
+          'fixed inset-y-0 left-0 lg:static lg:translate-x-0',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          isCollapsed ? 'w-16' : 'w-[var(--size-sidebar-workspace)]',
+          styles.aside
+        )}
       >
-        <motion.ul
-          role="list"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col gap-0.5"
-        >
-          {NAV_ITEMS.map((item) => (
-            <SidebarNavItem key={item.id} item={item} styles={styles} />
-          ))}
-        </motion.ul>
-      </nav>
+        {/* Logo Header */}
+        <div className={cn('flex items-center gap-2.5 px-5 py-4 min-h-[57px]', styles.logoBorder)}>
+          <LogoIcon size={22} className={cn(styles.logoText, 'shrink-0')} fill="currentColor" />
+          {!isCollapsed && (
+            <span className={cn('text-base font-bold font-sans tracking-tight whitespace-nowrap overflow-hidden text-ellipsis', styles.logoText)}>
+              PragyaOS
+            </span>
+          )}
+        </div>
 
-      {/* Bottom streak card */}
-      <StreakCard styles={styles} />
-    </motion.aside>
+        {/* Navigation Link List */}
+        <nav aria-label="Main navigation" className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-2 scrollbar-hidden">
+          <motion.ul role="list" variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col gap-0.5">
+            {NAV_ITEMS.map((item) => (
+              <SidebarNavItem key={item.id} item={item} styles={styles} isCollapsed={isCollapsed} />
+            ))}
+          </motion.ul>
+        </nav>
+
+        {/* Streak status card (hidden when collapsed) */}
+        {!isCollapsed && <StreakCard styles={styles} />}
+
+        {/* Desktop Collapse Toggle Button */}
+        <button
+          type="button"
+          onClick={toggleCollapse}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          className={cn(
+            'hidden lg:flex items-center justify-center p-2.5 mx-3 mb-4 rounded-xl border text-xs font-sans font-medium transition-all duration-fast focus-visible:outline-none focus-visible:ring-2',
+            isDark
+              ? 'border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 focus-visible:ring-zinc-500'
+              : 'border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 focus-visible:ring-zinc-400',
+            isCollapsed ? 'mx-auto' : 'self-end'
+          )}
+        >
+          <ChevronRightIcon size={14} className={cn('transition-transform duration-normal', !isCollapsed && 'rotate-180')} />
+        </button>
+      </aside>
+    </>
   );
 }
 

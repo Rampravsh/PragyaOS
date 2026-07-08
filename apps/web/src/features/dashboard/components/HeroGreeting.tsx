@@ -30,17 +30,17 @@ function QuoteCard() {
 const headingVariants = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
-};
+} as const;
 
 const subtitleVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.35, delay: 0.1, ease: 'easeOut' } },
-};
+} as const;
 
 const rightVariants = {
   hidden: { opacity: 0, x: 16 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.4, delay: 0.15, ease: 'easeOut' } },
-};
+} as const;
 
 export function HeroGreeting(): React.JSX.Element {
   return (
