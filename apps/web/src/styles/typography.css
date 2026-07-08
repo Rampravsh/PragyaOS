@@ -1,0 +1,16 @@
+/* Typography Configuration */
+@import "@fontsource/manrope/index.css";
+@import "@fontsource/cormorant-garamond/index.css";
+
+@theme {
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Manrope", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}

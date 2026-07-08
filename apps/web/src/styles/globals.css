@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "./typography.css";
+@import "./animations.css";
+
+@layer base {
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-zinc-800);
+    border-radius: 9999px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-zinc-700);
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: var(--color-zinc-800);
+    color: var(--color-zinc-100);
+  }
+
+  /* Focus rings and interactive defaults */
+  :focus-visible {
+    outline: 2px solid var(--color-zinc-500);
+    outline-offset: 2px;
+  }
+
+  /* Base HTML configurations */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-zinc-950);
+    color: var(--color-zinc-50);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Container Layout utility */
+.app-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .app-container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .app-container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .app-container {
+    max-width: 1536px;
+  }
+}

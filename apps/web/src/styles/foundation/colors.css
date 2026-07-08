@@ -1,0 +1,27 @@
+@theme {
+  /* Semantic color tokens extracted from homepage design */
+  --color-background: #faf6f0;
+  --color-background-secondary: #f4efe6;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #faf9f6;
+  
+  --color-paper: #faf6f0;
+  --color-paper-dark: #18181a;
+  
+  --color-text-primary: #1c1917;
+  --color-text-secondary: #44403c;
+  --color-text-muted: #78716c;
+  
+  --color-border: #e7e5e4;
+  --color-divider: #d6d3d1;
+  
+  --color-accent-gold: #d97706;
+  --color-accent-green: #16a34a;
+  --color-accent-blue: #0284c7;
+  --color-accent-purple: #9333ea;
+  
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #dc2626;
+  --color-info: #0369a1;
+}

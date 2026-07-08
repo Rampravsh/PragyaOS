@@ -1,0 +1,7 @@
+:root {
+  /* Raw styling configuration values */
+  --notebook-line-color: rgba(28, 25, 23, 0.07);
+  --notebook-margin-color: rgba(220, 38, 38, 0.2);
+  --tape-color: rgba(212, 163, 115, 0.4);
+  --doodle-stroke: #78716c;
+}
