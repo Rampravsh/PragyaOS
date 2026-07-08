@@ -125,11 +125,10 @@ export function MarketingNavigation(): React.JSX.Element {
                             key={cat.id}
                             isActive={activeCategory.id === cat.id}
                             onMouseEnter={() => handleCategoryHover(cat)}
-                            underlineVariant="short"
-                            circleVariant="double-circle"
-                            circleColor="#c79436"
+                            underlineVariant="random"
+                            circleVariant="random"
                             className="text-left w-full px-3 py-2.5 text-xs font-sans"
-                            activeClassName="text-[#c79436] font-semibold"
+                            activeClassName="text-[#1C1917] dark:text-white font-semibold"
                             inactiveClassName="text-stone-600 dark:text-stone-400 hover:text-stone-950 dark:hover:text-stone-100"
                           >
                             {cat.name}
@@ -147,11 +146,10 @@ export function MarketingNavigation(): React.JSX.Element {
                             key={sub.id}
                             isActive={activeSubTopic?.id === sub.id}
                             onMouseEnter={() => setActiveSubTopic(sub)}
-                            underlineVariant="short"
-                            circleVariant="double-circle"
-                            circleColor="#c79436"
+                            underlineVariant="random"
+                            circleVariant="random"
                             className="text-left w-full px-3 py-2.5 text-xs font-sans"
-                            activeClassName="text-[#c79436] font-semibold"
+                            activeClassName="text-[#1C1917] dark:text-white font-semibold"
                             inactiveClassName="text-stone-600 dark:text-stone-400 hover:text-stone-950 dark:hover:text-stone-100"
                           >
                             {sub.name}
@@ -188,11 +186,10 @@ export function MarketingNavigation(): React.JSX.Element {
                                 key={course.id}
                                 to={`/courses/${course.slug}`}
                                 onClick={() => setCoursesOpen(false)}
-                                underlineVariant="short"
-                                circleVariant="oval"
-                                underlineColor="#c79436"
+                                underlineVariant="random"
+                                circleVariant="random"
                                 className="group flex flex-col gap-1 px-3 py-2.5 rounded-xl transition-all duration-200"
-                                activeClassName="text-[#c79436] font-semibold"
+                                activeClassName="text-[#1C1917] dark:text-white font-semibold"
                                 inactiveClassName="text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-stone-100"
                               >
                                 <div className="flex items-start justify-between gap-3">
