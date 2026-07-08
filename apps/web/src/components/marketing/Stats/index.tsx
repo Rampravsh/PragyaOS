@@ -17,6 +17,7 @@ export interface StatsProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function StatCard({ value, label, icon }: StatItem) {
@@ -41,12 +42,14 @@ export function Stats({
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'cream',
+  overlap = false,
 }: StatsProps) {
   return (
     <PaperSection
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="space-y-10 select-none">

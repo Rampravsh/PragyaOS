@@ -13,6 +13,7 @@ export interface FeatureHighlightProps {
   bottomDecoration?: React.ReactNode;
   paperVariant?: PaperSectionProps['variant'];
   backgroundVariant?: PaperSectionProps['background'];
+  overlap?: boolean;
 }
 
 export function FeatureHighlight({
@@ -25,6 +26,7 @@ export function FeatureHighlight({
   bottomDecoration,
   paperVariant = 'plain',
   backgroundVariant = 'white',
+  overlap = false,
 }: FeatureHighlightProps) {
   const isLeft = align === 'left';
 
@@ -33,6 +35,7 @@ export function FeatureHighlight({
       variant={paperVariant}
       background={backgroundVariant}
       decoration={topDecoration || bottomDecoration}
+      overlap={overlap}
       padding="md"
     >
       <Container width="desktop" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
