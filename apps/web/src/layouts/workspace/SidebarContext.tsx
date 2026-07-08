@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router";
 
 interface SidebarContextType {
   isOpen: boolean; // Mobile drawer state
@@ -44,7 +44,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }): Re
 export function useSidebar(): SidebarContextType {
   const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error('useSidebar must be used within a SidebarProvider');
+    throw new Error("useSidebar must be used within a SidebarProvider");
   }
   return context;
 }

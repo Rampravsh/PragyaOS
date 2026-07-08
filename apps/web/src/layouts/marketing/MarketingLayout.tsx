@@ -1,9 +1,9 @@
-import React from 'react';
-import { Outlet, useLocation } from 'react-router';
-import SkipToContent from '@/layouts/marketing/SkipToContent';
-import AnnouncementBar from '@/layouts/marketing/AnnouncementBar';
-import MarketingHeader from '@/layouts/marketing/MarketingHeader';
-import MarketingFooter from '@/layouts/marketing/MarketingFooter';
+import React from "react";
+import { Outlet, useLocation } from "react-router";
+import SkipToContent from "@/layouts/marketing/SkipToContent";
+import AnnouncementBar from "@/layouts/marketing/AnnouncementBar";
+import MarketingHeader from "@/layouts/marketing/MarketingHeader";
+import MarketingFooter from "@/layouts/marketing/MarketingFooter";
 
 /**
  * MarketingLayout: Parent shell wrapping public-facing page routes.
@@ -11,7 +11,7 @@ import MarketingFooter from '@/layouts/marketing/MarketingFooter';
  */
 export function MarketingLayout(): React.JSX.Element {
   const { pathname } = useLocation();
-  const authPaths = ['/login', '/register', '/forgot-password', '/verify-email', '/reset-password'];
+  const authPaths = ["/login", "/register", "/forgot-password", "/verify-email", "/reset-password"];
   const isAuthPage = authPaths.includes(pathname);
 
   if (isAuthPage) {
@@ -35,11 +35,7 @@ export function MarketingLayout(): React.JSX.Element {
 
       {/* 4. Main content viewport slot */}
       {/* tabIndex={-1} is required to safely receive keyboard focus from skip link */}
-      <main
-        id="main-content"
-        className="flex-1 flex flex-col focus:outline-none"
-        tabIndex={-1}
-      >
+      <main id="main-content" className="flex-1 flex flex-col focus:outline-none" tabIndex={-1}>
         <Outlet />
       </main>
 

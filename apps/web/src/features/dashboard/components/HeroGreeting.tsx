@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { PaperPlane, TinyDots, ImperfectCircle } from '@pragyaos/assets';
+import { motion } from "framer-motion";
+import { PaperPlane, TinyDots, ImperfectCircle } from "@pragyaos/assets";
 
 // ─── QuoteCard ────────────────────────────────────────────────────────────────
 
@@ -29,17 +29,17 @@ function QuoteCard() {
 
 const headingVariants = {
   hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 } as const;
 
 const subtitleVariants = {
   hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, delay: 0.1, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, delay: 0.1, ease: "easeOut" } },
 } as const;
 
 const rightVariants = {
   hidden: { opacity: 0, x: 16 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, delay: 0.15, ease: 'easeOut' } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, delay: 0.15, ease: "easeOut" } },
 } as const;
 
 export function HeroGreeting(): React.JSX.Element {
@@ -54,7 +54,9 @@ export function HeroGreeting(): React.JSX.Element {
           className="font-sans font-bold text-3xl text-foreground leading-tight tracking-tight flex items-center gap-2 flex-wrap"
         >
           Welcome back, Ananya
-          <span aria-label="waving hand" role="img">👋</span>
+          <span aria-label="waving hand" role="img">
+            👋
+          </span>
         </motion.h1>
 
         <motion.p

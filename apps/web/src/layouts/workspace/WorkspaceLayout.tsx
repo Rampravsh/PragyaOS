@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router';
-import WorkspaceSidebar from '@/layouts/workspace/WorkspaceSidebar';
-import WorkspaceTopbar from '@/layouts/workspace/WorkspaceTopbar';
-import { SidebarProvider } from '@/layouts/workspace/SidebarContext';
+import { Outlet } from "react-router";
+import WorkspaceSidebar from "@/layouts/workspace/WorkspaceSidebar";
+import WorkspaceTopbar from "@/layouts/workspace/WorkspaceTopbar";
+import { SidebarProvider } from "@/layouts/workspace/SidebarContext";
 
 /**
  * WorkspaceLayout — Production shell for all internal workspace pages.
@@ -42,4 +42,3 @@ export function WorkspaceLayout(): React.JSX.Element {
 }
 
 export default WorkspaceLayout;
-

@@ -1,26 +1,27 @@
-import { lazy, Suspense } from 'react';
-import { RouteObject } from 'react-router';
-import { ROUTES } from '@/routes/route.constants';
+import { lazy, Suspense } from "react";
+import { RouteObject } from "react-router";
+import { ROUTES } from "@/routes/route.constants";
 
 // Layout Imports
-import MarketingLayout from '@/layouts/marketing/MarketingLayout';
-import WorkspaceLayout from '@/layouts/workspace/WorkspaceLayout';
+import MarketingLayout from "@/layouts/marketing/MarketingLayout";
+import WorkspaceLayout from "@/layouts/workspace/WorkspaceLayout";
 
 // Guard Imports
-import RequireAuth from '@/routes/guards/RequireAuth';
-import RequireGuest from '@/routes/guards/RequireGuest';
-import RequireRole from '@/routes/guards/RequireRole';
+import RequireAuth from "@/routes/guards/RequireAuth";
+import RequireGuest from "@/routes/guards/RequireGuest";
+import RequireRole from "@/routes/guards/RequireRole";
 
 // Lazy-loaded pages
-const LazyHome = lazy(() => import('@/pages/home'));
-const LazyLogin = lazy(() => import('@/pages/login'));
-const LazyRegister = lazy(() => import('@/pages/register'));
-const LazyForgotPassword = lazy(() => import('@/pages/forgot-password'));
-const LazyVerifyEmail = lazy(() => import('@/pages/verify-email'));
-const LazyResetPassword = lazy(() => import('@/pages/reset-password'));
-const LazyPortal = lazy(() => import('@/pages/portal'));
-const LazyStudio = lazy(() => import('@/pages/studio'));
-const LazyAdmin = lazy(() => import('@/pages/admin'));
+const LazyHome = lazy(() => import("@/pages/home"));
+const LazyCourseDetails = lazy(() => import("@/pages/courses/detail"));
+const LazyLogin = lazy(() => import("@/pages/login"));
+const LazyRegister = lazy(() => import("@/pages/register"));
+const LazyForgotPassword = lazy(() => import("@/pages/forgot-password"));
+const LazyVerifyEmail = lazy(() => import("@/pages/verify-email"));
+const LazyResetPassword = lazy(() => import("@/pages/reset-password"));
+const LazyPortal = lazy(() => import("@/pages/portal"));
+const LazyStudio = lazy(() => import("@/pages/studio"));
+const LazyAdmin = lazy(() => import("@/pages/admin"));
 
 // Suspense Helper for lazy components
 const withSuspense = (Component: React.ComponentType) => (
@@ -42,6 +43,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.HOME,
         element: withSuspense(LazyHome),
+      },
+      {
+        path: ROUTES.COURSE_DETAILS,
+        element: withSuspense(LazyCourseDetails),
       },
     ],
   },
@@ -94,7 +99,7 @@ export const routes: RouteObject[] = [
           {
             path: ROUTES.STUDIO,
             element: (
-              <RequireRole allowedRoles={['instructor', 'admin']}>
+              <RequireRole allowedRoles={["instructor", "admin"]}>
                 {withSuspense(LazyStudio)}
               </RequireRole>
             ),
@@ -102,11 +107,7 @@ export const routes: RouteObject[] = [
           // Global administration console (requires 'admin' privilege)
           {
             path: ROUTES.ADMIN,
-            element: (
-              <RequireRole allowedRoles={['admin']}>
-                {withSuspense(LazyAdmin)}
-              </RequireRole>
-            ),
+            element: <RequireRole allowedRoles={["admin"]}>{withSuspense(LazyAdmin)}</RequireRole>,
           },
         ],
       },

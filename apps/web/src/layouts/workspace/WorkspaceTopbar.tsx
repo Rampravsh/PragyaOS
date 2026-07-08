@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@pragyaos/utils';
+import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { cn } from "@pragyaos/utils";
 import {
   SearchIcon,
   BellIcon,
@@ -8,10 +8,10 @@ import {
   MoonIcon,
   ChevronDownIcon,
   MenuIcon,
-} from '@pragyaos/icons';
-import { useScrollY } from '@pragyaos/hooks';
-import { useTheme } from '@/providers/ThemeProvider';
-import { useSidebar } from '@/layouts/workspace/SidebarContext';
+} from "@pragyaos/icons";
+import { useScrollY } from "@pragyaos/hooks";
+import { useTheme } from "@/providers/ThemeProvider";
+import { useSidebar } from "@/layouts/workspace/SidebarContext";
 
 // ─── SearchBar ────────────────────────────────────────────────────────────────
 
@@ -22,13 +22,11 @@ function SearchBar() {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-fast',
-        'bg-background text-foreground',
-        focused
-          ? 'border-ring ring-2 ring-ring/20'
-          : 'border-border hover:border-ring/50'
+        "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-fast",
+        "bg-background text-foreground",
+        focused ? "border-ring ring-2 ring-ring/20" : "border-border hover:border-ring/50",
       )}
-      style={{ minWidth: '220px', maxWidth: '340px' }}
+      style={{ minWidth: "220px", maxWidth: "340px" }}
     >
       <SearchIcon size={15} className="text-muted-foreground shrink-0" />
       <input
@@ -55,22 +53,22 @@ function SearchBar() {
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const isDark = theme === 'workspace-dark';
+  const isDark = theme === "workspace-dark";
 
   const toggle = () => {
-    setTheme(isDark ? 'workspace-light' : 'workspace-dark');
+    setTheme(isDark ? "workspace-light" : "workspace-dark");
   };
 
   return (
     <button
       id="workspace-theme-toggle"
       type="button"
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       onClick={toggle}
       className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <motion.div
-        key={isDark ? 'moon' : 'sun'}
+        key={isDark ? "moon" : "sun"}
         initial={{ opacity: 0, rotate: -20 }}
         animate={{ opacity: 1, rotate: 0 }}
         transition={{ duration: 0.2 }}
@@ -139,11 +137,9 @@ export function WorkspaceTopbar(): React.JSX.Element {
       id="workspace-topbar"
       role="banner"
       className={cn(
-        'sticky top-0 z-sticky flex items-center gap-4 px-6 h-[var(--size-header-workspace)] border-b transition-all duration-normal ease-in-out',
-        'bg-background/90 backdrop-blur-md',
-        isScrolled
-          ? 'border-border shadow-sm'
-          : 'border-transparent'
+        "sticky top-0 z-sticky flex items-center gap-4 px-6 h-[var(--size-header-workspace)] border-b transition-all duration-normal ease-in-out",
+        "bg-background/90 backdrop-blur-md",
+        isScrolled ? "border-border shadow-sm" : "border-transparent",
       )}
     >
       {/* Mobile Hamburger toggle */}
@@ -172,4 +168,3 @@ export function WorkspaceTopbar(): React.JSX.Element {
 }
 
 export default WorkspaceTopbar;
-

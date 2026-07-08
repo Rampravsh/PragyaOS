@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import {
   HeroGreeting,
   ContinueLearningWidget,
@@ -7,7 +7,7 @@ import {
   ProgressWidget,
   DeadlinesWidget,
   AchievementsWidget,
-} from '@/features/dashboard';
+} from "@/features/dashboard";
 
 // ─── Animation ────────────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ const pageVariants = {
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
 } as const;
 
 // ─── PortalComposition ────────────────────────────────────────────────────────
@@ -41,33 +41,38 @@ export function PortalComposition(): React.JSX.Element {
     >
       {/* ── Left: Main content column ─────────────────────────────────────── */}
       <div className="flex flex-col gap-6 flex-1 min-w-0">
-
         {/* Hero greeting */}
         <motion.div variants={sectionVariants}>
           <HeroGreeting />
         </motion.div>
 
         {/* Continue Learning */}
-        <motion.div variants={sectionVariants} className="bg-card rounded-xl border border-border p-5">
+        <motion.div
+          variants={sectionVariants}
+          className="bg-card rounded-xl border border-border p-5"
+        >
           <ContinueLearningWidget />
         </motion.div>
 
         {/* Learning Paths */}
-        <motion.div variants={sectionVariants} className="bg-card rounded-xl border border-border p-5">
+        <motion.div
+          variants={sectionVariants}
+          className="bg-card rounded-xl border border-border p-5"
+        >
           <LearningPathsWidget />
         </motion.div>
 
         {/* Recommended for You */}
-        <motion.div variants={sectionVariants} className="bg-card rounded-xl border border-border p-5">
+        <motion.div
+          variants={sectionVariants}
+          className="bg-card rounded-xl border border-border p-5"
+        >
           <RecommendedCoursesWidget />
         </motion.div>
       </div>
 
       {/* ── Right: Sidebar widgets ─────────────────────────────────────────── */}
-      <aside
-        aria-label="Dashboard widgets"
-        className="flex flex-col gap-4 w-72 shrink-0"
-      >
+      <aside aria-label="Dashboard widgets" className="flex flex-col gap-4 w-72 shrink-0">
         <ProgressWidget />
         <DeadlinesWidget />
         <AchievementsWidget />
