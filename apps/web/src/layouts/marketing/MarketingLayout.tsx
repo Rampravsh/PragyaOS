@@ -11,7 +11,8 @@ import MarketingFooter from '@/layouts/marketing/MarketingFooter';
  */
 export function MarketingLayout(): React.JSX.Element {
   const { pathname } = useLocation();
-  const isAuthPage = pathname === '/login';
+  const authPaths = ['/login', '/register', '/forgot-password', '/verify-email', '/reset-password'];
+  const isAuthPage = authPaths.includes(pathname);
 
   if (isAuthPage) {
     return (
