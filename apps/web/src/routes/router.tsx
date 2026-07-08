@@ -8,11 +8,16 @@ const LoginPage = React.lazy(() => import('@/pages/Login'));
 const RegisterPage = React.lazy(() => import('@/pages/Register'));
 const DashboardPage = React.lazy(() => import('@/pages/Dashboard'));
 const NotFoundPage = React.lazy(() => import('@/pages/NotFound'));
+const DesignSystemPage = React.lazy(() => import('@/pages/DesignSystem'));
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+  },
+  {
+    path: '/design-system',
+    element: <DesignSystemPage />,
   },
   {
     element: <GuestGuard />,

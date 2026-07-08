@@ -1,0 +1,70 @@
+/* Lined notebook paper styling */
+.paper-notebook {
+  background-color: var(--color-surface);
+  background-image: linear-gradient(var(--notebook-line-color) 1px, transparent 1px);
+  background-size: 100% 24px;
+  position: relative;
+}
+
+.paper-notebook::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 1px;
+  height: 100%;
+  background-color: var(--notebook-margin-color);
+  z-index: 1;
+}
+
+/* Dotted grid paper styling */
+.paper-grid {
+  background-color: var(--color-surface);
+  background-image: radial-gradient(rgba(28, 25, 23, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Paper Stacks: Creates stacked paper sheets visual using pseudo-elements */
+.paper-stack-2 {
+  position: relative;
+}
+.paper-stack-2::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.paper-stack-3 {
+  position: relative;
+}
+.paper-stack-3::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+  border-radius: inherit;
+  z-index: -1;
+}
+.paper-stack-3::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: -8px;
+  bottom: -8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background-secondary);
+  border-radius: inherit;
+  z-index: -2;
+}

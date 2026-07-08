@@ -1,6 +1,21 @@
 @import "tailwindcss";
-@import "./typography.css";
-@import "./animations.css";
+
+/* Load variables first */
+@import "./foundation/variables.css";
+
+/* Load theme variable extensions */
+@import "./foundation/colors.css";
+@import "./foundation/typography.css";
+@import "./foundation/spacing.css";
+@import "./foundation/radius.css";
+@import "./foundation/shadows.css";
+@import "./foundation/motion.css";
+
+/* Load structural and decorative layouts */
+@import "./foundation/grid.css";
+@import "./foundation/paper.css";
+@import "./foundation/decorations.css";
+@import "./foundation/components.css";
 
 @layer base {
   /* Scrollbar styling */
@@ -14,23 +29,24 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: var(--color-zinc-800);
-    border-radius: 9999px;
+    background: var(--color-text-muted);
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--color-background);
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-zinc-700);
+    background: var(--color-text-secondary);
   }
 
   /* Selection styling */
   ::selection {
-    background-color: var(--color-zinc-800);
-    color: var(--color-zinc-100);
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
   }
 
   /* Focus rings and interactive defaults */
   :focus-visible {
-    outline: 2px solid var(--color-zinc-500);
+    outline: 2px solid var(--color-accent-gold);
     outline-offset: 2px;
   }
 
@@ -40,51 +56,9 @@
   }
 
   body {
-    background-color: var(--color-zinc-950);
-    color: var(--color-zinc-50);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
     overflow-x: hidden;
-  }
-}
-
-/* Custom Container Layout utility */
-.app-container {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-@media (min-width: 640px) {
-  .app-container {
-    max-width: 640px;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .app-container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .app-container {
-    max-width: 1024px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .app-container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .app-container {
-    max-width: 1536px;
+    line-height: 1.5;
   }
 }

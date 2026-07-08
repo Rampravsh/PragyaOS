@@ -91,3 +91,79 @@ export const pageTransitions: Variants = {
     },
   },
 };
+
+// Design Foundation Micro-animations
+
+// Smooth lift effect for cards on hover
+export const hoverLift = {
+  hover: {
+    y: -4,
+    boxShadow: 'var(--shadow-paper-floating)',
+    transition: {
+      duration: 0.25,
+      ease: 'easeOut',
+    },
+  },
+};
+
+// Button press feedback
+export const buttonPress = {
+  rest: { scale: 1 },
+  hover: { scale: 1.015 },
+  tap: { scale: 0.985 },
+};
+
+// Physical paper sliding up with a slight rotation tilt (creates editorial handcrafted entry)
+export const paperReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    rotate: -1.5,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 80,
+      damping: 15,
+      mass: 1,
+    },
+  },
+};
+
+// Spiral binding style side-unroll for notebooks
+export const notebookReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    transformOrigin: 'left center',
+    rotateY: -20,
+    scaleX: 0.95,
+  },
+  show: {
+    opacity: 1,
+    rotateY: 0,
+    scaleX: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
+// Section Entrance (fade slide up)
+export const sectionEntrance: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
