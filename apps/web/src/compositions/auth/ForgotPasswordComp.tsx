@@ -1,58 +1,54 @@
 import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { AuthOpenBook } from '@pragyaos/assets';
+import { AuthLock } from '@pragyaos/assets';
 import { MailIcon } from '@pragyaos/icons';
 import AuthLayout from '@/compositions/auth/AuthLayout';
 import AuthInput from '@/compositions/auth/components/AuthInput';
-import PasswordField from '@/compositions/auth/components/PasswordField';
-import SocialButtons from '@/compositions/auth/components/SocialButtons';
 import { ROUTES } from '@/routes/route.constants';
 
-export function LoginComposition(): React.JSX.Element {
+export function ForgotPasswordComp(): React.JSX.Element {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email || !password) {
-      setError('Please fill in all fields.');
+    if (!email) {
+      setError('Please enter your email.');
       return;
     }
-    
+
     setError('');
     setLoading(true);
 
     // Mock API Latency (600ms)
     await new Promise((resolve) => setTimeout(resolve, 600));
     setLoading(false);
-    
-    // Redirect to Portal
-    navigate(ROUTES.PORTAL);
+
+    // Navigate to Verify Email passing context
+    navigate(ROUTES.VERIFY_EMAIL, { state: { email, fromForgot: true } });
   };
 
   return (
     <AuthLayout
-      illustration={AuthOpenBook}
+      illustration={AuthLock}
       title={
         <>
-          Welcome back to <br />
-          your <span className="text-[#c79436] font-serif italic">learning space.</span>
+          Forgot your <br />
+          <span className="text-[#c79436] font-serif italic">password?</span>
         </>
       }
-      description="Learn. Practice. Build. Achieve."
-      bottomText="Your data is protected with enterprise-grade security."
+      description="No worries! It happens. Let's get you back."
+      bottomText="A reset link will be sent to your email."
     >
       {/* Title */}
       <div className="flex flex-col gap-1.5 text-center lg:text-left">
         <h1 className="text-2xl font-sans font-bold text-stone-900 dark:text-white tracking-tight">
-          Log in to PragyaOS
+          Forgot password
         </h1>
         <p className="text-sm text-stone-500 dark:text-stone-400 font-sans">
-          Continue your learning journey
+          Enter your email and we'll send you a reset link.
         </p>
       </div>
 
@@ -65,7 +61,7 @@ export function LoginComposition(): React.JSX.Element {
         )}
 
         <AuthInput
-          id="login-email"
+          id="forgot-email"
           label="Email address"
           type="email"
           required
@@ -76,55 +72,22 @@ export function LoginComposition(): React.JSX.Element {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <div className="flex flex-col gap-2">
-          <PasswordField
-            id="login-password"
-            label="Password"
-            required
-            autoComplete="current-password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          
-          <div className="flex items-center justify-between text-xs font-sans font-medium mt-1">
-            <label className="flex items-center gap-2 cursor-pointer text-stone-600 dark:text-stone-400 select-none">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-stone-300 text-[#10B981] focus:ring-[#10B981]"
-              />
-              <span>Remember me</span>
-            </label>
-            <Link
-              to={ROUTES.FORGOT_PASSWORD}
-              className="text-[#c79436] hover:underline"
-            >
-              Forgot password?
-            </Link>
-          </div>
-        </div>
-
         <button
           type="submit"
           disabled={loading}
           className="h-12 w-full mt-2 flex items-center justify-center rounded-xl bg-stone-900 hover:bg-black dark:bg-white dark:hover:bg-stone-100 text-sm font-sans font-semibold text-white dark:text-stone-900 transition-all duration-200 active:scale-[0.99] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
         >
-          {loading ? 'Logging in...' : 'Log in'}
+          {loading ? 'Sending link...' : 'Send reset link'}
         </button>
 
-        {/* Social Logins */}
-        <SocialButtons />
-
-        {/* Footer Link */}
+        {/* Footer link */}
         <p className="text-center text-xs text-stone-500 font-sans mt-3">
-          Don't have an account?{' '}
+          Remember your password?{' '}
           <Link
-            to={ROUTES.REGISTER}
+            to={ROUTES.LOGIN}
             className="font-semibold text-stone-900 dark:text-white hover:underline"
           >
-            Create account
+            Log in
           </Link>
         </p>
       </form>
@@ -132,4 +95,4 @@ export function LoginComposition(): React.JSX.Element {
   );
 }
 
-export default LoginComposition;
+export default ForgotPasswordComp;

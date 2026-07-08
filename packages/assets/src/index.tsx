@@ -530,3 +530,75 @@ export const Annotations = {
   HighlightCircle, HighlightOval, HighlightDoubleCircle, HighlightScribble,
   RoughRectangle, UnderlineShort, UnderlineLong, DoubleUnderline, TripleUnderline, SideMarker,
 } as const;
+
+// ─── AUTHENTICATION FLOW ILLUSTRATIONS ──────────────────────────────────────────
+
+export const AuthTwig = makeAsset("AuthTwig", 60, 180, (c, sw, op) => (
+  <>
+    <Stroke d="M30,170 C30,130 25,80 40,10" color={c} sw={sw} op={op} />
+    <Stroke d="M38,130 C48,125 52,115 50,105 C46,115 36,122 37,130 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M34,110 C20,105 16,95 22,85 C26,95 32,102 33,110 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M39,80 C50,75 52,65 48,55 C44,65 36,72 37,80 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M35,60 C22,55 18,45 24,35 C28,45 32,52 33,60 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M38,30 C45,25 48,15 44,8 C40,15 35,22 36,30 Z" color={c} sw={sw} op={op} />
+  </>
+));
+
+export const AuthOpenBook = makeAsset("AuthOpenBook", 160, 120, (c, sw, op) => (
+  <>
+    <Stroke d="M80,100 C50,95 20,105 10,100 L10,30 C20,35 50,25 80,30" color={c} sw={sw} op={op} />
+    <Stroke d="M80,100 C110,95 140,105 150,100 L150,30 C140,35 110,25 80,30" color={c} sw={sw} op={op} />
+    <Stroke d="M80,30 L80,102" color={c} sw={sw + 0.5} op={op} />
+    <Stroke d="M10,103 C20,108 50,98 80,103 C110,98 140,108 150,103" color={c} sw={sw} op={op * 0.5} />
+    <Stroke d="M22,42 L70,39 M22,54 L70,51 M22,66 L70,63 M22,78 L70,75" color={c} sw={sw * 0.6} op={op * 0.4} />
+    <Stroke d="M90,39 L138,42 M90,51 L138,54 M90,63 L138,66 M90,75 L138,78" color={c} sw={sw * 0.6} op={op * 0.4} />
+  </>
+));
+
+export const AuthGradCap = makeAsset("AuthGradCap", 160, 130, (c, sw, op) => (
+  <>
+    <Stroke d="M30,110 L130,110 L130,120 L30,120 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M130,113 L145,113 M130,117 L140,117" color={c} sw={sw} op={op * 0.6} />
+    <Stroke d="M35,95 L125,95 L125,107 L35,107 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M60,65 C60,50 100,50 100,65 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M80,35 L135,50 L80,65 L25,50 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M80,50 C65,52 50,65 52,78" color={c} sw={sw} op={op} />
+    <circle cx={52} cy={78} r={3} fill={c} opacity={op} />
+  </>
+));
+
+export const AuthLock = makeAsset("AuthLock", 140, 130, (c, sw, op) => (
+  <>
+    <Stroke d="M45,65 V45 C45,28 95,28 95,45 V65" color={c} sw={sw} op={op} />
+    <Stroke d="M35,65 H105 C110,65 112,67 112,72 V110 C112,115 110,117 105,117 H35 C30,117 28,115 28,110 V72 C28,67 30,65 35,65 Z" color={c} sw={sw} op={op} />
+    <circle cx={70} cy={85} r={4} fill={c} opacity={op} />
+    <Stroke d="M70,89 L73,101 H67 Z" color={c} sw={sw} op={op} />
+    <Stroke d="M20,40 C15,35 10,45 5,40" color={c} sw={sw * 0.8} op={op * 0.5} />
+    <Stroke d="M120,45 C125,40 130,50 135,45" color={c} sw={sw * 0.8} op={op * 0.5} />
+  </>
+));
+
+export const AuthEnvelope = makeAsset("AuthEnvelope", 150, 130, (c, sw, op) => (
+  <>
+    <Stroke d="M20,50 V110 H130 V50" color={c} sw={sw} op={op} />
+    <Stroke d="M20,50 L75,20 L130,50" color={c} sw={sw} op={op} />
+    <Stroke d="M20,110 L65,75 M130,110 L85,75" color={c} sw={sw} op={op * 0.7} />
+    <Stroke d="M35,45 V25 C35,22 37,20 40,20 H110 C113,20 115,22 115,25 V45" color={c} sw={sw} op={op} />
+    <circle cx={75} cy={35} r={8} fill="#10B981" opacity={op} />
+    <Stroke d="M71,35 L74,38 L80,32" color="white" sw={1.5} op={op} />
+  </>
+));
+
+export const AuthKey = makeAsset("AuthKey", 150, 120, (c, sw, op) => (
+  <>
+    <circle cx={40} cy={60} r={20} stroke={c} strokeWidth={sw} fill="none" opacity={op} />
+    <circle cx={40} cy={60} r={8} stroke={c} strokeWidth={sw * 0.7} fill="none" opacity={op * 0.6} />
+    <Stroke d="M60,60 L130,60" color={c} sw={sw} op={op} />
+    <Stroke d="M110,60 V75 H120 V60" color={c} sw={sw} op={op} />
+    <Stroke d="M123,60 V70 H130 V60" color={c} sw={sw} op={op} />
+  </>
+));
+
+export const AuthSparkle = makeAsset("AuthSparkle", 30, 30, (c, sw, op) => (
+  <Stroke d="M15,2 C15,10 10,15 2,15 C10,15 15,20 15,28 C15,20 20,15 28,15 C20,15 15,10 15,2" color={c} sw={sw} op={op} />
+));

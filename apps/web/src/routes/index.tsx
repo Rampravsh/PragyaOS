@@ -14,6 +14,10 @@ import RequireRole from '@/routes/guards/RequireRole';
 // Lazy-loaded pages
 const LazyHome = lazy(() => import('@/pages/home'));
 const LazyLogin = lazy(() => import('@/pages/login'));
+const LazyRegister = lazy(() => import('@/pages/register'));
+const LazyForgotPassword = lazy(() => import('@/pages/forgot-password'));
+const LazyVerifyEmail = lazy(() => import('@/pages/verify-email'));
+const LazyResetPassword = lazy(() => import('@/pages/reset-password'));
 const LazyPortal = lazy(() => import('@/pages/portal'));
 const LazyStudio = lazy(() => import('@/pages/studio'));
 const LazyAdmin = lazy(() => import('@/pages/admin'));
@@ -52,6 +56,22 @@ export const routes: RouteObject[] = [
           {
             path: ROUTES.LOGIN,
             element: withSuspense(LazyLogin),
+          },
+          {
+            path: ROUTES.REGISTER,
+            element: withSuspense(LazyRegister),
+          },
+          {
+            path: ROUTES.FORGOT_PASSWORD,
+            element: withSuspense(LazyForgotPassword),
+          },
+          {
+            path: ROUTES.VERIFY_EMAIL,
+            element: withSuspense(LazyVerifyEmail),
+          },
+          {
+            path: ROUTES.RESET_PASSWORD,
+            element: withSuspense(LazyResetPassword),
           },
         ],
       },
