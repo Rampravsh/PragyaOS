@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AuthGuard, GuestGuard } from './guards';
+import { MarketingLayout } from '@/layouts';
 
 // Lazy load placeholder pages
 const HomePage = React.lazy(() => import('@/pages/Home'));
@@ -14,7 +15,13 @@ const LayoutPreviewPage = React.lazy(() => import('@/pages/LayoutPreview'));
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <MarketingLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
   },
   {
     path: '/design-system',
