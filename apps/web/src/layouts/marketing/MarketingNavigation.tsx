@@ -1,56 +1,11 @@
 import React, { useState } from "react";
 import { cn } from "@pragyaos/utils";
 import { useClickOutside } from "@pragyaos/hooks";
-import {
-  AnimatedNavLink,
-  AnimatedNavButton,
-  UnderlineVariant,
-  CircleVariant,
-} from "@/components/marketing/shared/AnimatedNavLink";
+import { AnimatedNavLink, AnimatedNavButton } from "@/components/marketing/shared/AnimatedNavLink";
 import { getMockCatalog } from "@/features/courses/api/mockCourses";
 import { Category, SubTopic } from "@/features/courses/types/course.types";
 import { FeaturesDropdown } from "@/compositions/marketing/features/FeaturesDropdown";
-
-export interface NavItem {
-  label: string;
-  href: string;
-  hasDropdown?: boolean;
-  color?: string;
-  circleColor?: string;
-  underlineVariant?: UnderlineVariant;
-  circleVariant?: CircleVariant;
-}
-
-export const MARKETING_NAV_ITEMS: NavItem[] = [
-  {
-    label: "Courses",
-    href: "/courses",
-    hasDropdown: true,
-    underlineVariant: "short",
-    circleVariant: "random",
-  },
-  {
-    label: "For Instructors",
-    href: "/instructors",
-    underlineVariant: "double",
-    circleVariant: "random",
-  },
-  {
-    label: "Features",
-    href: "/features",
-    hasDropdown: true,
-    underlineVariant: "short",
-    circleVariant: "random",
-  },
-  { label: "Pricing", href: "/pricing", underlineVariant: "double", circleVariant: "random" },
-  {
-    label: "Resources",
-    href: "/resources",
-    hasDropdown: true,
-    underlineVariant: "short",
-    circleVariant: "random",
-  },
-];
+import { MARKETING_NAV_ITEMS } from "./nav.constants";
 
 export function MarketingNavigation(): React.JSX.Element {
   const [coursesOpen, setCoursesOpen] = useState(false);
