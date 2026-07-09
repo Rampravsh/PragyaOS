@@ -79,7 +79,7 @@ const LearnerCard = memo(function LearnerCard({
         <div className="w-8 h-1 rounded-full opacity-30" style={{ backgroundColor: card.iconColor }} aria-hidden="true" />
 
         {/* Label */}
-        <h3 className="font-serif font-semibold text-base text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-tight">
+        <h3 className="font-serif font-semibold text-base text-[#1C1917] dark:text-stone-100 transition-colors duration-300 leading-tight">
           {card.label}
         </h3>
 
@@ -114,7 +114,7 @@ export function PlatformSection(): React.JSX.Element {
 
       <section
         id="platform-section"
-        className="relative bg-background text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-[#1C1917] dark:text-stone-100 transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="platform-heading"
       >
         {/* Floating decorations */}

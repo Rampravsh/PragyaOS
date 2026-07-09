@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
-import { Outlet } from 'react-router';
+import { Navigate, Outlet } from 'react-router';
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/routes/route.constants';
 
 interface RequireRoleProps {
   allowedRoles: string[];
@@ -7,15 +9,19 @@ interface RequireRoleProps {
 }
 
 /**
- * RequireRole Guard Placeholder.
- * Currently forwards children/Outlet. In Prompt 005, this will match user permissions and roles.
+ * RequireRole Guard.
+ * Matches current user role against allowed access levels.
  */
 export function RequireRole({
   allowedRoles,
   children,
 }: RequireRoleProps): React.JSX.Element {
-  // Suppress unused variable warning until roles are connected
-  console.log('[RequireRole Guard Allowed Roles]:', allowedRoles);
+  const { user } = useAuth();
+
+  if (!user || !allowedRoles.includes(user.role)) {
+    // If not authorized, fallback safely to student workspace portal
+    return <Navigate to={ROUTES.PORTAL} replace />;
+  }
 
   return children ? <>{children}</> : <Outlet />;
 }

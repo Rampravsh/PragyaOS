@@ -7,12 +7,14 @@ import AuthInput from '@/compositions/auth/components/AuthInput';
 import PasswordField from '@/compositions/auth/components/PasswordField';
 import SocialButtons from '@/compositions/auth/components/SocialButtons';
 import { ROUTES } from '@/routes/route.constants';
+import { useAuth } from '@/hooks/useAuth';
 
 export function LoginComposition(): React.JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const role = (location.state as { role?: string })?.role || 'student';
   const isInstructor = role === 'instructor';
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,13 +32,19 @@ export function LoginComposition(): React.JSX.Element {
     setError('');
     setLoading(true);
 
-    // Mock API Latency (600ms)
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    const result = await login(email, password);
     setLoading(false);
     
-    // Redirect based on email prefix or state role
-    if (email.toLowerCase().includes('instructor') || isInstructor) {
+    if (!result.success) {
+      setError(result.error || 'Login failed.');
+      return;
+    }
+    
+    const normalizedEmail = email.toLowerCase().trim();
+    if (normalizedEmail.includes('instructor') || isInstructor) {
       navigate(ROUTES.STUDIO);
+    } else if (normalizedEmail.includes('admin') || normalizedEmail.includes('superadmin')) {
+      navigate(ROUTES.ADMIN);
     } else {
       navigate(ROUTES.PORTAL);
     }

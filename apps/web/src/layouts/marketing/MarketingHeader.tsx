@@ -6,7 +6,8 @@ import { cn } from '@pragyaos/utils';
 import MarketingNavigation from '@/layouts/marketing/MarketingNavigation';
 import MobileNavigation from '@/layouts/marketing/MobileNavigation';
 import ThemeToggle from '@/layouts/marketing/ThemeToggle';
-
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/routes/route.constants';
 
 /**
  * MarketingHeader: Sticky header matching the approved design.
@@ -17,6 +18,14 @@ export function MarketingHeader(): React.JSX.Element {
   const scrollY = useScrollY();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const isScrolled = scrollY > 20;
+  const { user } = useAuth();
+
+  const getDashboardRoute = () => {
+    if (!user) return ROUTES.LOGIN;
+    if (user.role === 'student') return ROUTES.PORTAL;
+    if (['instructor'].includes(user.role)) return ROUTES.STUDIO;
+    return ROUTES.ADMIN;
+  };
 
   return (
     <header
@@ -48,19 +57,31 @@ export function MarketingHeader(): React.JSX.Element {
         <div className="flex items-center gap-2">
           <ThemeToggle />
 
-          <Link
-            to="/login"
-            className="hidden sm:inline-flex items-center px-4 py-2 border border-[#1C1917]/25 hover:border-[#1C1917] hover:bg-[#1C1917]/5 dark:border-white/20 dark:hover:border-white/40 dark:hover:bg-white/5 text-sm font-sans font-medium text-[#1C1917] dark:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
-          >
-            Log in
-          </Link>
+          {user ? (
+            <Link
+              to={getDashboardRoute()}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              <span>Dashboard</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            </Link>
+          ) : (
+            <>
+              <Link
+                to={ROUTES.LOGIN}
+                className="hidden sm:inline-flex items-center px-4 py-2 border border-[#1C1917]/25 hover:border-[#1C1917] hover:bg-[#1C1917]/5 dark:border-white/20 dark:hover:border-white/40 dark:hover:bg-white/5 text-sm font-sans font-medium text-[#1C1917] dark:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
+              >
+                Log in
+              </Link>
 
-          <Link
-            to="/login"
-            className="hidden sm:inline-flex items-center px-4 py-2 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-          >
-            Get Started
-          </Link>
+              <Link
+                to={ROUTES.LOGIN}
+                className="hidden sm:inline-flex items-center px-4 py-2 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
 
           {/* Mobile menu toggle */}
           <button

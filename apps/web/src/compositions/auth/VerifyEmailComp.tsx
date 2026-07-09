@@ -63,7 +63,7 @@ export function VerifyEmailComp(): React.JSX.Element {
         )}
 
         {/* Helpful Info Box */}
-        <div className="p-4 rounded-xl border border-stone-200 dark:border-white/10 bg-white/40 dark:bg-white/[0.02] flex flex-col gap-2.5">
+        <div className="p-4 rounded-xl border border-stone-200 dark:border-white/10 bg-white/40 dark:bg-white/2 flex flex-col gap-2.5">
           <div className="flex items-center gap-2 text-xs font-sans font-bold text-stone-700 dark:text-stone-300">
             <AlertCircleIcon size={14} className="text-brand-gold" />
             <span>Didn't receive the email?</span>

@@ -15,10 +15,13 @@ import {
   AwardIcon,
   FlameIcon,
   ChevronRightIcon,
+  PencilIcon,
+  ShieldCheckIcon,
 } from "@pragyaos/icons";
 import { ROUTES } from "@/routes/route.constants";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useSidebar } from "@/layouts/workspace/SidebarContext";
+import { useAuth } from "@/hooks/useAuth";
 
 interface NavItem {
   id: string;
@@ -27,19 +30,6 @@ interface NavItem {
   to: string;
   badge?: "dot" | string;
 }
-
-const NAV_ITEMS: NavItem[] = [
-  { id: "dashboard", label: "Dashboard", icon: DashboardIcon, to: ROUTES.PORTAL },
-  { id: "my-courses", label: "My Courses", icon: BookIcon, to: "/courses" },
-  { id: "learning-paths", label: "Learning Paths", icon: LayersIcon, to: "/paths" },
-  { id: "assignments", label: "Assignments", icon: BellIcon, to: "/assignments", badge: "dot" },
-  { id: "discussions", label: "Discussions", icon: MessageSquareIcon, to: "/discussions" },
-  { id: "certificates", label: "Certificates", icon: AwardIcon, to: "/certificates" },
-  { id: "analytics", label: "Analytics", icon: BarChartIcon, to: "/analytics" },
-  { id: "bookmarks", label: "Bookmarks", icon: BookmarkIcon, to: "/bookmarks" },
-  { id: "calendar", label: "Calendar", icon: CalendarIcon, to: "/calendar" },
-  { id: "settings", label: "Settings", icon: SettingsIcon, to: "/settings" },
-];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -191,8 +181,38 @@ function StreakCard({ styles }: { styles: SidebarStyles }) {
 export function WorkspaceSidebar(): React.JSX.Element {
   const { theme } = useTheme();
   const { isOpen, setIsOpen, isCollapsed, toggleCollapse } = useSidebar();
+  const { user } = useAuth();
   const isDark = theme === "workspace-dark";
   const styles = useSidebarStyles(isDark);
+
+  // Dynamic Navigation Items Builder
+  const baseItems: NavItem[] = [
+    { id: "dashboard", label: "Dashboard", icon: DashboardIcon, to: ROUTES.PORTAL },
+    { id: "my-courses", label: "My Courses", icon: BookIcon, to: "/courses" },
+    { id: "learning-paths", label: "Learning Paths", icon: LayersIcon, to: "/paths" },
+    { id: "assignments", label: "Assignments", icon: BellIcon, to: "/assignments", badge: "dot" },
+    { id: "discussions", label: "Discussions", icon: MessageSquareIcon, to: "/discussions" },
+    { id: "certificates", label: "Certificates", icon: AwardIcon, to: "/certificates" },
+    { id: "analytics", label: "Analytics", icon: BarChartIcon, to: "/analytics" },
+  ];
+
+  const extraItems: NavItem[] = [];
+  if (user) {
+    if (["instructor", "admin", "super_admin"].includes(user.role)) {
+      extraItems.push({ id: "studio", label: "Instructor Studio", icon: PencilIcon, to: ROUTES.STUDIO });
+    }
+    if (["admin", "super_admin"].includes(user.role)) {
+      extraItems.push({ id: "admin", label: "Admin Console", icon: ShieldCheckIcon, to: ROUTES.ADMIN });
+    }
+  }
+
+  const footerItems: NavItem[] = [
+    { id: "bookmarks", label: "Bookmarks", icon: BookmarkIcon, to: "/bookmarks" },
+    { id: "calendar", label: "Calendar", icon: CalendarIcon, to: "/calendar" },
+    { id: "settings", label: "Settings", icon: SettingsIcon, to: "/settings" },
+  ];
+
+  const visibleItems = [...baseItems, ...extraItems, ...footerItems];
 
   return (
     <>
@@ -243,7 +263,7 @@ export function WorkspaceSidebar(): React.JSX.Element {
             animate="visible"
             className="flex flex-col gap-0.5"
           >
-            {NAV_ITEMS.map((item) => (
+            {visibleItems.map((item) => (
               <SidebarNavItem key={item.id} item={item} styles={styles} isCollapsed={isCollapsed} />
             ))}
           </motion.ul>

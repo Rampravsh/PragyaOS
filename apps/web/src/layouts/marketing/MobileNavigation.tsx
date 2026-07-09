@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { CloseIcon } from "@pragyaos/icons";
 import { getMockCatalog } from "@/features/courses/api/mockCourses";
+import { useAuth } from "@/hooks/useAuth";
+import { ROUTES } from "@/routes/route.constants";
 
 interface MobileNavigationProps {
   isOpen: boolean;
@@ -12,6 +14,7 @@ interface MobileNavigationProps {
 export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { user } = useAuth();
 
   // Get courses list for mobile links
   const catalog = getMockCatalog();
@@ -218,6 +221,37 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                 </div>
               </div>
             </nav>
+
+            {/* Auth Actions Block */}
+            <div className="mt-6 pt-5 border-t border-stone-200 dark:border-stone-850 flex flex-col gap-2.5 shrink-0">
+              {user ? (
+                <Link
+                  to={user.role === 'student' ? ROUTES.PORTAL : (['instructor'].includes(user.role) ? ROUTES.STUDIO : ROUTES.ADMIN)}
+                  onClick={onClose}
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-xs font-sans font-bold rounded-xl transition-all duration-200"
+                >
+                  <span>Go to Dashboard</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to={ROUTES.LOGIN}
+                    onClick={onClose}
+                    className="flex items-center justify-center w-full py-2.5 border border-stone-200 hover:border-stone-400 dark:border-stone-800 dark:hover:border-stone-750 text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 rounded-xl transition-all duration-200"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to={ROUTES.LOGIN}
+                    onClick={onClose}
+                    className="flex items-center justify-center w-full py-2.5 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-xs font-sans font-bold rounded-xl transition-all duration-200"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
+            </div>
           </motion.div>
         </div>
       )}
