@@ -16,6 +16,7 @@ import { FadeIn } from '@/components/marketing/motion/FadeIn';
 import { FloatingDecoration } from '@/components/marketing/motion/FloatingDecoration';
 import { DecorativeAsset } from '@/components/marketing/media/DecorativeAsset';
 import { Link } from 'react-router';
+import { cn } from '@pragyaos/utils';
 
 const PLATFORM_FEATURES = [
   {
@@ -47,9 +48,9 @@ const PLATFORM_FEATURES = [
 /** Pixel-faithful dashboard mockup matching design screenshot */
 const DashboardMockup = memo(function DashboardMockup() {
   const COURSES = [
-    { name: 'Data Structures', progress: 40, color: '#A97E3E' },
-    { name: 'UI/UX Design', progress: 75, color: '#38BDF8' },
-    { name: 'Machine Learning', progress: 20, color: '#10B981' },
+    { name: 'Data Structures', progress: 40, bgClass: 'bg-brand-gold', textClass: 'text-brand-gold' },
+    { name: 'UI/UX Design', progress: 75, bgClass: 'bg-[#38BDF8]', textClass: 'text-[#38BDF8]' },
+    { name: 'Machine Learning', progress: 20, bgClass: 'bg-[#10B981]', textClass: 'text-[#10B981]' },
   ];
 
   return (
@@ -84,10 +85,10 @@ const DashboardMockup = memo(function DashboardMockup() {
         <div className="w-36 bg-[#0D0D1E] dark:bg-background border-r border-white/5 dark:border-stone-200/50 flex flex-col py-3 px-2.5 shrink-0 transition-colors duration-300">
           {/* Brand */}
           <div className="flex items-center gap-1.5 mb-4 px-1">
-            <div className="w-4 h-4 rounded bg-[#A97E3E] flex items-center justify-center text-[6px] font-bold text-white">
+            <div className="w-4 h-4 rounded bg-brand-gold flex items-center justify-center text-[6px] font-bold text-white">
               P
             </div>
-            <span className="text-[9px] font-semibold text-white/50 dark:text-[#1C1917]/60">PragyaOS</span>
+            <span className="text-[9px] font-semibold text-white/50 dark:text-stone-500">PragyaOS</span>
           </div>
           {/* Nav items */}
           {[
@@ -103,8 +104,8 @@ const DashboardMockup = memo(function DashboardMockup() {
             <div
               key={item.label}
               className={`flex items-center gap-1.5 px-2 py-[5px] rounded-md text-[9px] mb-px cursor-default transition-all ${item.active
-                  ? 'bg-white/10 text-white font-semibold dark:bg-[#A97E3E]/10 dark:text-[#A97E3E]'
-                  : 'text-white/40 hover:text-white/60 dark:text-stone-500 dark:hover:text-[#1C1917]'
+                  ? 'bg-white/10 text-white font-semibold dark:bg-brand-gold/10 dark:text-brand-gold'
+                  : 'text-white/40 hover:text-white/60 dark:text-stone-500 dark:hover:text-stone-900'
                 }`}
             >
               <span className="w-1 h-1 rounded-full bg-current opacity-60 shrink-0" />
@@ -119,7 +120,7 @@ const DashboardMockup = memo(function DashboardMockup() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[9px] text-stone-500 dark:text-white/35 font-sans">Continue Learning</p>
-              <p className="text-[11px] font-semibold text-[#1C1917] dark:text-white/80">Welcome back, Ananya 👋</p>
+              <p className="text-[11px] font-semibold text-foreground dark:text-white/80">Welcome back, Ananya 👋</p>
             </div>
           </div>
 
@@ -128,15 +129,14 @@ const DashboardMockup = memo(function DashboardMockup() {
             {COURSES.map((c) => (
               <div key={c.name} className="bg-white dark:bg-white/5 rounded-lg p-2 border border-stone-200/60 dark:border-white/5 shadow-sm dark:shadow-none transition-colors duration-300">
                 <div
-                  className="w-full h-10 rounded-md mb-1.5 opacity-80 dark:opacity-40"
-                  style={{ backgroundColor: c.color }}
+                  className={cn("w-full h-10 rounded-md mb-1.5 opacity-80 dark:opacity-40", c.bgClass)}
                 />
                 <p className="text-[8px] font-semibold text-stone-700 dark:text-white/60 truncate mb-1">{c.name}</p>
                 <div className="flex items-center gap-1">
                   <div className="flex-1 h-0.5 bg-stone-200 dark:bg-white/10 rounded-full">
                     <div
-                      className="h-full rounded-full"
-                      style={{ width: `${c.progress}%`, backgroundColor: c.color }}
+                      className={cn("h-full rounded-full", c.bgClass)}
+                      style={{ width: `${c.progress}%` }}
                     />
                   </div>
                   <span className="text-[7px] text-stone-500 dark:text-white/30">{c.progress}%</span>
@@ -150,12 +150,12 @@ const DashboardMockup = memo(function DashboardMockup() {
             {/* Progress chart */}
             <div className="bg-white dark:bg-white/5 rounded-lg p-2 border border-stone-200/60 dark:border-white/5 shadow-sm dark:shadow-none transition-colors duration-300">
               <p className="text-[8px] text-stone-500 dark:text-white/35 mb-0.5">My Progress</p>
-              <p className="text-[11px] font-bold text-[#A97E3E] mb-1.5">+15%</p>
+              <p className="text-[11px] font-bold text-brand-gold mb-1.5">+15%</p>
               <div className="flex items-end gap-0.5 h-10">
                 {[30, 48, 36, 62, 52, 75, 65].map((h, i) => (
                   <div
                     key={i}
-                    className="flex-1 rounded-sm bg-[#A97E3E]/20 dark:bg-[#A97E3E]/40"
+                    className="flex-1 rounded-sm bg-brand-gold/20 dark:bg-brand-gold/45"
                     style={{ height: `${h}%` }}
                   />
                 ))}
@@ -171,7 +171,7 @@ const DashboardMockup = memo(function DashboardMockup() {
                 'Live session',
               ].map((t) => (
                 <div key={t} className="flex items-center gap-1 mb-0.5">
-                  <span className="w-1 h-1 rounded-full bg-[#A97E3E]/60 shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-brand-gold/60 shrink-0" />
                   <span className="text-[7px] text-stone-600 dark:text-white/40 truncate">{t}</span>
                 </div>
               ))}
@@ -208,11 +208,11 @@ const PhoneMockup = memo(function PhoneMockup() {
           {/* Content */}
           <div className="p-1.5 flex flex-col gap-1.5">
             <div className="bg-white dark:bg-white/5 rounded-lg p-1.5 border border-stone-200/60 dark:border-white/5 shadow-sm dark:shadow-none transition-colors duration-300">
-              <p className="text-[6px] text-[#A97E3E] font-bold mb-1">Data Structures</p>
+              <p className="text-[6px] text-brand-gold font-bold mb-1">Data Structures</p>
               <div className="text-[5px] text-stone-600 dark:text-white/50 space-y-0.5">
                 <div>1. Introduction</div>
                 <div>2. Array Types</div>
-                <div className="text-[#A97E3E] font-bold">3. Tree Traversal</div>
+                <div className="text-brand-gold font-bold">3. Tree Traversal</div>
                 <div>4. Balanced Trees</div>
               </div>
             </div>
@@ -220,7 +220,7 @@ const PhoneMockup = memo(function PhoneMockup() {
               <p className="text-[6px] text-stone-700 dark:text-white/60 font-semibold mb-1">My Progress</p>
               {[70, 45, 90, 55].map((w, i) => (
                 <div key={i} className="h-0.5 bg-stone-200 dark:bg-white/10 rounded-full mb-0.5">
-                  <div className="h-full bg-[#A97E3E] rounded-full" style={{ width: `${w}%` }} />
+                  <div className="h-full bg-brand-gold rounded-full" style={{ width: `${w}%` }} />
                 </div>
               ))}
             </div>
@@ -233,7 +233,7 @@ const PhoneMockup = memo(function PhoneMockup() {
 
 /**
  * FeatureSection: "A platform built for meaningful learning." — dark showcase.
- * Paper-torn SVG divider above, dark #0F0F1A bg, dashboard + phone mockup, violet glow.
+ * Paper-torn SVG divider above, dark stone-950 bg, dashboard + phone mockup, gold glow.
  */
 export function FeatureSection(): React.JSX.Element {
   return (
@@ -241,7 +241,7 @@ export function FeatureSection(): React.JSX.Element {
       {/* Paper-torn divider: cream → dark */}
       <div className="relative w-full overflow-hidden bg-background transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
-          className="absolute bottom-0 left-0 w-full text-[#0F0F1A] dark:text-[#FAF7F2] transition-colors duration-300 translate-y-[1px]"
+          className="absolute bottom-0 left-0 w-full text-[#0F0F1A] translate-y-[1px]"
           viewBox="0 0 1440 64"
           preserveAspectRatio="none"
           fill="currentColor"
@@ -252,7 +252,7 @@ export function FeatureSection(): React.JSX.Element {
 
       <section
         id="feature-section"
-        className="relative bg-[#0F0F1A] dark:bg-background text-white dark:text-[#1C1917] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-[#0F0F1A] text-white w-full overflow-hidden"
         aria-labelledby="feature-heading"
       >
         {/* Radial glow behind mockup */}
@@ -267,17 +267,17 @@ export function FeatureSection(): React.JSX.Element {
         {/* Floating stars */}
         <div className="absolute top-12 right-1/4 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={7} yOffset={4}>
-            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-amber-400/20 dark:text-[#A97E3E]/20" strokeWidth={1} />
+            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-brand-gold/25" strokeWidth={1} />
           </FloatingDecoration>
         </div>
         <div className="absolute bottom-16 left-16 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={9} yOffset={3}>
-            <DecorativeAsset asset={EditorialStar} className="w-5 h-5 text-amber-400/15 dark:text-[#A97E3E]/20" strokeWidth={1} />
+            <DecorativeAsset asset={EditorialStar} className="w-5 h-5 text-brand-gold/20" strokeWidth={1} />
           </FloatingDecoration>
         </div>
         <div className="absolute top-20 left-1/3 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={6} yOffset={2}>
-            <DecorativeAsset asset={TinyStar} className="w-3 h-3 text-white/10 dark:text-stone-400/20" strokeWidth={1} />
+            <DecorativeAsset asset={TinyStar} className="w-3 h-3 text-white/10" strokeWidth={1} />
           </FloatingDecoration>
         </div>
 
@@ -288,25 +288,25 @@ export function FeatureSection(): React.JSX.Element {
             <FadeIn direction="up" duration="slow">
               <div className="flex flex-col items-start gap-6">
                 {/* Eyebrow */}
-                <span className="text-[11px] font-sans font-bold tracking-[0.18em] uppercase text-[#A97E3E]">
+                <span className="text-[11px] font-sans font-bold tracking-[0.18em] uppercase text-brand-gold">
                   Everything in one place
                 </span>
 
                 {/* Heading */}
                 <h2
                   id="feature-heading"
-                  className="font-serif font-bold text-white dark:text-[#1C1917] leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
+                  className="font-serif font-bold text-white leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
                 >
                   A platform built
                   <br />
                   for meaningful
                   <br />
-                  <span className="relative text-[#A97E3E] dark:text-[#A97E3E]">
+                  <span className="relative text-brand-gold">
                     learning.
                     <span className="absolute -bottom-1 left-0 pointer-events-none w-full" aria-hidden="true">
                       <DecorativeAsset
                         asset={HighlightCircle}
-                        className="w-full h-auto text-amber-400/20 dark:text-[#A97E3E]/30"
+                        className="w-full h-auto text-brand-gold/30"
                         strokeWidth={1.5}
                       />
                     </span>
@@ -314,7 +314,7 @@ export function FeatureSection(): React.JSX.Element {
                 </h2>
 
                 {/* Description */}
-                <p className="text-sm text-white/50 dark:text-stone-600 font-sans leading-relaxed max-w-sm">
+                <p className="text-sm text-white/50 font-sans leading-relaxed max-w-sm">
                   Create, organise and share learning experiences that make an impact.
                 </p>
 
@@ -327,12 +327,12 @@ export function FeatureSection(): React.JSX.Element {
                         whileHover={{ x: 2 }}
                         transition={{ duration: 0.18 }}
                       >
-                        <div className="w-7 h-7 rounded bg-white/5 dark:bg-stone-100 border border-white/10 dark:border-stone-200 flex items-center justify-center text-[#A97E3E] group-hover:bg-[#A97E3E]/10 group-hover:text-[#8F6A33] dark:group-hover:text-[#8F6A33] transition-all duration-200 shrink-0">
+                        <div className="w-7 h-7 rounded bg-white/5 border border-white/10 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold/10 group-hover:text-brand-gold transition-all duration-200 shrink-0">
                           <f.Icon size={13} />
                         </div>
                         <div>
-                          <p className="text-[11px] font-semibold text-white/75 dark:text-stone-800 leading-tight">{f.title}</p>
-                          <p className="text-[10px] text-white/35 dark:text-stone-500 leading-relaxed">{f.description}</p>
+                          <p className="text-[11px] font-semibold text-white/75 leading-tight">{f.title}</p>
+                          <p className="text-[10px] text-white/35 leading-relaxed">{f.description}</p>
                         </div>
                       </motion.div>
                     </FadeIn>
@@ -342,7 +342,7 @@ export function FeatureSection(): React.JSX.Element {
                 {/* CTA */}
                 <Link
                   to="/login"
-                  className="inline-flex items-center px-5 py-2.5 bg-[#A97E3E] hover:bg-[#8F6A33] dark:bg-white dark:hover:bg-stone-100 dark:text-stone-900 text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-2"
+                  className="inline-flex items-center px-5 py-2.5 bg-brand-gold hover:bg-brand-gold/90 text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-lg active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-2"
                 >
                   Explore the Platform
                 </Link>

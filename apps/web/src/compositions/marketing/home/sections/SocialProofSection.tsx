@@ -49,13 +49,13 @@ function TestimonialCard({
 }): React.JSX.Element {
   return (
     <motion.article
-      className="relative flex flex-col gap-4 p-6 bg-white dark:bg-[#161622] border border-stone-200/60 dark:border-stone-850 rounded-xl shadow-sm transition-colors duration-300"
+      className="relative flex flex-col gap-4 p-6 bg-card text-card-foreground border border-border rounded-xl shadow-sm transition-colors duration-300"
       whileHover={{ y: -5, boxShadow: '0 16px 28px -8px rgba(0,0,0,0.09)' }}
       transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
       aria-label={`Testimonial from ${t.author}, ${t.role}`}
     >
       {/* Large open-quote */}
-      <span className="absolute top-4 left-5 font-serif text-5xl text-[#A97E3E]/15 leading-none select-none pointer-events-none" aria-hidden="true">
+      <span className="absolute top-4 left-5 font-serif text-5xl text-brand-gold/15 leading-none select-none pointer-events-none" aria-hidden="true">
         {t.icon}
       </span>
 
@@ -65,21 +65,21 @@ function TestimonialCard({
       </span>
 
       {/* Quote text */}
-      <blockquote className="font-serif text-[14px] text-[#1C1917]/80 dark:text-stone-300 transition-colors duration-300 leading-relaxed pt-5 relative z-10">
+      <blockquote className="font-serif text-[14px] text-foreground/80 transition-colors duration-300 leading-relaxed pt-5 relative z-10">
         &ldquo;{t.quote}&rdquo;
       </blockquote>
 
       {/* Author */}
-      <div className="flex items-center gap-3 mt-auto pt-2 border-t border-stone-100 dark:border-stone-800 transition-colors duration-300">
+      <div className="flex items-center gap-3 mt-auto pt-2 border-t border-border transition-colors duration-300">
         <img
           src={t.avatar}
           alt={t.author}
-          className="w-9 h-9 rounded-full object-cover border-2 border-stone-100 dark:border-stone-800"
+          className="w-9 h-9 rounded-full object-cover border-2 border-border"
           loading="lazy"
         />
         <div>
-          <p className="text-[13px] font-semibold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 font-sans">{t.author}</p>
-          <p className="text-[11px] text-[#1C1917]/50 dark:text-white/40 transition-colors duration-300 font-sans">{t.role}</p>
+          <p className="text-[13px] font-semibold text-foreground transition-colors duration-300 font-sans">{t.author}</p>
+          <p className="text-[11px] text-muted-foreground transition-colors duration-300 font-sans">{t.role}</p>
         </div>
       </div>
     </motion.article>
@@ -128,13 +128,13 @@ export function SocialProofSection(): React.JSX.Element {
 
       <section
         id="social-proof-section"
-        className="relative bg-background text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-foreground transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="testimonials-heading"
       >
       {/* Floating decorations */}
       <div className="absolute top-10 right-16 pointer-events-none" aria-hidden="true">
         <FloatingDecoration duration={7} yOffset={3}>
-          <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-[#A97E3E]/20" strokeWidth={1} />
+          <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-brand-gold/20" strokeWidth={1} />
         </FloatingDecoration>
       </div>
       <div className="absolute bottom-12 left-14 pointer-events-none" aria-hidden="true">
@@ -144,7 +144,7 @@ export function SocialProofSection(): React.JSX.Element {
       </div>
       <div className="absolute top-16 left-1/3 pointer-events-none" aria-hidden="true">
         <FloatingDecoration duration={6} yOffset={2}>
-          <DecorativeAsset asset={TinyStar} className="w-3 h-3 text-[#A97E3E]/15" strokeWidth={1} />
+          <DecorativeAsset asset={TinyStar} className="w-3 h-3 text-brand-gold/15" strokeWidth={1} />
         </FloatingDecoration>
       </div>
 
@@ -154,7 +154,7 @@ export function SocialProofSection(): React.JSX.Element {
         <FadeIn direction="up" duration="slow" className="text-center mb-12 md:mb-14">
           <h2
             id="testimonials-heading"
-            className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
+            className="font-serif font-bold text-foreground leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[44px]"
           >
             Loved by learners around the world
           </h2>
@@ -166,7 +166,7 @@ export function SocialProofSection(): React.JSX.Element {
           {/* Prev arrow */}
           <motion.button
             onClick={goPrev}
-            className="shrink-0 w-9 h-9 rounded-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex items-center justify-center text-[#1C1917]/50 dark:text-white/50 hover:text-[#1C1917] dark:hover:text-white hover:border-stone-400 dark:hover:border-stone-600 shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="shrink-0 w-9 h-9 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-stone-400 dark:hover:border-stone-600 shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
             aria-label="Previous testimonial"
@@ -207,7 +207,7 @@ export function SocialProofSection(): React.JSX.Element {
           {/* Next arrow */}
           <motion.button
             onClick={goNext}
-            className="shrink-0 w-9 h-9 rounded-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex items-center justify-center text-[#1C1917]/50 dark:text-white/50 hover:text-[#1C1917] dark:hover:text-white hover:border-stone-400 dark:hover:border-stone-600 shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="shrink-0 w-9 h-9 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-stone-400 dark:hover:border-stone-600 shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
             aria-label="Next testimonial"
@@ -228,7 +228,7 @@ export function SocialProofSection(): React.JSX.Element {
               aria-selected={i === active}
               aria-label={`Go to testimonial ${i + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
-                i === active ? 'w-6 bg-[#A97E3E]' : 'w-2 bg-stone-300 hover:bg-stone-400'
+                i === active ? 'w-6 bg-brand-gold' : 'w-2 bg-stone-300 hover:bg-stone-400'
               }`}
               whileHover={{ scale: 1.2 }}
             />

@@ -15,6 +15,7 @@ import {
 import { FadeIn } from '@/components/marketing/motion/FadeIn';
 import { FloatingDecoration } from '@/components/marketing/motion/FloatingDecoration';
 import { DecorativeAsset } from '@/components/marketing/media/DecorativeAsset';
+import { cn } from '@pragyaos/utils';
 
 const LEARNER_TYPES = [
   {
@@ -22,32 +23,32 @@ const LEARNER_TYPES = [
     Icon: BookIcon,
     label: 'Students',
     description: 'Master skills, clear doubts, and build real knowledge.',
-    iconBg: '#E6F0EA',
-    iconColor: '#059669',
+    iconBgClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+    lineBgClass: 'bg-emerald-500/35',
   },
   {
     id: 'instructors',
     Icon: PlayIcon,
     label: 'Instructors',
     description: 'Create impactful courses and reach more learners.',
-    iconBg: '#FEF3C7',
-    iconColor: '#D97706',
+    iconBgClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-500',
+    lineBgClass: 'bg-amber-500/35',
   },
   {
     id: 'organizations',
     Icon: LayersIcon,
     label: 'Organizations',
     description: 'Train teams and build a culture of continuous learning.',
-    iconBg: '#EFF6FF',
-    iconColor: '#2563EB',
+    iconBgClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+    lineBgClass: 'bg-blue-500/35',
   },
   {
     id: 'lifelong-learners',
     Icon: UserIcon,
     label: 'Lifelong Learners',
     description: 'Explore new interests and grow every day.',
-    iconBg: '#F5F3FF',
-    iconColor: '#7C3AED',
+    iconBgClass: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+    lineBgClass: 'bg-violet-500/35',
   },
 ];
 
@@ -62,29 +63,31 @@ const LearnerCard = memo(function LearnerCard({
   return (
     <FadeIn direction="up" duration="slow" delay={delay}>
       <motion.article
-        className="flex flex-col items-start gap-4 p-6 bg-white dark:bg-[#161622] border border-stone-200/60 dark:border-stone-850 rounded-xl shadow-sm cursor-default h-full transition-colors duration-300"
+        className="flex flex-col items-start gap-4 p-6 bg-card text-card-foreground border border-border/80 rounded-xl shadow-sm cursor-default h-full transition-colors duration-300"
         whileHover={{ y: -6, boxShadow: '0 16px 32px -8px rgba(0,0,0,0.10)' }}
         transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
         aria-label={`${card.label} learner type`}
       >
         {/* Icon */}
         <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center"
-          style={{ backgroundColor: card.iconBg, color: card.iconColor }}
+          className={cn(
+            "w-12 h-12 rounded-xl flex items-center justify-center shrink-0",
+            card.iconBgClass
+          )}
         >
           <card.Icon size={22} />
         </div>
 
         {/* Decorative scribble above title */}
-        <div className="w-8 h-1 rounded-full opacity-30" style={{ backgroundColor: card.iconColor }} aria-hidden="true" />
+        <div className={cn("w-8 h-1 rounded-full opacity-60", card.lineBgClass)} aria-hidden="true" />
 
         {/* Label */}
-        <h3 className="font-serif font-semibold text-base text-[#1C1917] dark:text-stone-100 transition-colors duration-300 leading-tight">
+        <h3 className="font-serif font-semibold text-base text-foreground leading-tight">
           {card.label}
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-[#1C1917]/60 dark:text-white/60 transition-colors duration-300 font-sans leading-relaxed">
+        <p className="text-sm text-foreground/70 font-sans leading-relaxed">
           {card.description}
         </p>
       </motion.article>
@@ -101,9 +104,9 @@ export function PlatformSection(): React.JSX.Element {
   return (
     <>
       {/* Paper-torn divider: dark → cream */}
-      <div className="relative w-full overflow-hidden bg-[#0F0F1A] dark:bg-background transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
+      <div className="relative w-full overflow-hidden bg-[#0F0F1A] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
-          className="absolute bottom-0 left-0 w-full text-[#FAF7F2] dark:text-[#0f0f10] transition-colors duration-300 translate-y-[1px]"
+          className="absolute bottom-0 left-0 w-full text-background transition-colors duration-300 translate-y-[1px]"
           viewBox="0 0 1440 64"
           preserveAspectRatio="none"
           fill="currentColor"
@@ -114,13 +117,13 @@ export function PlatformSection(): React.JSX.Element {
 
       <section
         id="platform-section"
-        className="relative bg-background text-[#1C1917] dark:text-stone-100 transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-foreground transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="platform-heading"
       >
         {/* Floating decorations */}
         <div className="absolute top-12 right-16 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={7} yOffset={3}>
-            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-[#A97E3E]/20" strokeWidth={1} />
+            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-brand-gold/20" strokeWidth={1} />
           </FloatingDecoration>
         </div>
         <div className="absolute top-8 left-12 pointer-events-none" aria-hidden="true">
@@ -130,7 +133,7 @@ export function PlatformSection(): React.JSX.Element {
         </div>
         <div className="absolute bottom-16 right-24 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={6} yOffset={3}>
-            <DecorativeAsset asset={EditorialStar} className="w-5 h-5 text-[#A97E3E]/15" strokeWidth={1} />
+            <DecorativeAsset asset={EditorialStar} className="w-5 h-5 text-brand-gold/15" strokeWidth={1} />
           </FloatingDecoration>
         </div>
         {/* Decorative arrow near heading */}
@@ -146,10 +149,10 @@ export function PlatformSection(): React.JSX.Element {
           <FadeIn direction="up" duration="slow" className="text-center mb-12 md:mb-16">
             <h2
               id="platform-heading"
-              className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[46px]"
+              className="font-serif font-bold text-foreground leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[46px]"
             >
               Designed{' '}
-              <em className="italic not-italic font-bold text-[#1C1917] dark:text-white transition-colors duration-300">for every kind</em>{' '}
+              <em className="italic not-italic font-bold text-foreground">for every kind</em>{' '}
               of learner
             </h2>
           </FadeIn>

@@ -22,10 +22,10 @@ const BENEFITS = [
 function TargetDecoration(): React.JSX.Element {
   return (
     <svg
-      className="w-28 h-28 md:w-36 md:h-36 opacity-20 pointer-events-none"
+      className="w-28 h-28 md:w-36 md:h-36 text-brand-gold opacity-20 pointer-events-none"
       viewBox="0 0 80 80"
       fill="none"
-      stroke="#A97E3E"
+      stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
       aria-hidden="true"
@@ -33,7 +33,7 @@ function TargetDecoration(): React.JSX.Element {
       <circle cx="40" cy="40" r="36" />
       <circle cx="40" cy="40" r="24" />
       <circle cx="40" cy="40" r="12" />
-      <circle cx="40" cy="40" r="3" fill="#A97E3E" stroke="none" />
+      <circle cx="40" cy="40" r="3" fill="currentColor" stroke="none" />
       {/* Arrow in the bullseye */}
       <line x1="40" y1="4" x2="40" y2="32" strokeWidth="2" />
       <polyline points="33,12 40,4 47,12" strokeWidth="2" />
@@ -73,13 +73,13 @@ export function CTASection(): React.JSX.Element {
 
       <section
         id="cta-section"
-        className="relative bg-background text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-foreground transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="cta-heading"
       >
       {/* Floating decorations */}
       <div className="absolute top-8 left-1/4 pointer-events-none" aria-hidden="true">
         <FloatingDecoration duration={8} yOffset={4}>
-          <DecorativeAsset asset={Sparkle} className="w-6 h-6 text-[#A97E3E]/20" strokeWidth={1} />
+          <DecorativeAsset asset={Sparkle} className="w-6 h-6 text-brand-gold/20" strokeWidth={1} />
         </FloatingDecoration>
       </div>
       <div className="absolute bottom-12 right-1/4 pointer-events-none" aria-hidden="true">
@@ -89,7 +89,7 @@ export function CTASection(): React.JSX.Element {
       </div>
       <div className="absolute top-16 right-1/3 pointer-events-none" aria-hidden="true">
         <FloatingDecoration duration={10} yOffset={2}>
-          <DecorativeAsset asset={EditorialStar} className="w-4 h-4 text-[#A97E3E]/15" strokeWidth={1} />
+          <DecorativeAsset asset={EditorialStar} className="w-4 h-4 text-brand-gold/15" strokeWidth={1} />
         </FloatingDecoration>
       </div>
 
@@ -103,7 +103,7 @@ export function CTASection(): React.JSX.Element {
                 <div className="rotate-[-25deg] opacity-60">
                   <DecorativeAsset
                     asset={PaperPlane}
-                    className="w-28 h-28 md:w-36 md:h-36 text-[#A97E3E]"
+                    className="w-28 h-28 md:w-36 md:h-36 text-brand-gold"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -116,12 +116,12 @@ export function CTASection(): React.JSX.Element {
             <div className="flex flex-col items-start gap-5 text-left">
               <h2
                 id="cta-heading"
-                className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
+                className="font-serif font-bold text-foreground leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
               >
                 Your journey
                 <br />
                 starts{' '}
-                <span className="relative italic text-[#A97E3E]">
+                <span className="relative italic text-brand-gold">
                   here.
                   {/* Animated hand-drawn underline */}
                   <motion.span
@@ -135,7 +135,7 @@ export function CTASection(): React.JSX.Element {
                   >
                     <DecorativeAsset
                       asset={StatementUnderline08}
-                      className="w-full h-auto text-[#A97E3E]"
+                      className="w-full h-auto text-brand-gold"
                       strokeWidth={2}
                       opacity={0.55}
                     />
@@ -143,7 +143,7 @@ export function CTASection(): React.JSX.Element {
                 </span>
               </h2>
 
-              <p className="text-sm text-[#1C1917]/65 dark:text-[#f5f5f4]/65 transition-colors duration-300 font-sans leading-relaxed max-w-xs">
+              <p className="text-sm text-foreground/65 transition-colors duration-300 font-sans leading-relaxed max-w-xs">
                 Join PragyaOS today and take the first step towards your goals.
               </p>
 
@@ -164,7 +164,7 @@ export function CTASection(): React.JSX.Element {
               {/* Checkmarks */}
               <ul className="flex flex-col gap-3" role="list" aria-label="Plan benefits">
                 {BENEFITS.map((benefit, i) => (
-                  <li key={benefit} className="flex items-center gap-2.5 text-sm text-[#1C1917]/70 dark:text-[#f5f5f4]/70 transition-colors duration-300 font-sans">
+                  <li key={benefit} className="flex items-center gap-2.5 text-sm text-foreground/75 transition-colors duration-300 font-sans">
                     <motion.span
                       initial={{ scale: 0, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}

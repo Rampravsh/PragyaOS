@@ -35,7 +35,7 @@ export function HeroSection(): React.JSX.Element {
   return (
     <section
       id="hero-section"
-      className="relative bg-background text-[#1C1917] transition-colors duration-300 overflow-hidden w-full"
+      className="relative bg-background text-foreground transition-colors duration-300 overflow-hidden w-full"
       aria-labelledby="hero-headline"
     >
       {/* Page-wide background texture dots */}
@@ -55,7 +55,7 @@ export function HeroSection(): React.JSX.Element {
             <div className="flex flex-col items-start gap-5 relative">
               {/* Eyebrow */}
               <motion.span
-                className="text-[11px] font-sans font-semibold tracking-[0.18em] uppercase text-[#A97E3E]"
+                className="text-[11px] font-sans font-semibold tracking-[0.18em] uppercase text-brand-gold"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.1, duration: 0.4 }}
@@ -67,14 +67,14 @@ export function HeroSection(): React.JSX.Element {
               <div>
                 <h1
                   id="hero-headline"
-                  className="font-serif font-bold text-[#1C1917] leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
+                  className="font-serif font-bold text-foreground leading-[1.07] tracking-tight text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
                 >
                   Every learner
                   <br />
                   has a path.
                 </h1>
                 {/* Italic gold subheadline */}
-                <p className="font-serif italic font-bold text-[#A97E3E] leading-[1.07] tracking-tight text-3xl sm:text-4xl lg:text-[44px] xl:text-[50px] mt-1">
+                <p className="font-serif italic font-bold text-brand-gold leading-[1.07] tracking-tight text-3xl sm:text-4xl lg:text-[44px] xl:text-[50px] mt-1">
                   We help you
                   <br />
                   go further.
@@ -82,7 +82,7 @@ export function HeroSection(): React.JSX.Element {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-[#1C1917]/70 font-sans leading-relaxed max-w-sm">
+              <p className="text-sm text-foreground/75 font-sans leading-relaxed max-w-sm">
                 PragyaOS is your space to learn, practice, build and grow. From your first lesson to
                 your greatest achievement—we're with you at every step.
               </p>
@@ -91,13 +91,13 @@ export function HeroSection(): React.JSX.Element {
               <div className="flex flex-wrap items-center gap-3 mt-1">
                 <Link
                   to="/login"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#1C1917] hover:bg-black text-white text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-sm font-sans font-semibold rounded-md transition-all duration-200 hover:shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Start Your Journey →
                 </Link>
                 <Link
                   to="/courses"
-                  className="inline-flex items-center px-5 py-2.5 border border-[#1C1917]/25 hover:border-[#1C1917]/60 text-[#1C1917] text-sm font-sans font-medium rounded-md transition-all duration-200 hover:bg-stone-100 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex items-center px-5 py-2.5 border border-stone-200 hover:border-stone-400 dark:border-stone-850 dark:hover:border-stone-750 text-foreground text-sm font-sans font-medium rounded-md transition-all duration-200 hover:bg-stone-100 dark:hover:bg-stone-900/40 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Explore Courses
                 </Link>
@@ -112,7 +112,7 @@ export function HeroSection(): React.JSX.Element {
                       key={i}
                       src={url}
                       alt=""
-                      className="w-8 h-8 rounded-full border-2 border-[#FAF7F2] object-cover shadow-sm"
+                      className="w-8 h-8 rounded-full border-2 border-background object-cover shadow-sm"
                       loading="lazy"
                     />
                   ))}
@@ -121,11 +121,11 @@ export function HeroSection(): React.JSX.Element {
                   {/* 5 stars */}
                   <div className="flex items-center gap-0.5" aria-label="5 out of 5 stars">
                     {[...Array(5)].map((_, i) => (
-                      <StarIcon key={i} size={12} fill="#F59E0B" stroke="#F59E0B" strokeWidth={0} />
+                      <StarIcon key={i} size={12} className="text-amber-500 fill-current" strokeWidth={0} />
                     ))}
                   </div>
-                  <span className="text-[11px] font-sans text-[#1C1917]/60 leading-tight">
-                    Trusted by <strong className="font-semibold text-[#1C1917]/80">50,000+</strong>{" "}
+                  <span className="text-[11px] font-sans text-muted-foreground leading-tight">
+                    Trusted by <strong className="font-semibold text-foreground/90">50,000+</strong>{" "}
                     learners
                     <br />
                     and educators worldwide

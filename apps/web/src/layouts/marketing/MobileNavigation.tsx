@@ -223,16 +223,29 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
             </nav>
 
             {/* Auth Actions Block */}
-            <div className="mt-6 pt-5 border-t border-stone-200 dark:border-stone-850 flex flex-col gap-2.5 shrink-0">
+            <div className="mt-6 pt-5 border-t border-stone-200 dark:border-stone-850 flex flex-col gap-3 shrink-0">
               {user ? (
-                <Link
-                  to={user.role === 'student' ? ROUTES.PORTAL : (['instructor'].includes(user.role) ? ROUTES.STUDIO : ROUTES.ADMIN)}
-                  onClick={onClose}
-                  className="flex items-center justify-center gap-2 w-full py-3 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-xs font-sans font-bold rounded-xl transition-all duration-200"
-                >
-                  <span>Go to Dashboard</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                </Link>
+                <>
+                  {/* User Profile Card */}
+                  <div className="flex items-center gap-3 px-2 py-1">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white text-xs font-bold font-sans">
+                      {`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()}
+                    </div>
+                    <div className="text-left leading-tight">
+                      <p className="text-xs font-bold text-stone-900 dark:text-stone-100 font-sans">{`${user.firstName} ${user.lastName}`}</p>
+                      <p className="text-[9px] font-semibold text-brand-gold uppercase tracking-wider font-sans">{user.role}</p>
+                    </div>
+                  </div>
+
+                  <Link
+                    to={user.role === 'student' ? ROUTES.PORTAL : (['instructor'].includes(user.role) ? ROUTES.STUDIO : ROUTES.ADMIN)}
+                    onClick={onClose}
+                    className="flex items-center justify-center gap-2 w-full py-3 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-xs font-sans font-bold rounded-xl transition-all duration-200"
+                  >
+                    <span>Enter Workspace</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  </Link>
+                </>
               ) : (
                 <>
                   <Link
@@ -243,7 +256,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                     Log in
                   </Link>
                   <Link
-                    to={ROUTES.LOGIN}
+                    to={ROUTES.REGISTER}
                     onClick={onClose}
                     className="flex items-center justify-center w-full py-2.5 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 text-xs font-sans font-bold rounded-xl transition-all duration-200"
                   >

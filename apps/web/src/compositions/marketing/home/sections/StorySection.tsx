@@ -85,7 +85,7 @@ export function StorySection(): React.JSX.Element {
         {/* Floating decorations */}
         <div className="absolute top-8 right-12 pointer-events-none" aria-hidden="true">
           <FloatingDecoration duration={6} yOffset={3}>
-            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-[#A97E3E]/25" strokeWidth={1} />
+            <DecorativeAsset asset={Sparkle} className="w-5 h-5 text-brand-gold/25" strokeWidth={1} />
           </FloatingDecoration>
         </div>
         <div className="absolute top-16 left-6 pointer-events-none" aria-hidden="true">
@@ -100,14 +100,14 @@ export function StorySection(): React.JSX.Element {
           {/* LEFT: eyebrow + large heading */}
           <FadeIn direction="up" duration="slow">
             <div className="flex flex-col items-start gap-3">
-              <span className="text-[11px] font-sans font-semibold tracking-[0.18em] uppercase text-[#A97E3E]/80">
+              <span className="text-[11px] font-sans font-semibold tracking-[0.18em] uppercase text-brand-gold/80">
                 More than courses
               </span>
 
               <div className="relative">
                 <h2
                   id="story-heading"
-                  className="font-serif font-bold text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
+                  className="font-serif font-bold text-foreground leading-[1.05] tracking-tight text-4xl sm:text-5xl lg:text-[52px]"
                 >
                   A better way
                   <br />
@@ -125,7 +125,7 @@ export function StorySection(): React.JSX.Element {
                 >
                   <DecorativeAsset
                     asset={StatementUnderline03}
-                    className="w-44 h-auto text-[#A97E3E]"
+                    className="w-44 h-auto text-brand-gold"
                     strokeWidth={2}
                     opacity={0.5}
                   />
@@ -137,7 +137,7 @@ export function StorySection(): React.JSX.Element {
           {/* RIGHT: description + subtle arrow decoration */}
           <FadeIn direction="up" duration="slow" delay={0.12}>
             <div className="flex flex-col gap-2 relative lg:pb-4">
-              <p className="text-base text-[#1C1917]/70 dark:text-[#f5f5f4]/70 transition-colors duration-300 font-sans leading-relaxed max-w-lg">
+              <p className="text-base text-foreground/70 transition-colors duration-300 font-sans leading-relaxed max-w-lg">
                 PragyaOS brings everything you need for meaningful learning
                 in one beautiful platform.
               </p>
@@ -171,17 +171,17 @@ export function StorySection(): React.JSX.Element {
                 transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
               >
                 {/* Icon box — small square, matches design */}
-                <div className="w-10 h-10 rounded border border-stone-200 dark:border-stone-850 bg-white dark:bg-[#161622] flex items-center justify-center text-[#1C1917]/60 dark:text-[#f5f5f4]/60 group-hover:border-[#A97E3E]/40 group-hover:text-[#A97E3E] group-hover:bg-[#FAF0D9]/50 dark:group-hover:bg-[#3b2a1a] transition-all duration-250 shadow-sm">
+                <div className="w-10 h-10 rounded border border-border bg-card text-muted-foreground flex items-center justify-center group-hover:border-brand-gold/40 group-hover:text-brand-gold group-hover:bg-brand-gold/10 transition-all duration-250 shadow-sm">
                   <feature.Icon size={18} />
                 </div>
 
                 {/* Title */}
-                <h3 className="font-sans font-semibold text-[13px] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 tracking-tight">
+                <h3 className="font-sans font-semibold text-[13px] text-foreground tracking-tight">
                   {feature.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-[#1C1917]/60 dark:text-white/60 transition-colors duration-300 font-sans leading-relaxed">
+                <p className="text-xs text-muted-foreground font-sans leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>
