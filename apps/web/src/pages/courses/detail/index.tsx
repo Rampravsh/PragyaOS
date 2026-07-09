@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { getMockCourseBySlug } from "@/features/courses";
-import CourseDetailsComposition from "@/features/courses/compositions/CourseDetailsComposition";
+import CourseDetailsComposition from "@/compositions/marketing/courses/CourseDetailsComposition";
 
 export function CourseDetailsPage(): React.JSX.Element {
   const { slug } = useParams<{ slug: string }>();

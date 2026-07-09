@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router';
 import { AuthOpenBook } from '@pragyaos/assets';
 import { MailIcon } from '@pragyaos/icons';
 import AuthLayout from '@/compositions/auth/AuthLayout';
@@ -10,6 +10,10 @@ import { ROUTES } from '@/routes/route.constants';
 
 export function LoginComposition(): React.JSX.Element {
   const navigate = useNavigate();
+  const location = useLocation();
+  const role = (location.state as { role?: string })?.role || 'student';
+  const isInstructor = role === 'instructor';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -30,8 +34,12 @@ export function LoginComposition(): React.JSX.Element {
     await new Promise((resolve) => setTimeout(resolve, 600));
     setLoading(false);
     
-    // Redirect to Portal
-    navigate(ROUTES.PORTAL);
+    // Redirect based on email prefix or state role
+    if (email.toLowerCase().includes('instructor') || isInstructor) {
+      navigate(ROUTES.STUDIO);
+    } else {
+      navigate(ROUTES.PORTAL);
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate, useLocation } from 'react-router';
 import { AuthGradCap } from '@pragyaos/assets';
 import { MailIcon, UserIcon } from '@pragyaos/icons';
 import AuthLayout from '@/compositions/auth/AuthLayout';
@@ -11,6 +11,10 @@ import { ROUTES } from '@/routes/route.constants';
 
 export function RegisterComposition(): React.JSX.Element {
   const navigate = useNavigate();
+  const location = useLocation();
+  const role = (location.state as { role?: string })?.role || 'student';
+  const isInstructor = role === 'instructor';
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,29 +45,44 @@ export function RegisterComposition(): React.JSX.Element {
     await new Promise((resolve) => setTimeout(resolve, 600));
     setLoading(false);
 
-    // Navigate to verification screen with email state
-    navigate(ROUTES.VERIFY_EMAIL, { state: { email } });
+    // Navigate to verification screen with email and role state
+    navigate(ROUTES.VERIFY_EMAIL, { state: { email, role } });
   };
 
   return (
     <AuthLayout
       illustration={AuthGradCap}
       title={
-        <>
-          Create <span className="text-[#c79436] font-serif italic">your</span> <br />
-          account
-        </>
+        isInstructor ? (
+          <>
+            Launch <span className="text-[#c79436] font-serif italic">your</span> <br />
+            instructor studio
+          </>
+        ) : (
+          <>
+            Create <span className="text-[#c79436] font-serif italic">your</span> <br />
+            account
+          </>
+        )
       }
-      description="Start your journey of continuous learning."
-      bottomText="Join thousands of learners who trust PragyaOS."
+      description={
+        isInstructor
+          ? "Design, publish, and scale your learning courses with full control."
+          : "Start your journey of continuous learning."
+      }
+      bottomText={
+        isInstructor
+          ? "Join premium educators who trust PragyaOS."
+          : "Join thousands of learners who trust PragyaOS."
+      }
     >
       {/* Title */}
       <div className="flex flex-col gap-1.5 text-center lg:text-left">
         <h1 className="text-2xl font-sans font-bold text-stone-900 dark:text-white tracking-tight">
-          Create your account
+          {isInstructor ? "Join as an Instructor" : "Create your account"}
         </h1>
         <p className="text-sm text-stone-500 dark:text-stone-400 font-sans">
-          Let's get you started
+          {isInstructor ? "Build courses and reach learners worldwide" : "Let's get you started"}
         </p>
       </div>
 
@@ -148,7 +167,7 @@ export function RegisterComposition(): React.JSX.Element {
           disabled={loading}
           className="h-12 w-full mt-2 flex items-center justify-center rounded-xl bg-stone-900 hover:bg-black dark:bg-white dark:hover:bg-stone-100 text-sm font-sans font-semibold text-white dark:text-stone-900 transition-all duration-200 active:scale-[0.99] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
         >
-          {loading ? 'Creating account...' : 'Create account'}
+          {loading ? (isInstructor ? 'Joining...' : 'Creating account...') : (isInstructor ? 'Join as Instructor' : 'Create account')}
         </button>
 
         {/* Social buttons */}
@@ -159,6 +178,7 @@ export function RegisterComposition(): React.JSX.Element {
           Already have an account?{' '}
           <Link
             to={ROUTES.LOGIN}
+            state={{ role }}
             className="font-semibold text-stone-900 dark:text-white hover:underline"
           >
             Log in

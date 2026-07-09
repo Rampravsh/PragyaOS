@@ -14,6 +14,7 @@ import RequireRole from "@/routes/guards/RequireRole";
 // Lazy-loaded pages
 const LazyHome = lazy(() => import("@/pages/home"));
 const LazyCourseDetails = lazy(() => import("@/pages/courses/detail"));
+const LazyInstructors = lazy(() => import("@/pages/instructors"));
 const LazyLogin = lazy(() => import("@/pages/login"));
 const LazyRegister = lazy(() => import("@/pages/register"));
 const LazyForgotPassword = lazy(() => import("@/pages/forgot-password"));
@@ -43,6 +44,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.HOME,
         element: withSuspense(LazyHome),
+      },
+      {
+        path: ROUTES.INSTRUCTORS,
+        element: withSuspense(LazyInstructors),
       },
       {
         path: ROUTES.COURSE_DETAILS,

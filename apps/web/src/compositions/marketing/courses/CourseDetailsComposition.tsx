@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@pragyaos/utils";
 import { BookIcon, PlayIcon, ChevronDownIcon, AwardIcon, TrophyIcon } from "@pragyaos/icons";
-import { Course, CourseModule } from "../types/course.types";
+import { AuthSparkle, Lines } from "@pragyaos/assets";
+import { Course, CourseModule } from "@/features/courses/types/course.types";
+
+const OrganicDivider = Lines.OrganicDivider;
 
 interface CourseDetailsProps {
   course: Course;
@@ -29,11 +33,10 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out pb-16">
       {/* ── Header Hero Section ── */}
       <header className="border-b border-stone-200 dark:border-stone-800 bg-white/50 dark:bg-stone-900/30 backdrop-blur-md py-10 md:py-14">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          {/* Breadcrumb link */}
           <Link
             to="/"
             className="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-stone-500 dark:text-stone-400 hover:text-[#c79436] transition-colors mb-6"
@@ -42,7 +45,6 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
           </Link>
 
           <div className="max-w-3xl flex flex-col gap-4">
-            {/* Difficulty Badge */}
             <span
               className={cn(
                 "self-start text-[10px] font-sans font-bold tracking-wide uppercase px-2 py-0.5 rounded-md border",
@@ -52,17 +54,20 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
               {course.difficulty}
             </span>
 
-            {/* Course Title */}
-            <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-[44px] leading-tight text-stone-900 dark:text-white tracking-tight">
-              {course.title}
-            </h1>
+            <div className="flex items-center gap-2.5">
+              <h1 className="font-serif font-bold text-3xl sm:text-4xl lg:text-[44px] leading-tight text-stone-900 dark:text-white tracking-tight">
+                {course.title}
+              </h1>
+              <AuthSparkle
+                color="#c79436"
+                className="w-5 h-5 shrink-0 animate-pulse hidden sm:block"
+              />
+            </div>
 
-            {/* Subtitle */}
             <p className="font-sans text-sm md:text-base text-stone-600 dark:text-stone-300 leading-relaxed">
               {course.subtitle}
             </p>
 
-            {/* Meta details footer */}
             <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs font-sans text-stone-500 dark:text-stone-400 mt-2">
               <div className="flex items-center gap-2">
                 <img
@@ -89,7 +94,10 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
           {/* Left Column: About & Curriculum */}
           <div className="flex flex-col gap-8 md:gap-10">
             {/* About Section */}
-            <section
+            <motion.section
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
               aria-labelledby="about-heading"
               className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl p-6 shadow-sm"
             >
@@ -102,7 +110,7 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
               <p className="font-sans text-sm text-stone-600 dark:text-stone-300 leading-relaxed whitespace-pre-line">
                 {course.description}
               </p>
-            </section>
+            </motion.section>
 
             {/* Curriculum Accordions list */}
             <section aria-labelledby="curriculum-heading" className="flex flex-col gap-4">
@@ -114,14 +122,16 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
               </h2>
 
               {course.modules && course.modules.length > 0 ? (
-                course.modules.map((mod: CourseModule) => {
+                course.modules.map((mod: CourseModule, idx: number) => {
                   const isExpanded = !!expandedModules[mod.id];
                   return (
-                    <div
+                    <motion.div
                       key={mod.id}
-                      className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl overflow-hidden shadow-sm transition-all duration-200"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: idx * 0.08 }}
+                      className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl overflow-hidden shadow-sm"
                     >
-                      {/* Accordion header */}
                       <button
                         type="button"
                         onClick={() => toggleModule(mod.id)}
@@ -143,35 +153,42 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                         />
                       </button>
 
-                      {/* Accordion unit list */}
-                      {isExpanded && (
-                        <div className="border-t border-stone-100 dark:border-stone-800 divide-y divide-stone-100 dark:divide-stone-800 bg-stone-50/10 dark:bg-stone-950/10">
-                          {mod.units.map((unit) => (
-                            <div
-                              key={unit.id}
-                              className="flex items-center justify-between gap-4 p-4 text-xs sm:text-sm font-sans"
-                            >
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                {unit.type === "VIDEO" ? (
-                                  <PlayIcon size={14} className="text-[#c79436] shrink-0" />
-                                ) : (
-                                  <BookIcon
-                                    size={14}
-                                    className="text-stone-400 dark:text-stone-500 shrink-0"
-                                  />
-                                )}
-                                <span className="text-stone-700 dark:text-stone-300 font-medium truncate">
-                                  {unit.title}
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
+                            className="overflow-hidden border-t border-stone-100 dark:border-stone-800 divide-y divide-stone-100 dark:divide-stone-800 bg-stone-50/10 dark:bg-stone-950/10"
+                          >
+                            {mod.units.map((unit) => (
+                              <div
+                                key={unit.id}
+                                className="flex items-center justify-between gap-4 p-4 text-xs sm:text-sm font-sans"
+                              >
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  {unit.type === "VIDEO" ? (
+                                    <PlayIcon size={14} className="text-[#c79436] shrink-0" />
+                                  ) : (
+                                    <BookIcon
+                                      size={14}
+                                      className="text-stone-400 dark:text-stone-500 shrink-0"
+                                    />
+                                  )}
+                                  <span className="text-stone-700 dark:text-stone-300 font-medium truncate">
+                                    {unit.title}
+                                  </span>
+                                </div>
+                                <span className="text-xs text-stone-400 dark:text-stone-500 shrink-0">
+                                  {unit.duration} mins
                                 </span>
                               </div>
-                              <span className="text-xs text-stone-400 dark:text-stone-500 shrink-0">
-                                {unit.duration} mins
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                   );
                 })
               ) : (
@@ -186,8 +203,12 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
 
           {/* Right Column: Pricing CTA & Creator spotlights */}
           <div className="flex flex-col gap-6 lg:sticky lg:top-[var(--size-header-workspace)]">
-            {/* Purchase / CTA card */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl p-6 shadow-sm flex flex-col gap-5">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.15 }}
+              className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl p-6 shadow-sm flex flex-col gap-5"
+            >
               <div className="flex flex-col gap-1">
                 <span className="text-xs font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider">
                   Access
@@ -204,7 +225,11 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                 Start Learning Now
               </button>
 
-              <div className="border-t border-stone-100 dark:border-stone-800 pt-4 flex flex-col gap-2.5">
+              <div className="pt-2">
+                <OrganicDivider className="w-full text-stone-200 dark:text-stone-800 h-6 opacity-75" />
+              </div>
+
+              <div className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2 text-xs font-sans text-stone-600 dark:text-stone-400">
                   <PlayIcon size={12} className="text-[#c79436]" />
                   <span>Full syllabus structure</span>
@@ -218,10 +243,15 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                   <span>Interactive exercises</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Creator Spotlight */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.25 }}
+              className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-850 p-6 rounded-2xl shadow-sm flex flex-col gap-4"
+            >
               <div className="flex items-center gap-3">
                 <img
                   src={course.creator.avatarUrl}
@@ -240,7 +270,7 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
               <p className="font-sans text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
                 {course.creator.bio}
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </main>
