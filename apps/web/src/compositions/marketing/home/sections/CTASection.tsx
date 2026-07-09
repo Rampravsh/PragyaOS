@@ -7,6 +7,9 @@ import {
   Sparkle,
   TinyStar,
   EditorialStar,
+  BurstMedium,
+  MinimalStar,
+  CurvedArrow,
 } from '@pragyaos/assets';
 import { FadeIn } from '@/components/marketing/motion/FadeIn';
 import { FloatingDecoration } from '@/components/marketing/motion/FloatingDecoration';
@@ -18,26 +21,19 @@ const BENEFITS = [
   'Cancel anytime',
 ];
 
-/** Bullseye / target SVG matching the design's right-side decoration */
-function TargetDecoration(): React.JSX.Element {
+/** Hand-drawn milestone target illustration using organic sketch elements */
+function CreativeMilestoneDecoration(): React.JSX.Element {
   return (
-    <svg
-      className="w-28 h-28 md:w-36 md:h-36 text-brand-gold opacity-20 pointer-events-none"
-      viewBox="0 0 80 80"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      aria-hidden="true"
-    >
-      <circle cx="40" cy="40" r="36" />
-      <circle cx="40" cy="40" r="24" />
-      <circle cx="40" cy="40" r="12" />
-      <circle cx="40" cy="40" r="3" fill="currentColor" stroke="none" />
-      {/* Arrow in the bullseye */}
-      <line x1="40" y1="4" x2="40" y2="32" strokeWidth="2" />
-      <polyline points="33,12 40,4 47,12" strokeWidth="2" />
-    </svg>
+    <div className="relative w-28 h-28 md:w-36 md:h-36 flex items-center justify-center pointer-events-none select-none" aria-hidden="true">
+      {/* Radial burst background */}
+      <BurstMedium className="absolute inset-0 w-full h-full text-brand-gold/15" strokeWidth={1} />
+      
+      {/* Star in the center */}
+      <MinimalStar className="w-10 h-10 text-brand-gold/80" strokeWidth={1.5} />
+      
+      {/* Curved arrow pointing to the center star */}
+      <CurvedArrow className="absolute -top-3 -left-3 w-12 h-12 text-stone-400/40 rotate-[140deg]" strokeWidth={1.2} />
+    </div>
   );
 }
 
@@ -53,7 +49,7 @@ export function CTASection(): React.JSX.Element {
   return (
     <>
       {/* Page divider line at the top */}
-      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
+      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-0 mb-0" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           preserveAspectRatio="none"
@@ -183,7 +179,7 @@ export function CTASection(): React.JSX.Element {
               </ul>
 
               {/* Target decoration */}
-              <TargetDecoration />
+              <CreativeMilestoneDecoration />
             </div>
           </FadeIn>
 

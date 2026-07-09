@@ -51,7 +51,7 @@ export function ChangelogComposition(): React.JSX.Element {
           {ENTRIES.map((entry) => (
             <div key={entry.version} className="relative animate-fade-in">
               {/* Pulsing timeline dot */}
-              <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-background border-2 border-brand-gold flex items-center justify-center">
+              <div className="absolute left-[-31px] top-1.5 w-4 h-4 rounded-full bg-background border-2 border-brand-gold flex items-center justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
               </div>
 

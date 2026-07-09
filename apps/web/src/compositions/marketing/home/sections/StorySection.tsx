@@ -58,7 +58,7 @@ export function StorySection(): React.JSX.Element {
   return (
     <>
       {/* Page divider line at the top */}
-      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
+      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-0 mb-0" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           preserveAspectRatio="none"
@@ -143,7 +143,7 @@ export function StorySection(): React.JSX.Element {
               </p>
               {/* Decorative arrow — desktop only */}
               <div
-                className="absolute -right-8 top-0 rotate-[15deg] opacity-30 hidden xl:block pointer-events-none"
+                className="absolute -right-8 top-0 rotate-15 opacity-30 hidden xl:block pointer-events-none"
                 aria-hidden="true"
               >
                 <DecorativeAsset

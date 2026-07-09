@@ -106,7 +106,7 @@ export function PlatformSection(): React.JSX.Element {
       {/* Paper-torn divider: dark → cream */}
       <div className="relative w-full overflow-hidden bg-[#0F0F1A] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
-          className="absolute bottom-0 left-0 w-full text-background transition-colors duration-300 translate-y-[1px]"
+          className="absolute bottom-0 left-0 w-full text-background transition-colors duration-300 translate-y-px"
           viewBox="0 0 1440 64"
           preserveAspectRatio="none"
           fill="currentColor"
@@ -139,7 +139,7 @@ export function PlatformSection(): React.JSX.Element {
         {/* Decorative arrow near heading */}
         <div className="absolute top-20 left-1/2 pointer-events-none hidden lg:block" aria-hidden="true">
           <FloatingDecoration duration={5} yOffset={2}>
-            <DecorativeAsset asset={StatementArrow03} className="w-8 h-auto text-stone-400/25 rotate-[25deg]" strokeWidth={1} />
+            <DecorativeAsset asset={StatementArrow03} className="w-8 h-auto text-stone-400/25 rotate-25" strokeWidth={1} />
           </FloatingDecoration>
         </div>
 
@@ -152,7 +152,7 @@ export function PlatformSection(): React.JSX.Element {
               className="font-serif font-bold text-foreground leading-[1.1] tracking-tight text-3xl sm:text-4xl lg:text-[46px]"
             >
               Designed{' '}
-              <em className="italic not-italic font-bold text-foreground">for every kind</em>{' '}
+              <em className="italic font-bold text-foreground">for every kind</em>{' '}
               of learner
             </h2>
           </FadeIn>

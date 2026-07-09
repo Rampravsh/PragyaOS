@@ -98,7 +98,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
     <AnimatePresence>
       {isOpen && (
         <div
-          className="fixed inset-0 z-[1050] lg:hidden"
+          className="fixed inset-0 z-1050 lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation menu"
@@ -228,7 +228,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                 <>
                   {/* User Profile Card */}
                   <div className="flex items-center gap-3 px-2 py-1">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white text-xs font-bold font-sans">
+                    <div className="w-9 h-9 rounded-full bg-linear-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white text-xs font-bold font-sans">
                       {`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()}
                     </div>
                     <div className="text-left leading-tight">

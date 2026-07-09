@@ -108,7 +108,7 @@ export function SocialProofSection(): React.JSX.Element {
   return (
     <>
       {/* Page divider line at the top */}
-      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
+      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-0 mb-0" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           preserveAspectRatio="none"
