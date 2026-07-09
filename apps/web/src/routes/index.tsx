@@ -22,6 +22,11 @@ const LazyFeatureTeachingTools = lazy(() => import("@/pages/features/teaching-to
 const LazyFeatureOrganization = lazy(() => import("@/pages/features/organization"));
 const LazyFeatureCommunity = lazy(() => import("@/pages/features/community"));
 const LazyPricing = lazy(() => import("@/pages/pricing"));
+const LazyResources = lazy(() => import("@/pages/resources"));
+const LazyResourceBlog = lazy(() => import("@/pages/resources/blog"));
+const LazyResourceDocumentation = lazy(() => import("@/pages/resources/documentation"));
+const LazyResourceHelpCenter = lazy(() => import("@/pages/resources/help-center"));
+const LazyResourceCommunity = lazy(() => import("@/pages/resources/community"));
 const LazyLogin = lazy(() => import("@/pages/login"));
 const LazyRegister = lazy(() => import("@/pages/register"));
 const LazyForgotPassword = lazy(() => import("@/pages/forgot-password"));
@@ -83,6 +88,26 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.PRICING,
         element: withSuspense(LazyPricing),
+      },
+      {
+        path: ROUTES.RESOURCES,
+        element: withSuspense(LazyResources),
+      },
+      {
+        path: ROUTES.RESOURCE_BLOG,
+        element: withSuspense(LazyResourceBlog),
+      },
+      {
+        path: ROUTES.RESOURCE_DOCUMENTATION,
+        element: withSuspense(LazyResourceDocumentation),
+      },
+      {
+        path: ROUTES.RESOURCE_HELP_CENTER,
+        element: withSuspense(LazyResourceHelpCenter),
+      },
+      {
+        path: ROUTES.RESOURCE_COMMUNITY,
+        element: withSuspense(LazyResourceCommunity),
       },
       {
         path: ROUTES.COURSE_DETAILS,

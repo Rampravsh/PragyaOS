@@ -5,6 +5,7 @@ import { AnimatedNavLink, AnimatedNavButton } from "@/components/marketing/share
 import { getMockCatalog } from "@/features/courses/api/mockCourses";
 import { Category, SubTopic } from "@/features/courses/types/course.types";
 import { FeaturesDropdown } from "@/compositions/marketing/features/FeaturesDropdown";
+import { ResourcesDropdown } from "@/compositions/marketing/resources/components/ResourcesDropdown";
 import { MARKETING_NAV_ITEMS } from "./nav.constants";
 
 export function MarketingNavigation(): React.JSX.Element {
@@ -201,22 +202,7 @@ export function MarketingNavigation(): React.JSX.Element {
                   ) : isFeatures ? (
                     <FeaturesDropdown onClose={() => setFeaturesOpen(false)} />
                   ) : (
-                    /* ── Simple Dropdown for Resources ── */
-                    <div className="absolute top-full left-0 mt-2 w-44 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-lg py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
-                      {["Documentation", "Help Center", "Blog", "Community"].map((r) => (
-                        <AnimatedNavLink
-                          key={r}
-                          to={`/resources/${r.toLowerCase()}`}
-                          underlineVariant="random"
-                          circleVariant="random"
-                          className="block px-4 py-2 text-sm font-sans font-medium"
-                          activeClassName="text-[#1C1917] dark:text-white font-semibold"
-                          inactiveClassName="text-[#1C1917]/70 hover:text-[#1C1917] dark:text-stone-400 dark:hover:text-stone-200"
-                        >
-                          {r}
-                        </AnimatedNavLink>
-                      ))}
-                    </div>
+                    <ResourcesDropdown onClose={() => setResourcesOpen(false)} />
                   ))}
               </li>
             );
