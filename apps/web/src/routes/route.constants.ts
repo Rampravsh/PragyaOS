@@ -1,6 +1,12 @@
 export const ROUTES = {
   HOME: "/",
   INSTRUCTORS: "/instructors",
+  FEATURES: "/features",
+  FEATURE_AI_LEARNING: "/features/ai-learning",
+  FEATURE_LEARNING_EXPERIENCE: "/features/learning-experience",
+  FEATURE_TEACHING_TOOLS: "/features/teaching-tools",
+  FEATURE_ORGANIZATION: "/features/organization",
+  FEATURE_COMMUNITY: "/features/community",
   LOGIN: "/login",
   REGISTER: "/register",
   FORGOT_PASSWORD: "/forgot-password",

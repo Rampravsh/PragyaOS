@@ -7,7 +7,9 @@ import {
   UnderlineVariant,
   CircleVariant,
 } from "@/components/marketing/shared/AnimatedNavLink";
-import { getMockCatalog, Category, SubTopic } from "@/features/courses";
+import { getMockCatalog } from "@/features/courses/api/mockCourses";
+import { Category, SubTopic } from "@/features/courses/types/course.types";
+import { FeaturesDropdown } from "@/compositions/marketing/features/FeaturesDropdown";
 
 export interface NavItem {
   label: string;
@@ -33,7 +35,13 @@ export const MARKETING_NAV_ITEMS: NavItem[] = [
     underlineVariant: "double",
     circleVariant: "random",
   },
-  { label: "Features", href: "/features", underlineVariant: "short", circleVariant: "random" },
+  {
+    label: "Features",
+    href: "/features",
+    hasDropdown: true,
+    underlineVariant: "short",
+    circleVariant: "random",
+  },
   { label: "Pricing", href: "/pricing", underlineVariant: "double", circleVariant: "random" },
   {
     label: "Resources",
@@ -46,6 +54,7 @@ export const MARKETING_NAV_ITEMS: NavItem[] = [
 
 export function MarketingNavigation(): React.JSX.Element {
   const [coursesOpen, setCoursesOpen] = useState(false);
+  const [featuresOpen, setFeaturesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
 
   const catalog = getMockCatalog();
@@ -55,6 +64,7 @@ export function MarketingNavigation(): React.JSX.Element {
   );
 
   const coursesRef = useClickOutside<HTMLLIElement>(() => setCoursesOpen(false));
+  const featuresRef = useClickOutside<HTMLLIElement>(() => setFeaturesOpen(false));
   const resourcesRef = useClickOutside<HTMLLIElement>(() => setResourcesOpen(false));
 
   const handleCategoryHover = (cat: Category) => {
@@ -78,9 +88,14 @@ export function MarketingNavigation(): React.JSX.Element {
         {MARKETING_NAV_ITEMS.map((item) => {
           if (item.hasDropdown) {
             const isCourses = item.label === "Courses";
-            const isOpen = isCourses ? coursesOpen : resourcesOpen;
-            const setOpen = isCourses ? setCoursesOpen : setResourcesOpen;
-            const ref = isCourses ? coursesRef : resourcesRef;
+            const isFeatures = item.label === "Features";
+            const isOpen = isCourses ? coursesOpen : isFeatures ? featuresOpen : resourcesOpen;
+            const setOpen = isCourses
+              ? setCoursesOpen
+              : isFeatures
+                ? setFeaturesOpen
+                : setResourcesOpen;
+            const ref = isCourses ? coursesRef : isFeatures ? featuresRef : resourcesRef;
 
             return (
               <li key={item.label} ref={ref} className="relative">
@@ -228,6 +243,8 @@ export function MarketingNavigation(): React.JSX.Element {
                         )}
                       </div>
                     </div>
+                  ) : isFeatures ? (
+                    <FeaturesDropdown onClose={() => setFeaturesOpen(false)} />
                   ) : (
                     /* ── Simple Dropdown for Resources ── */
                     <div className="absolute top-full left-0 mt-2 w-44 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl shadow-lg py-1.5 z-50 animate-in fade-in slide-in-from-top-1 duration-150">

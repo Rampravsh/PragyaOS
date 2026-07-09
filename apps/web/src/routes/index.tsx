@@ -15,6 +15,12 @@ import RequireRole from "@/routes/guards/RequireRole";
 const LazyHome = lazy(() => import("@/pages/home"));
 const LazyCourseDetails = lazy(() => import("@/pages/courses/detail"));
 const LazyInstructors = lazy(() => import("@/pages/instructors"));
+const LazyFeatures = lazy(() => import("@/pages/features"));
+const LazyFeatureAILearning = lazy(() => import("@/pages/features/ai-learning"));
+const LazyFeatureLearningExperience = lazy(() => import("@/pages/features/learning-experience"));
+const LazyFeatureTeachingTools = lazy(() => import("@/pages/features/teaching-tools"));
+const LazyFeatureOrganization = lazy(() => import("@/pages/features/organization"));
+const LazyFeatureCommunity = lazy(() => import("@/pages/features/community"));
 const LazyLogin = lazy(() => import("@/pages/login"));
 const LazyRegister = lazy(() => import("@/pages/register"));
 const LazyForgotPassword = lazy(() => import("@/pages/forgot-password"));
@@ -48,6 +54,30 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.INSTRUCTORS,
         element: withSuspense(LazyInstructors),
+      },
+      {
+        path: ROUTES.FEATURES,
+        element: withSuspense(LazyFeatures),
+      },
+      {
+        path: ROUTES.FEATURE_AI_LEARNING,
+        element: withSuspense(LazyFeatureAILearning),
+      },
+      {
+        path: ROUTES.FEATURE_LEARNING_EXPERIENCE,
+        element: withSuspense(LazyFeatureLearningExperience),
+      },
+      {
+        path: ROUTES.FEATURE_TEACHING_TOOLS,
+        element: withSuspense(LazyFeatureTeachingTools),
+      },
+      {
+        path: ROUTES.FEATURE_ORGANIZATION,
+        element: withSuspense(LazyFeatureOrganization),
+      },
+      {
+        path: ROUTES.FEATURE_COMMUNITY,
+        element: withSuspense(LazyFeatureCommunity),
       },
       {
         path: ROUTES.COURSE_DETAILS,
