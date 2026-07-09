@@ -7,6 +7,7 @@ export const ROUTES = {
   FEATURE_TEACHING_TOOLS: "/features/teaching-tools",
   FEATURE_ORGANIZATION: "/features/organization",
   FEATURE_COMMUNITY: "/features/community",
+  PRICING: "/pricing",
   LOGIN: "/login",
   REGISTER: "/register",
   FORGOT_PASSWORD: "/forgot-password",

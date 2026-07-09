@@ -21,6 +21,7 @@ const LazyFeatureLearningExperience = lazy(() => import("@/pages/features/learni
 const LazyFeatureTeachingTools = lazy(() => import("@/pages/features/teaching-tools"));
 const LazyFeatureOrganization = lazy(() => import("@/pages/features/organization"));
 const LazyFeatureCommunity = lazy(() => import("@/pages/features/community"));
+const LazyPricing = lazy(() => import("@/pages/pricing"));
 const LazyLogin = lazy(() => import("@/pages/login"));
 const LazyRegister = lazy(() => import("@/pages/register"));
 const LazyForgotPassword = lazy(() => import("@/pages/forgot-password"));
@@ -78,6 +79,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.FEATURE_COMMUNITY,
         element: withSuspense(LazyFeatureCommunity),
+      },
+      {
+        path: ROUTES.PRICING,
+        element: withSuspense(LazyPricing),
       },
       {
         path: ROUTES.COURSE_DETAILS,
