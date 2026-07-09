@@ -101,7 +101,7 @@ export function PlatformSection(): React.JSX.Element {
   return (
     <>
       {/* Paper-torn divider: dark → cream */}
-      <div className="relative w-full overflow-hidden bg-[#0F0F1A] dark:bg-[#FAF7F2] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
+      <div className="relative w-full overflow-hidden bg-[#0F0F1A] dark:bg-background transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
           className="absolute bottom-0 left-0 w-full text-[#FAF7F2] dark:text-[#0f0f10] transition-colors duration-300 translate-y-[1px]"
           viewBox="0 0 1440 64"
@@ -114,7 +114,7 @@ export function PlatformSection(): React.JSX.Element {
 
       <section
         id="platform-section"
-        className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="platform-heading"
       >
         {/* Floating decorations */}

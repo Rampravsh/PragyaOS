@@ -80,20 +80,20 @@ export function DocsContent({
           Was this documentation helpful?
         </span>
         {feedbackGiven ? (
-          <span className="text-xs font-sans font-bold text-[#c79436] flex items-center gap-1.5">
+          <span className="text-xs font-sans font-bold text-brand-gold flex items-center gap-1.5">
             <CheckIcon size={14} /> Thanks for your feedback!
           </span>
         ) : (
           <div className="flex gap-2">
             <button
               onClick={() => setFeedbackGiven(true)}
-              className="px-4 py-1.5 bg-[#FAF7F2] dark:bg-stone-900 hover:bg-stone-100 border border-stone-300 dark:border-stone-800 text-[10px] font-sans font-bold uppercase tracking-wider rounded-lg text-stone-750 dark:text-stone-300"
+              className="px-4 py-1.5 bg-muted hover:bg-stone-100 border border-stone-300 dark:border-stone-800 text-[10px] font-sans font-bold uppercase tracking-wider rounded-lg text-stone-750 dark:text-stone-300"
             >
               Yes
             </button>
             <button
               onClick={() => setFeedbackGiven(true)}
-              className="px-4 py-1.5 bg-[#FAF7F2] dark:bg-stone-900 hover:bg-stone-100 border border-stone-300 dark:border-stone-800 text-[10px] font-sans font-bold uppercase tracking-wider rounded-lg text-stone-750 dark:text-stone-300"
+              className="px-4 py-1.5 bg-muted hover:bg-stone-100 border border-stone-300 dark:border-stone-800 text-[10px] font-sans font-bold uppercase tracking-wider rounded-lg text-stone-750 dark:text-stone-300"
             >
               No
             </button>
@@ -111,7 +111,7 @@ export function DocsContent({
             <span className="text-[9px] font-sans text-stone-400 dark:text-stone-500 uppercase tracking-widest">
               &larr; Previous Topic
             </span>
-            <span className="text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-[#c79436] transition-colors truncate w-full">
+            <span className="text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-brand-gold transition-colors truncate w-full">
               {prevTopic.title}
             </span>
           </button>
@@ -127,7 +127,7 @@ export function DocsContent({
             <span className="text-[9px] font-sans text-stone-400 dark:text-stone-500 uppercase tracking-widest">
               Next Topic &rarr;
             </span>
-            <span className="text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-[#c79436] transition-colors truncate w-full">
+            <span className="text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-brand-gold transition-colors truncate w-full">
               {nextTopic.title}
             </span>
           </button>

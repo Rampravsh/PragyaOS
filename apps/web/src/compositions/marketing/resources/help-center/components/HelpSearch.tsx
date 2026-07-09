@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchIcon } from "@pragyaos/icons";
+import { SearchIcon, LayersIcon } from "@pragyaos/icons";
 
 interface HelpSearchProps {
   searchQuery: string;
@@ -8,10 +8,10 @@ interface HelpSearchProps {
 
 export function HelpSearch({ searchQuery, onSearchChange }: HelpSearchProps): React.JSX.Element {
   return (
-    <div className="bg-[#FAF7F2] dark:bg-[#0f0f10] border-b border-stone-200/50 dark:border-stone-850 py-16 text-center">
+    <div className="bg-background border-b border-stone-200/50 dark:border-stone-850 py-16 text-center">
       <div className="max-w-2xl mx-auto px-4">
-        <span className="text-[10px] font-sans font-bold text-[#c79436] uppercase tracking-widest block mb-3">
-          🆘 Help Desk & Support
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-bold text-brand-gold uppercase tracking-widest block mb-3">
+          <LayersIcon size={12} className="inline-block" /> Help Desk & Support
         </span>
         <h1 className="font-serif font-bold text-3xl md:text-4xl text-stone-900 dark:text-white mb-6">
           How can we help?

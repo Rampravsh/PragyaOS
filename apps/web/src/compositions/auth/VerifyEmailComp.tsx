@@ -38,7 +38,7 @@ export function VerifyEmailComp(): React.JSX.Element {
       title={
         <>
           Verify your <br />
-          <span className="text-[#c79436] font-serif italic">email</span>
+          <span className="text-brand-gold font-serif italic">email</span>
         </>
       }
       description="Almost there! Please verify your email to continue."
@@ -51,7 +51,7 @@ export function VerifyEmailComp(): React.JSX.Element {
         </h1>
         <p className="text-sm text-stone-500 dark:text-stone-400 font-sans">
           We've sent a verification link to <br />
-          <span className="font-semibold text-[#c79436] break-all">{email}</span>
+          <span className="font-semibold text-brand-gold break-all">{email}</span>
         </p>
       </div>
 
@@ -65,7 +65,7 @@ export function VerifyEmailComp(): React.JSX.Element {
         {/* Helpful Info Box */}
         <div className="p-4 rounded-xl border border-stone-200 dark:border-white/10 bg-white/40 dark:bg-white/[0.02] flex flex-col gap-2.5">
           <div className="flex items-center gap-2 text-xs font-sans font-bold text-stone-700 dark:text-stone-300">
-            <AlertCircleIcon size={14} className="text-[#c79436]" />
+            <AlertCircleIcon size={14} className="text-brand-gold" />
             <span>Didn't receive the email?</span>
           </div>
           <ul className="list-disc pl-4 text-xs font-sans text-stone-500 dark:text-stone-400 space-y-1">
@@ -95,7 +95,7 @@ export function VerifyEmailComp(): React.JSX.Element {
 
         {/* Footer links */}
         <div className="flex justify-between items-center text-xs font-sans font-semibold mt-3 px-1">
-          <Link to={ROUTES.LOGIN} className="text-[#c79436] hover:underline">
+          <Link to={ROUTES.LOGIN} className="text-brand-gold hover:underline">
             Change email address
           </Link>
           <Link to={ROUTES.LOGIN} className="text-stone-400 dark:text-stone-600 hover:underline">

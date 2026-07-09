@@ -61,8 +61,8 @@ export function LatestStories(): React.JSX.Element {
             className="group relative p-6 bg-white dark:bg-stone-950 border-2 border-stone-850 dark:border-stone-800 rounded-2xl shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.06)] hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between"
           >
             {/* Tilted handwritten-style category label */}
-            <div className="absolute -top-3.5 left-4 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-300 dark:border-stone-850 px-2.5 py-1 rounded-md transform -rotate-2 group-hover:rotate-1 transition-transform duration-150 z-10">
-              <span className="text-[9px] font-sans font-bold text-[#c79436] uppercase tracking-wider">
+            <div className="absolute -top-3.5 left-4 bg-muted border border-stone-300 dark:border-stone-850 px-2.5 py-1 rounded-md transform -rotate-2 group-hover:rotate-1 transition-transform duration-150 z-10">
+              <span className="text-[9px] font-sans font-bold text-brand-gold uppercase tracking-wider">
                 {art.category}
               </span>
             </div>
@@ -71,7 +71,7 @@ export function LatestStories(): React.JSX.Element {
               {/* Spacer for category label */}
               <div className="h-2.5 mb-4" />
 
-              <h4 className="font-serif font-bold text-lg text-stone-900 dark:text-white mb-3 group-hover:text-[#c79436] transition-colors leading-snug">
+              <h4 className="font-serif font-bold text-lg text-stone-900 dark:text-white mb-3 group-hover:text-brand-gold transition-colors leading-snug">
                 {art.title}
               </h4>
               <p className="font-sans text-xs text-stone-600 dark:text-stone-400 leading-relaxed mb-6">

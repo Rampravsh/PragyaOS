@@ -18,7 +18,7 @@ export function CourseDetailsPage(): React.JSX.Element {
 
   if (!course) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 gap-4 bg-[#FAF7F2] dark:bg-[#0f0f10]">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-6 gap-4 bg-background">
         <h1 className="font-serif text-3xl font-bold text-stone-900 dark:text-stone-100">
           Course Not Found
         </h1>

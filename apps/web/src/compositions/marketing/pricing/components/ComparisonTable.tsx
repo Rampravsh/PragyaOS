@@ -110,7 +110,7 @@ export function ComparisonTable(): React.JSX.Element {
   const renderCell = (val: string | boolean) => {
     if (typeof val === "boolean") {
       return val ? (
-        <CheckIcon size={16} className="text-[#c79436] mx-auto" />
+        <CheckIcon size={16} className="text-brand-gold mx-auto" />
       ) : (
         <span className="text-stone-300 dark:text-stone-850 font-sans">&mdash;</span>
       );
@@ -119,7 +119,7 @@ export function ComparisonTable(): React.JSX.Element {
   };
 
   return (
-    <section className="py-16 bg-[#FAF7F2]/50 dark:bg-stone-900/10 border-b border-stone-200/50 dark:border-stone-850">
+    <section className="py-16 bg-background/50 border-b border-stone-200/50 dark:border-stone-850">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -137,14 +137,14 @@ export function ComparisonTable(): React.JSX.Element {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[768px] border-collapse text-left">
               <thead>
-                <tr className="border-b-2 border-stone-850 dark:border-stone-800 bg-[#FAF7F2] dark:bg-stone-900/50">
-                  <th className="sticky left-0 z-20 bg-[#FAF7F2] dark:bg-stone-900/50 p-4 font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200 w-1/3 border-r border-stone-200 dark:border-stone-800">
+                <tr className="border-b-2 border-stone-850 dark:border-stone-800 bg-muted">
+                  <th className="sticky left-0 z-20 bg-muted p-4 font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200 w-1/3 border-r border-stone-200 dark:border-stone-800">
                     Features
                   </th>
                   <th className="p-4 text-center font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200">
                     Starter
                   </th>
-                  <th className="p-4 text-center font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200 bg-[#c79436]/5 dark:bg-[#c79436]/5">
+                  <th className="p-4 text-center font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200 bg-brand-gold/5 dark:bg-brand-gold/5">
                     Pro
                   </th>
                   <th className="p-4 text-center font-sans font-bold text-xs uppercase tracking-wider text-stone-800 dark:text-stone-200">
@@ -162,7 +162,7 @@ export function ComparisonTable(): React.JSX.Element {
                     <tr className="bg-stone-50 dark:bg-stone-900/20 border-b border-stone-200 dark:border-stone-800/80">
                       <td
                         colSpan={5}
-                        className="sticky left-0 z-10 bg-stone-50 dark:bg-stone-900/20 px-4 py-2.5 font-sans font-bold text-[10px] uppercase tracking-widest text-[#c79436] border-r border-stone-200 dark:border-stone-800"
+                        className="sticky left-0 z-10 bg-stone-50 dark:bg-stone-900/20 px-4 py-2.5 font-sans font-bold text-[10px] uppercase tracking-widest text-brand-gold border-r border-stone-200 dark:border-stone-800"
                       >
                         {section.groupName}
                       </td>
@@ -178,7 +178,7 @@ export function ComparisonTable(): React.JSX.Element {
                           {row.name}
                         </td>
                         <td className="p-4 text-center">{renderCell(row.starter)}</td>
-                        <td className="p-4 text-center bg-[#c79436]/5 dark:bg-[#c79436]/5">
+                        <td className="p-4 text-center bg-brand-gold/5 dark:bg-brand-gold/5">
                           {renderCell(row.pro)}
                         </td>
                         <td className="p-4 text-center">{renderCell(row.team)}</td>

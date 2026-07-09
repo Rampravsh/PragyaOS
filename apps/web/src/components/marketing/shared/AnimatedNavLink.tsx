@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { NavLink, NavLinkProps } from 'react-router';
+import { NavLink, NavLinkProps, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   UnderlineShort,
@@ -81,6 +81,32 @@ export function AnimatedNavLink({
   ...props
 }: AnimatedNavLinkProps): React.JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
+  const location = useLocation();
+
+  const customIsActive = useMemo(() => {
+    if (typeof to === 'string') {
+      try {
+        const toUrl = new URL(to, 'http://localhost');
+        const pathMatch = location.pathname === toUrl.pathname;
+        if (!pathMatch) return false;
+
+        const toParams = new URLSearchParams(toUrl.search);
+        const locParams = new URLSearchParams(location.search);
+
+        if (toUrl.search) {
+          for (const [key, val] of toParams.entries()) {
+            if (locParams.get(key) !== val) return false;
+          }
+          return true;
+        }
+
+        return !location.search;
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }, [to, location]);
 
   // Pick colors stably on render mount
   const selectedUnderlineColor = useMemo(() => underlineColor || getRandomAccentColor(), [underlineColor]);
@@ -111,18 +137,21 @@ export function AnimatedNavLink({
       to={to}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={({ isActive }) =>
-        cn(
+      className={({ isActive: routerIsActive }) => {
+        const isActive = customIsActive !== null ? customIsActive : routerIsActive;
+        return cn(
           'relative px-4 py-2 text-[13px] font-sans font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm block',
           isActive ? activeClassName : inactiveClassName,
           className
-        )
-      }
+        );
+      }}
       {...props}
     >
-      {({ isActive }) => (
-        <span className="relative z-10 block">
-          {children}
+      {({ isActive: routerIsActive }) => {
+        const isActive = customIsActive !== null ? customIsActive : routerIsActive;
+        return (
+          <span className="relative z-10 block">
+            {children}
 
           {/* Underline on Hover (not active) */}
           <AnimatePresence>
@@ -160,7 +189,7 @@ export function AnimatedNavLink({
             </motion.div>
           )}
         </span>
-      )}
+      ); }}
     </NavLink>
   );
 }

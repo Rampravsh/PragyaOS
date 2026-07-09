@@ -39,7 +39,7 @@ export function BillingToggle({ billingCycle, onToggle }: BillingToggleProps): R
         <div className="absolute left-full ml-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 whitespace-nowrap pointer-events-none">
           {/* Hand Drawn Arrow */}
           <svg
-            className="w-8 h-8 text-[#c79436] hidden sm:block transform -rotate-12 translate-y-1"
+            className="w-8 h-8 text-brand-gold hidden sm:block transform -rotate-12 translate-y-1"
             fill="none"
             viewBox="0 0 32 32"
             stroke="currentColor"
@@ -51,7 +51,7 @@ export function BillingToggle({ billingCycle, onToggle }: BillingToggleProps): R
           </svg>
 
           {/* Accent Badge */}
-          <span className="px-3 py-1.5 bg-[#FAF7F2] dark:bg-stone-900 border-2 border-dashed border-[#c79436] rounded-lg text-[10px] font-sans font-bold text-[#c79436] uppercase tracking-wide rotate-3">
+          <span className="px-3 py-1.5 bg-muted border-2 border-dashed border-brand-gold rounded-lg text-[10px] font-sans font-bold text-brand-gold uppercase tracking-wide rotate-3">
             Save 20%
           </span>
         </div>

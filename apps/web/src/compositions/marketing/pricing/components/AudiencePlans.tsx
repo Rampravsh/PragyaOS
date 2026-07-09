@@ -16,14 +16,14 @@ const PERSONAS: PersonaCard[] = [
       "Get started with self-paced learning, interactive quizzes, and core AI tutor helpers.",
     recommendedPlan: "Starter (₹0/mo)",
     benefits: ["Core AI chat assistant", "2 active course slots", "Basic achievements track"],
-    icon: <BookIcon size={24} className="text-[#c79436]" />,
+    icon: <BookIcon size={24} className="text-brand-gold" />,
   },
   {
     role: "Instructor",
     description: "Build engaging courses, manage test grading, and host cohort learning paths.",
     recommendedPlan: "Pro (₹999/mo)",
     benefits: ["Unlimited course creations", "Cohort grading tools", "Earnings payouts portal"],
-    icon: <PencilIcon size={24} className="text-[#c79436]" />,
+    icon: <PencilIcon size={24} className="text-brand-gold" />,
   },
   {
     role: "Organization",
@@ -31,13 +31,13 @@ const PERSONAS: PersonaCard[] = [
       "Scale education across departments, universities, or corporate teams with admin control.",
     recommendedPlan: "Enterprise (Custom)",
     benefits: ["Active compliance audit logs", "SAML SSO single sign-on", "Dedicated support SLA"],
-    icon: <LayersIcon size={24} className="text-[#c79436]" />,
+    icon: <LayersIcon size={24} className="text-brand-gold" />,
   },
 ];
 
 export function AudiencePlans(): React.JSX.Element {
   return (
-    <section className="py-16 bg-[#FAF7F2] dark:bg-[#0f0f10] border-b border-stone-200/50 dark:border-stone-850">
+    <section className="py-16 bg-background border-b border-stone-200/50 dark:border-stone-850">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -58,7 +58,7 @@ export function AudiencePlans(): React.JSX.Element {
             >
               {/* Card Top */}
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex items-center justify-center mb-5">
+                <div className="w-12 h-12 rounded-xl bg-muted border border-stone-200 dark:border-stone-800 flex items-center justify-center mb-5">
                   {p.icon}
                 </div>
 
@@ -73,7 +73,7 @@ export function AudiencePlans(): React.JSX.Element {
                 <ul className="list-none m-0 p-0 flex flex-col gap-2.5 mb-6">
                   {p.benefits.map((ben, bIdx) => (
                     <li key={bIdx} className="flex items-center gap-2">
-                      <span className="w-1 h-1 rounded-full bg-[#c79436]" />
+                      <span className="w-1 h-1 rounded-full bg-brand-gold" />
                       <span className="font-sans text-stone-700 dark:text-stone-300 text-xs">
                         {ben}
                       </span>
@@ -83,7 +83,7 @@ export function AudiencePlans(): React.JSX.Element {
               </div>
 
               {/* Recommendation Callout Footer */}
-              <div className="bg-[#FAF7F2] dark:bg-stone-900/60 p-3.5 rounded-xl border border-stone-200/50 dark:border-stone-800 text-center">
+              <div className="bg-muted p-3.5 rounded-xl border border-stone-200/50 dark:border-stone-800 text-center">
                 <span className="text-[10px] font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest block mb-1">
                   Recommended Plan
                 </span>

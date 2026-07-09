@@ -55,12 +55,12 @@ export function RegisterComposition(): React.JSX.Element {
       title={
         isInstructor ? (
           <>
-            Launch <span className="text-[#c79436] font-serif italic">your</span> <br />
+            Launch <span className="text-brand-gold font-serif italic">your</span> <br />
             instructor studio
           </>
         ) : (
           <>
-            Create <span className="text-[#c79436] font-serif italic">your</span> <br />
+            Create <span className="text-brand-gold font-serif italic">your</span> <br />
             account
           </>
         )
@@ -152,11 +152,11 @@ export function RegisterComposition(): React.JSX.Element {
           />
           <span className="leading-tight">
             I agree to the{' '}
-            <a href="#" className="font-semibold text-[#c79436] hover:underline">
+            <a href="#" className="font-semibold text-brand-gold hover:underline">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="#" className="font-semibold text-[#c79436] hover:underline">
+            <a href="#" className="font-semibold text-brand-gold hover:underline">
               Privacy Policy
             </a>
           </span>

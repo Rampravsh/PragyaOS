@@ -131,8 +131,9 @@
 
   /* Editorial Paper Tones */
   --color-paper-light: #fcfbfa;
-  --color-paper-dark: #0f0f10;
+  --color-paper-dark: #2f2f33;
   --color-paper-cream: #f7f4ef;
+  --color-brand-gold: #c79436;
 
   /* ===========================================================================
      SEMANTIC COLORS — Default: workspace-light
@@ -426,10 +427,10 @@
 
 /* --- Marketing Dark — Deep editorial charcoal (Stone dark palette) --- */
 [data-theme="marketing-dark"] {
-  --color-background: #0f0f10;
+  --color-background: #2f2f33;
   --color-foreground: #f5f5f4;
   --color-primary: #f5f5f4;
-  --color-primary-foreground: #0f0f10;
+  --color-primary-foreground: #2f2f33;
   --color-secondary: #292524;
   --color-secondary-foreground: #e7e5e4;
   --color-muted: #1e1b1a;
@@ -437,9 +438,9 @@
   --color-border: #292524;
   --color-input: #292524;
   --color-ring: #d6d3d1;
-  --color-card: #0f0f10;
+  --color-card: #2f2f33;
   --color-card-foreground: #f5f5f4;
-  --color-popover: #0f0f10;
+  --color-popover: #2f2f33;
   --color-popover-foreground: #f5f5f4;
 }
 

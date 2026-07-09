@@ -43,7 +43,7 @@ export function PricingFAQ(): React.JSX.Element {
   };
 
   return (
-    <section className="py-16 bg-[#FAF7F2] dark:bg-[#0f0f10] border-b border-stone-200/50 dark:border-stone-850">
+    <section className="py-16 bg-background border-b border-stone-200/50 dark:border-stone-850">
       <div className="max-w-3xl mx-auto px-4 md:px-6">
         {/* Section Heading */}
         <div className="text-center mb-12">

@@ -106,7 +106,7 @@ export function FeaturesDropdown({ onClose }: FeaturesDropdownProps): React.JSX.
                   <Icon
                     size={14}
                     className={cn(
-                      isActive ? "text-[#c79436]" : "text-stone-450 dark:text-stone-500",
+                      isActive ? "text-brand-gold" : "text-stone-450 dark:text-stone-500",
                     )}
                   />
                   <span>{labels[key]}</span>
@@ -120,7 +120,7 @@ export function FeaturesDropdown({ onClose }: FeaturesDropdownProps): React.JSX.
           <Link
             to="/features"
             onClick={onClose}
-            className="block text-center text-xs font-sans font-semibold text-[#c79436] hover:underline py-1.5"
+            className="block text-center text-xs font-sans font-semibold text-brand-gold hover:underline py-1.5"
           >
             View All Features →
           </Link>
@@ -140,7 +140,7 @@ export function FeaturesDropdown({ onClose }: FeaturesDropdownProps): React.JSX.
           >
             <div className="flex flex-col gap-4">
               {/* Illustration / Drawing */}
-              <div className="w-full h-28 bg-[#FAF7F2] dark:bg-stone-950/40 rounded-xl flex items-center justify-center text-stone-400 border border-stone-100 dark:border-stone-800/60 p-4">
+              <div className="w-full h-28 bg-background dark:bg-stone-950/40 rounded-xl flex items-center justify-center text-stone-400 border border-stone-100 dark:border-stone-800/60 p-4">
                 {React.createElement(FEATURE_PREVIEWS[activePreview].icon, {
                   className: "h-20 w-auto object-contain",
                   color: FEATURE_PREVIEWS[activePreview].color,
@@ -175,7 +175,7 @@ export function FeaturesDropdown({ onClose }: FeaturesDropdownProps): React.JSX.
               <Link
                 to={FEATURE_PREVIEWS[activePreview].href}
                 onClick={onClose}
-                className="inline-flex items-center text-xs font-sans font-bold text-[#c79436] hover:underline"
+                className="inline-flex items-center text-xs font-sans font-bold text-brand-gold hover:underline"
               >
                 {FEATURE_PREVIEWS[activePreview].label}
               </Link>

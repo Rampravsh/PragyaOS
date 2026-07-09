@@ -106,7 +106,7 @@ export function PricingComposition(): React.JSX.Element {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("yearly");
 
   return (
-    <div className="bg-[#FAF7F2] dark:bg-[#0f0f10] min-h-screen">
+    <div className="bg-background text-foreground min-h-screen">
       {/* 1. Hero Block */}
       <PricingHero />
 

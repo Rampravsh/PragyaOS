@@ -33,13 +33,13 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out pb-16">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-normal ease-in-out pb-16">
       {/* ── Header Hero Section ── */}
       <header className="border-b border-stone-200 dark:border-stone-800 bg-white/50 dark:bg-stone-900/30 backdrop-blur-md py-10 md:py-14">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-stone-500 dark:text-stone-400 hover:text-[#c79436] transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-xs font-sans font-medium text-stone-500 dark:text-stone-400 hover:text-brand-gold transition-colors mb-6"
           >
             ← Back to Home
           </Link>
@@ -59,8 +59,8 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                 {course.title}
               </h1>
               <AuthSparkle
-                color="#c79436"
-                className="w-5 h-5 shrink-0 animate-pulse hidden sm:block"
+                color="currentColor"
+                className="w-5 h-5 shrink-0 animate-pulse hidden sm:block text-brand-gold"
               />
             </div>
 
@@ -136,10 +136,10 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                         type="button"
                         onClick={() => toggleModule(mod.id)}
                         aria-expanded={isExpanded}
-                        className="w-full flex items-center justify-between gap-4 p-5 text-left font-sans font-bold text-sm sm:text-base text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c79436]"
+                        className="w-full flex items-center justify-between gap-4 p-5 text-left font-sans font-bold text-sm sm:text-base text-stone-800 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-xs font-mono font-bold text-[#c79436]">
+                          <span className="text-xs font-mono font-bold text-brand-gold">
                             M{mod.sequence}
                           </span>
                           <span>{mod.title}</span>
@@ -169,7 +169,7 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
                               >
                                 <div className="flex items-center gap-2.5 min-w-0">
                                   {unit.type === "VIDEO" ? (
-                                    <PlayIcon size={14} className="text-[#c79436] shrink-0" />
+                                    <PlayIcon size={14} className="text-brand-gold shrink-0" />
                                   ) : (
                                     <BookIcon
                                       size={14}
@@ -220,7 +220,7 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
 
               <button
                 type="button"
-                className="w-full h-12 flex items-center justify-center rounded-xl bg-stone-900 hover:bg-black dark:bg-[#c79436] dark:hover:bg-[#b0802c] text-white dark:text-stone-900 text-sm font-sans font-bold transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c79436]"
+                className="w-full h-12 flex items-center justify-center rounded-xl bg-stone-900 hover:bg-black dark:bg-brand-gold dark:hover:bg-[#b0802c] text-white dark:text-stone-900 text-sm font-sans font-bold transition-all duration-200 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
               >
                 Start Learning Now
               </button>
@@ -231,15 +231,15 @@ export function CourseDetailsComposition({ course }: CourseDetailsProps): React.
 
               <div className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2 text-xs font-sans text-stone-600 dark:text-stone-400">
-                  <PlayIcon size={12} className="text-[#c79436]" />
+                  <PlayIcon size={12} className="text-brand-gold" />
                   <span>Full syllabus structure</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-sans text-stone-600 dark:text-stone-400">
-                  <AwardIcon size={12} className="text-[#c79436]" />
+                  <AwardIcon size={12} className="text-brand-gold" />
                   <span>Completion certificate</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-sans text-stone-600 dark:text-stone-400">
-                  <TrophyIcon size={12} className="text-[#c79436]" />
+                  <TrophyIcon size={12} className="text-brand-gold" />
                   <span>Interactive exercises</span>
                 </div>
               </div>

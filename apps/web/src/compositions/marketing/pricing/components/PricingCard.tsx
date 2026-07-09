@@ -33,8 +33,8 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
         {/* Paper stack background offsets for the featured Pro card */}
         {plan.isPopular && (
           <>
-            <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border-2 border-stone-850 dark:border-stone-800 rounded-2xl transform rotate-2 translate-x-2.5 translate-y-2.5 pointer-events-none z-[1]" />
-            <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border-2 border-stone-850 dark:border-stone-800 rounded-2xl transform -rotate-1 translate-x-1 translate-y-1 pointer-events-none z-[2]" />
+            <div className="absolute inset-0 bg-muted border-2 border-stone-850 dark:border-stone-800 rounded-2xl transform rotate-2 translate-x-2.5 translate-y-2.5 pointer-events-none z-[1]" />
+            <div className="absolute inset-0 bg-muted border-2 border-stone-850 dark:border-stone-800 rounded-2xl transform -rotate-1 translate-x-1 translate-y-1 pointer-events-none z-[2]" />
           </>
         )}
 
@@ -86,7 +86,7 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
           <ul className="flex-1 list-none m-0 p-0 flex flex-col gap-3.5 mb-8">
             {plan.features.slice(0, 4).map((feat, idx) => (
               <li key={idx} className="flex items-start gap-3">
-                <CheckIcon size={15} className="text-[#c79436] shrink-0 mt-0.5" />
+                <CheckIcon size={15} className="text-brand-gold shrink-0 mt-0.5" />
                 <span className="font-sans text-stone-700 dark:text-stone-300 text-xs leading-relaxed">
                   {feat}
                 </span>
@@ -107,8 +107,8 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
               circleVariant="random"
               className={`w-full inline-flex items-center justify-center py-3 px-5 font-sans font-bold text-xs uppercase tracking-wider rounded-xl text-center shadow-sm border-2 border-stone-850 dark:border-stone-800 transition-all ${
                 plan.isPopular
-                  ? "bg-[#1C1917] text-white dark:bg-white dark:text-stone-950"
-                  : "bg-white text-stone-900 dark:bg-stone-900 dark:text-stone-100 hover:bg-stone-50 dark:hover:bg-stone-800/80"
+                  ? "bg-[#1C1917] text-white hover:text-white dark:bg-white dark:text-stone-950 dark:hover:text-stone-950"
+                  : "bg-white text-stone-900 hover:text-stone-900 dark:bg-stone-900 dark:text-stone-100 dark:hover:text-stone-100 hover:bg-stone-50 dark:hover:bg-stone-800/80"
               }`}
             >
               {plan.ctaText}
@@ -137,7 +137,7 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
 
             {/* Modal Header */}
             <div className="mb-6">
-              <span className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-[#c79436] block mb-1">
+              <span className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-brand-gold block mb-1">
                 Plan Highlights
               </span>
               <h2 className="font-serif font-bold text-3xl text-stone-900 dark:text-white mb-2">
@@ -152,14 +152,14 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
             </div>
 
             {/* Extended highlights */}
-            <div className="mb-6 bg-[#FAF7F2] dark:bg-stone-900 p-4 rounded-xl border border-stone-200/50 dark:border-stone-800">
+            <div className="mb-6 bg-muted p-4 rounded-xl border border-stone-200/50 dark:border-stone-800">
               <h4 className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 uppercase tracking-wide mb-2.5">
                 Extended Capabilities
               </h4>
               <ul className="list-none m-0 p-0 flex flex-col gap-2.5">
                 {plan.extendedHighlights.map((high, idx) => (
                   <li key={idx} className="flex items-start gap-2.5">
-                    <span className="text-[#c79436] font-bold text-xs mt-0.5">•</span>
+                    <span className="text-brand-gold font-bold text-xs mt-0.5">•</span>
                     <p className="font-sans text-stone-600 dark:text-stone-355 text-xs leading-relaxed">
                       {high}
                     </p>
@@ -176,7 +176,7 @@ export function PricingCard({ plan, billingCycle }: PricingCardProps): React.JSX
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                 {plan.features.map((feat, idx) => (
                   <div key={idx} className="flex items-center gap-2">
-                    <CheckIcon size={14} className="text-[#c79436] shrink-0" />
+                    <CheckIcon size={14} className="text-brand-gold shrink-0" />
                     <span className="font-sans text-stone-700 dark:text-stone-300 text-xs truncate">
                       {feat}
                     </span>

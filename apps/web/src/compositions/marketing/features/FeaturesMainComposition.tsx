@@ -51,7 +51,7 @@ export function FeaturesMainComposition(): React.JSX.Element {
   ];
 
   return (
-    <div className="bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out min-h-screen pb-16">
+    <div className="bg-background text-foreground transition-colors duration-normal ease-in-out min-h-screen pb-16">
       {/* ── 1. Hero Section ── */}
       <section className="relative overflow-hidden py-20 md:py-28 border-b border-stone-200 dark:border-stone-850 bg-white/40 dark:bg-stone-900/10">
         <div
@@ -65,7 +65,7 @@ export function FeaturesMainComposition(): React.JSX.Element {
         />
 
         <div className="absolute right-8 top-1/4 opacity-10 dark:opacity-20 hidden lg:block">
-          <AuthTwig color="#c79436" strokeWidth={1} className="w-24 h-72" />
+          <AuthTwig color="currentColor" strokeWidth={1} className="w-24 h-72 text-brand-gold" />
         </div>
 
         <div className="max-w-4xl mx-auto px-4 text-center flex flex-col items-center gap-6 relative">
@@ -75,8 +75,8 @@ export function FeaturesMainComposition(): React.JSX.Element {
             transition={{ duration: 0.3 }}
             className="flex items-center gap-2"
           >
-            <AuthSparkle color="#c79436" className="w-5 h-5 animate-pulse" />
-            <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#c79436]">
+            <AuthSparkle color="currentColor" className="w-5 h-5 animate-pulse text-brand-gold" />
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-brand-gold">
               PragyaOS Pillars
             </span>
           </motion.div>
@@ -89,7 +89,7 @@ export function FeaturesMainComposition(): React.JSX.Element {
           >
             Experience learning.
             <br />
-            Explore <span className="text-[#c79436]">every feature dimension.</span>
+            Explore <span className="text-brand-gold">every feature dimension.</span>
           </motion.h1>
 
           <motion.p
@@ -144,7 +144,7 @@ export function FeaturesMainComposition(): React.JSX.Element {
                     to={p.href}
                     underlineVariant="random"
                     circleVariant="random"
-                    className="text-xs font-sans font-bold text-[#c79436]"
+                    className="text-xs font-sans font-bold text-brand-gold"
                   >
                     Explore Pillar →
                   </AnimatedNavLink>

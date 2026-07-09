@@ -48,7 +48,7 @@ export function LoginComposition(): React.JSX.Element {
       title={
         <>
           Welcome back to <br />
-          your <span className="text-[#c79436] font-serif italic">learning space.</span>
+          your <span className="text-brand-gold font-serif italic">learning space.</span>
         </>
       }
       description="Learn. Practice. Build. Achieve."
@@ -107,7 +107,7 @@ export function LoginComposition(): React.JSX.Element {
             </label>
             <Link
               to={ROUTES.FORGOT_PASSWORD}
-              className="text-[#c79436] hover:underline"
+              className="text-brand-gold hover:underline"
             >
               Forgot password?
             </Link>

@@ -118,7 +118,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-            className="fixed top-0 right-0 bottom-0 w-72 max-w-full bg-[#FAF7F2] dark:bg-stone-900 border-l border-stone-200 dark:border-stone-800 flex flex-col p-6 shadow-xl"
+            className="fixed top-0 right-0 bottom-0 w-72 max-w-full bg-background border-l border-stone-200 dark:border-stone-800 flex flex-col p-6 shadow-xl"
           >
             {/* Header / Close Row */}
             <div className="flex items-center justify-between mb-8 shrink-0">
@@ -149,7 +149,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                       key={course.id}
                       to={`/courses/${course.slug}`}
                       onClick={onClose}
-                      className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-[#c79436] transition-all"
+                      className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-brand-gold transition-all"
                     >
                       {course.title}
                     </Link>
@@ -168,7 +168,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                       key={feat.label}
                       to={feat.href}
                       onClick={onClose}
-                      className="block p-2.5 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-[11px] font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-[#c79436] transition-all truncate"
+                      className="block p-2.5 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-[11px] font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-brand-gold transition-all truncate"
                     >
                       {feat.label}
                     </Link>
@@ -185,14 +185,14 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                   <Link
                     to="/instructors"
                     onClick={onClose}
-                    className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-[#c79436] transition-all"
+                    className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-brand-gold transition-all"
                   >
                     For Instructors
                   </Link>
                   <Link
                     to="/pricing"
                     onClick={onClose}
-                    className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-[#c79436] transition-all"
+                    className="block p-3 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-xs font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-brand-gold transition-all"
                   >
                     Pricing
                   </Link>
@@ -210,7 +210,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps): Re
                       key={res.label}
                       to={res.href}
                       onClick={onClose}
-                      className="block p-2.5 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-[11px] font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-[#c79436] transition-all truncate"
+                      className="block p-2.5 rounded-xl bg-white dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800 shadow-sm text-[11px] font-sans font-semibold text-stone-800 dark:text-stone-200 hover:text-brand-gold transition-all truncate"
                     >
                       {res.label}
                     </Link>

@@ -31,7 +31,7 @@ function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
       className="group bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-850 p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-stone-300 dark:hover:border-stone-700 transition-all duration-300 flex flex-col gap-3"
     >
-      <div className="w-10 h-10 rounded-xl bg-stone-50 dark:bg-stone-800 flex items-center justify-center text-[#c79436] group-hover:scale-105 transition-transform duration-200">
+      <div className="w-10 h-10 rounded-xl bg-stone-50 dark:bg-stone-800 flex items-center justify-center text-brand-gold group-hover:scale-105 transition-transform duration-200">
         <Icon size={20} />
       </div>
       <h3 className="font-serif font-bold text-lg text-stone-900 dark:text-white leading-tight">
@@ -54,7 +54,7 @@ export function InstructorsComposition(): React.JSX.Element {
   ];
 
   return (
-    <div className="bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out min-h-screen pb-16">
+    <div className="bg-background text-foreground transition-colors duration-normal ease-in-out min-h-screen pb-16">
       
       {/* ── 1. Hero Banner ── */}
       <section className="relative overflow-hidden py-20 md:py-28 border-b border-stone-200 dark:border-stone-850 bg-white/40 dark:bg-stone-900/10">
@@ -62,7 +62,7 @@ export function InstructorsComposition(): React.JSX.Element {
         
         {/* Twig Drawing as Botanical Background Accent */}
         <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-10 dark:opacity-20 hidden lg:block">
-          <AuthTwig color="#c79436" strokeWidth={1} className="w-24 h-72" />
+          <AuthTwig color="currentColor" strokeWidth={1} className="w-24 h-72 text-brand-gold" />
         </div>
 
         <div className="max-w-4xl mx-auto px-4 text-center flex flex-col items-center gap-6 relative">
@@ -72,8 +72,8 @@ export function InstructorsComposition(): React.JSX.Element {
             transition={{ duration: 0.3 }}
             className="flex items-center gap-2"
           >
-            <AuthSparkle color="#c79436" className="w-5 h-5 animate-pulse" />
-            <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#c79436]">Teach. Design. Scale.</span>
+            <AuthSparkle color="currentColor" className="w-5 h-5 animate-pulse text-brand-gold" />
+            <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-brand-gold">Teach. Design. Scale.</span>
           </motion.div>
 
           <motion.h1 
@@ -102,7 +102,7 @@ export function InstructorsComposition(): React.JSX.Element {
           >
             {/* Hand-drawn Arrow pointer */}
             <div className="absolute -left-16 -top-12 opacity-80 rotate-12 hidden md:block">
-              <CurvedArrow color="#c79436" strokeWidth={1.5} className="w-12 h-12" />
+              <CurvedArrow color="currentColor" strokeWidth={1.5} className="w-12 h-12 text-brand-gold" />
             </div>
 
             <Link
@@ -115,7 +115,7 @@ export function InstructorsComposition(): React.JSX.Element {
             <Link
               to="/login"
               state={{ role: 'instructor' }}
-              className="inline-flex items-center justify-center h-12 px-6 rounded-xl border border-stone-300 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-900/50 text-stone-800 dark:text-stone-200 text-sm font-sans font-semibold transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c79436]"
+              className="inline-flex items-center justify-center h-12 px-6 rounded-xl border border-stone-300 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-900/50 text-stone-800 dark:text-stone-200 text-sm font-sans font-semibold transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
             >
               Sign In to Studio
             </Link>

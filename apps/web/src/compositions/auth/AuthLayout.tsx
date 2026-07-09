@@ -21,13 +21,13 @@ export function AuthLayout({
   bottomText,
 }: AuthLayoutProps): React.JSX.Element {
   return (
-    <div className="min-h-screen w-full bg-[#FAF7F2] text-stone-900 dark:bg-[#0f0f10] dark:text-stone-100 flex flex-col justify-between transition-colors duration-normal ease-in-out">
+    <div className="min-h-screen w-full bg-background text-stone-900 dark:bg-background dark:text-stone-100 flex flex-col justify-between transition-colors duration-normal ease-in-out">
       
       {/* Main Grid */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[440px_1fr] xl:grid-cols-[480px_1fr]">
         
         {/* Left column: Hand-drawn organic sidebar */}
-        <aside className="relative hidden lg:flex flex-col justify-between p-8 xl:p-12 overflow-hidden bg-[#FAF6EE] dark:bg-[#100E0D] border-r border-[#EAE6DF] dark:border-[#2D2926] select-none">
+        <aside className="relative hidden lg:flex flex-col justify-between p-8 xl:p-12 overflow-hidden bg-muted dark:bg-card border-r border-border select-none">
           {/* Leaf twig decoration */}
           <div className="absolute left-4 bottom-20 opacity-90 text-emerald-800/20 dark:text-emerald-500/10 pointer-events-none">
             <AuthTwig className="h-60 w-auto" color="currentColor" />
@@ -36,7 +36,7 @@ export function AuthLayout({
           {/* Top: Logo */}
           <div className="relative z-10 flex items-center gap-2">
             <Link to="/" className="inline-flex items-center gap-2.5 text-stone-900 dark:text-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded">
-              <LogoIcon size={24} className="text-[#c79436]" />
+              <LogoIcon size={24} className="text-brand-gold" />
               <span className="font-sans text-xl font-bold tracking-tight">PragyaOS</span>
             </Link>
           </div>
@@ -55,8 +55,8 @@ export function AuthLayout({
             {/* Central sketch illustration */}
             <div className="relative flex justify-center py-4">
               {/* Star sparkles decorations */}
-              <AuthSparkle className="absolute top-0 right-12 w-6 h-6 text-[#c79436] opacity-60 animate-pulse" />
-              <AuthSparkle className="absolute bottom-2 left-10 w-4 h-4 text-[#c79436] opacity-40 animate-pulse" />
+              <AuthSparkle className="absolute top-0 right-12 w-6 h-6 text-brand-gold opacity-60 animate-pulse" />
+              <AuthSparkle className="absolute bottom-2 left-10 w-4 h-4 text-brand-gold opacity-40 animate-pulse" />
               
               <Illustration className="text-stone-800 dark:text-stone-200 drop-shadow-sm" />
             </div>
@@ -64,7 +64,7 @@ export function AuthLayout({
 
           {/* Bottom: Shield Security text */}
           <div className="relative z-10 flex items-center gap-2 text-stone-400 dark:text-stone-600">
-            <ShieldCheckIcon size={16} className="text-[#c79436] shrink-0" />
+            <ShieldCheckIcon size={16} className="text-brand-gold shrink-0" />
             <span className="font-sans text-[11px] font-medium leading-relaxed max-w-[32ch]">
               {bottomText}
             </span>
@@ -88,7 +88,7 @@ export function AuthLayout({
             {/* Mobile Header (hidden on large displays) */}
             <div className="lg:hidden flex flex-col items-center text-center gap-2 mb-2">
               <Link to="/" className="inline-flex items-center gap-2">
-                <LogoIcon size={32} className="text-[#c79436]" />
+                <LogoIcon size={32} className="text-brand-gold" />
                 <span className="font-sans text-2xl font-bold tracking-tight text-stone-900 dark:text-stone-100">PragyaOS</span>
               </Link>
             </div>

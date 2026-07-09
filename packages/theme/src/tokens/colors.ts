@@ -107,7 +107,9 @@ export const colors = {
   // Special editorial paper colors
   paper: {
     light: "#fcfbfa", // Warm editorial white
-    dark: "#0f0f10",  // Rich charcoal black
+    dark: "#2f2f33",  // Rich charcoal black
     cream: "#f7f4ef", // Warm cream tone
-  }
+  },
+  // Brand Gold Accent
+  brandGold: "#c79436"
 };

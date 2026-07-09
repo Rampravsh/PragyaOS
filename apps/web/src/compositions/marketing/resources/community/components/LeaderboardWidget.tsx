@@ -20,7 +20,7 @@ export function LeaderboardWidget(): React.JSX.Element {
   return (
     <div className="bg-white dark:bg-stone-950 p-6 rounded-2xl border-2 border-stone-850 dark:border-stone-800 shadow-[6px_6px_0px_0px_rgba(28,25,23,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.06)] text-left">
       <div className="flex items-center gap-3 border-b-2 border-stone-850 dark:border-stone-800 pb-4 mb-6">
-        <AwardIcon size={20} className="text-[#c79436]" />
+        <AwardIcon size={20} className="text-brand-gold" />
         <h3 className="font-serif font-bold text-xl text-stone-900 dark:text-white">
           Contributor Standings
         </h3>
@@ -30,7 +30,7 @@ export function LeaderboardWidget(): React.JSX.Element {
         {USERS.map((u) => (
           <div
             key={u.rank}
-            className="flex items-center justify-between p-3.5 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 rounded-xl"
+            className="flex items-center justify-between p-3.5 bg-muted border border-stone-200/60 dark:border-stone-800 rounded-xl"
           >
             {/* Left side details */}
             <div className="flex items-center gap-3.5">
@@ -60,7 +60,7 @@ export function LeaderboardWidget(): React.JSX.Element {
 
             {/* Right side stats */}
             <div className="text-right">
-              <span className="block text-xs font-sans font-extrabold text-[#c79436]">
+              <span className="block text-xs font-sans font-extrabold text-brand-gold">
                 {u.points.toLocaleString("en-IN")}
               </span>
               <span className="block text-[8px] font-sans text-stone-400 uppercase tracking-widest">

@@ -22,7 +22,7 @@ export function OnThisPage({ headings }: OnThisPageProps): React.JSX.Element {
             <li key={heading.id}>
               <a
                 href={`#${heading.id}`}
-                className="block text-xs font-sans text-stone-600 dark:text-stone-450 hover:text-[#c79436] dark:hover:text-[#c79436] transition-colors leading-relaxed"
+                className="block text-xs font-sans text-stone-600 dark:text-stone-450 hover:text-brand-gold dark:hover:text-brand-gold transition-colors leading-relaxed"
               >
                 {heading.text}
               </a>

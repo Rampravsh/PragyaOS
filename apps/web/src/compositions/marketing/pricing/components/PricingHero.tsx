@@ -4,12 +4,12 @@ import { AnimatedNavLink } from "@/components/marketing/shared/AnimatedNavLink";
 
 export function PricingHero(): React.JSX.Element {
   return (
-    <section className="relative overflow-hidden py-16 lg:py-24 bg-[#FAF7F2] dark:bg-[#0f0f10] border-b border-stone-200/50 dark:border-stone-850">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Column: Heading and CTAs */}
-        <div className="lg:col-span-7 flex flex-col items-start text-left">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF7F2] dark:bg-stone-900 border border-[#c79436]/30 mb-6">
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-[#c79436]">
+    <section className="relative overflow-hidden py-16 lg:py-24 bg-background border-b border-stone-200/50 dark:border-stone-850">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Left Column: Heading and description */}
+        <div className="lg:col-span-7 text-left">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-brand-gold/30 mb-6">
+            <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-brand-gold">
               Simple & Transparent
             </span>
           </div>
@@ -19,7 +19,7 @@ export function PricingHero(): React.JSX.Element {
             <span className="relative inline-block">
               organization.
               <svg
-                className="absolute left-0 -bottom-2 w-full h-2.5 text-[#c79436]/40"
+                className="absolute left-0 -bottom-2 w-full h-2.5 text-brand-gold/40"
                 viewBox="0 0 100 10"
                 preserveAspectRatio="none"
               >
@@ -44,7 +44,7 @@ export function PricingHero(): React.JSX.Element {
               to="/register"
               underlineVariant="short"
               circleVariant="random"
-              className="inline-flex items-center px-6 py-3.5 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 font-sans font-semibold rounded-xl text-sm transition-all shadow-md active:scale-[0.98]"
+              className="inline-flex items-center px-6 py-3.5 bg-[#1C1917] hover:bg-black text-white hover:text-white dark:bg-white dark:hover:bg-stone-100 dark:text-stone-950 dark:hover:text-stone-950 font-sans font-semibold rounded-xl text-sm transition-all shadow-md active:scale-[0.98]"
             >
               Start Free
             </AnimatedNavLink>
@@ -61,8 +61,8 @@ export function PricingHero(): React.JSX.Element {
         {/* Right Column: Premium Editorial Hand-Drawn Illustration */}
         <div className="lg:col-span-5 flex justify-center relative">
           {/* Decorative backdrop paper stack */}
-          <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 rounded-2xl transform rotate-2 translate-x-2 translate-y-2 pointer-events-none" />
-          <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200/50 dark:border-stone-800/80 rounded-2xl transform -rotate-1 pointer-events-none" />
+          <div className="absolute inset-0 bg-muted border border-stone-200/60 dark:border-stone-800 rounded-2xl transform rotate-2 translate-x-2 translate-y-2 pointer-events-none" />
+          <div className="absolute inset-0 bg-muted border border-stone-200/50 dark:border-stone-800/80 rounded-2xl transform -rotate-1 pointer-events-none" />
 
           <div className="relative w-full max-w-[400px] aspect-[4/3] bg-white dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-2xl p-6 shadow-lg flex items-center justify-center">
             {/* High fidelity SVG study desk money doodles */}
@@ -175,7 +175,7 @@ export function PricingHero(): React.JSX.Element {
                 fontFamily="monospace"
                 fontWeight="bold"
                 fill="currentColor"
-                className="text-[#c79436] dark:text-[#c79436]/90"
+                className="text-brand-gold dark:text-brand-gold/90"
               >
                 ₹ 0.-
               </text>
@@ -196,7 +196,7 @@ export function PricingHero(): React.JSX.Element {
               <circle cx="142" cy="234" r="4" stroke="currentColor" strokeWidth="1" />
 
               {/* Hand Drawn Money doodles */}
-              <g transform="translate(240, 100) rotate(15)">
+              <g transform="translate(240, 100) rotate(15)" className="text-brand-gold">
                 {/* Dollar/Rupee Bill sketch */}
                 <rect
                   x="0"
@@ -205,25 +205,25 @@ export function PricingHero(): React.JSX.Element {
                   height="42"
                   rx="4"
                   fill="none"
-                  stroke="#c79436"
+                  stroke="currentColor"
                   strokeWidth="1.5"
                 />
-                <circle cx="40" cy="21" r="10" stroke="#c79436" strokeWidth="1" />
-                <path d="M37 21 h6 M40 17 v8" stroke="#c79436" strokeWidth="1" />
+                <circle cx="40" cy="21" r="10" stroke="currentColor" strokeWidth="1" />
+                <path d="M37 21 h6 M40 17 v8" stroke="currentColor" strokeWidth="1" />
                 {/* Wavy line borders */}
-                <path d="M5 5 q10-3 20 0 M5 37 q10 3 20 0" stroke="#c79436" strokeWidth="0.75" />
+                <path d="M5 5 q10-3 20 0 M5 37 q10 3 20 0" stroke="currentColor" strokeWidth="0.75" />
               </g>
 
               {/* Star sparkles */}
               <path
                 d="M150 50 l3 6 l6 3 l-6 3 l-3 6 l-3-6 l-6-3 l6-3 z"
-                fill="#c79436"
-                className="text-[#c79436] animate-pulse"
+                fill="currentColor"
+                className="text-brand-gold animate-pulse"
               />
               <path
                 d="M310 240 l2 4 l4 2 l-4 2 l-2 4 l-2-4 l-4-2 l4-2 z"
-                fill="#c79436"
-                className="text-[#c79436] opacity-75"
+                fill="currentColor"
+                className="text-brand-gold opacity-75"
               />
             </svg>
           </div>

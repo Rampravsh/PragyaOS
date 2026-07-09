@@ -66,7 +66,7 @@ export function DiscussionsFeed(): React.JSX.Element {
                 {thread.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="px-2 py-0.5 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-md text-[9px] font-sans text-stone-500 dark:text-stone-405 lowercase"
+                    className="px-2 py-0.5 bg-muted border border-stone-200 dark:border-stone-800 rounded-md text-[9px] font-sans text-stone-500 dark:text-stone-405 lowercase"
                   >
                     #{tag}
                   </span>
@@ -74,7 +74,7 @@ export function DiscussionsFeed(): React.JSX.Element {
               </div>
             </div>
 
-            <h4 className="font-serif font-bold text-lg text-stone-900 dark:text-white mb-2 group-hover:text-[#c79436] transition-colors leading-snug">
+            <h4 className="font-serif font-bold text-lg text-stone-900 dark:text-white mb-2 group-hover:text-brand-gold transition-colors leading-snug">
               {thread.title}
             </h4>
             <p className="font-sans text-stone-650 dark:text-stone-400 text-xs leading-relaxed max-w-2xl">
@@ -98,7 +98,7 @@ export function DiscussionsFeed(): React.JSX.Element {
 
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-[#c79436] transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-sans font-bold text-stone-850 dark:text-stone-200 group-hover:text-brand-gold transition-colors"
             >
               Join Thread <ArrowRightIcon size={14} className="mt-0.5" />
             </button>

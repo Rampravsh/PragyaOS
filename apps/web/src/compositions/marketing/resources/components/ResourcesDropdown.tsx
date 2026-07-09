@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router";
 import { BookIcon } from "@pragyaos/icons";
 import { AnimatedNavLink } from "@/components/marketing/shared/AnimatedNavLink";
 
@@ -15,117 +14,141 @@ export function ResourcesDropdown({ onClose }: ResourcesDropdownProps): React.JS
         {/* Column 1: Learn */}
         <div className="flex flex-col gap-2.5">
           <span className="text-[10px] font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest px-1">
-            📖 Learn
+            Learn
           </span>
           <div className="flex flex-col gap-1.5">
-            <Link
+            <AnimatedNavLink
               to="/resources/blog"
               onClick={onClose}
-              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Blog
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/blog?tab=tutorials"
               onClick={onClose}
-              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Tutorials
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/blog?tab=guides"
               onClick={onClose}
-              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Guides
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/blog?tab=hub"
               onClick={onClose}
-              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-605 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Learning Hub
-            </Link>
+            </AnimatedNavLink>
           </div>
         </div>
 
         {/* Column 2: Documentation */}
         <div className="flex flex-col gap-2.5">
           <span className="text-[10px] font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest px-1">
-            🛠 Documentation
+            Documentation
           </span>
           <div className="flex flex-col gap-1.5">
-            <Link
+            <AnimatedNavLink
               to="/resources/documentation"
               onClick={onClose}
-              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Getting Started
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/documentation?topic=api"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               API Reference
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/documentation?topic=sdk"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               SDK Integration
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/documentation?topic=changelog"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Changelog
-            </Link>
+            </AnimatedNavLink>
           </div>
         </div>
 
         {/* Column 3: Community & Support */}
         <div className="flex flex-col gap-2.5">
           <span className="text-[10px] font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest px-1">
-            💬 Ecosystem
+            Ecosystem
           </span>
           <div className="flex flex-col gap-1.5">
-            <Link
+            <AnimatedNavLink
               to="/resources/community"
               onClick={onClose}
-              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans font-bold text-stone-800 dark:text-stone-200 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Discussions
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/community?tab=events"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Events
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/community?tab=standings"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors"
             >
               Leaderboard
-            </Link>
-            <Link
+            </AnimatedNavLink>
+            <AnimatedNavLink
               to="/resources/help-center"
               onClick={onClose}
-              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-[#c79436] py-1 px-1 rounded-lg transition-colors font-bold border-t border-stone-150 dark:border-stone-800 pt-2.5 mt-1"
+              underlineVariant="short"
+              circleVariant="random"
+              className="text-xs font-sans text-stone-655 dark:text-stone-400 hover:text-brand-gold py-1 px-1 rounded-lg transition-colors font-bold border-t border-stone-150 dark:border-stone-800 pt-2.5 mt-1"
             >
-              🆘 Help Center
-            </Link>
+              Help Center
+            </AnimatedNavLink>
           </div>
         </div>
       </div>
 
       {/* Right Column: Preview Panel */}
-      <div className="bg-[#FAF7F2]/60 dark:bg-stone-950/40 p-6 border-l border-stone-150 dark:border-stone-800 flex flex-col justify-between">
+      <div className="bg-muted/60 p-6 border-l border-stone-150 dark:border-stone-800 flex flex-col justify-between">
         <div>
           {/* Notebook illustration overlay */}
           <div className="aspect-[16/10] bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg p-3 flex flex-col justify-between shadow-sm mb-4">
@@ -133,7 +156,7 @@ export function ResourcesDropdown({ onClose }: ResourcesDropdownProps): React.JS
               <span className="text-[7px] font-sans font-bold text-stone-400 uppercase tracking-widest">
                 Knowledge Hub
               </span>
-              <BookIcon size={12} className="text-[#c79436]" />
+              <BookIcon size={12} className="text-brand-gold" />
             </div>
 
             <div className="flex flex-col items-center my-2">
@@ -154,7 +177,7 @@ export function ResourcesDropdown({ onClose }: ResourcesDropdownProps): React.JS
             onClick={onClose}
             underlineVariant="short"
             circleVariant="random"
-            className="w-full inline-flex items-center justify-center py-2 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:text-stone-950 font-sans font-bold text-[10px] uppercase tracking-wider rounded-lg border border-stone-850"
+            className="w-full inline-flex items-center justify-center py-2 bg-[#1C1917] hover:bg-black text-white hover:text-white dark:bg-white dark:text-stone-950 dark:hover:text-stone-950 font-sans font-bold text-[10px] uppercase tracking-wider rounded-lg border border-stone-850"
           >
             Explore Hub &rarr;
           </AnimatedNavLink>

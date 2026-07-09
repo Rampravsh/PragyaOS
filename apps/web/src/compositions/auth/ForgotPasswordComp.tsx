@@ -36,7 +36,7 @@ export function ForgotPasswordComp(): React.JSX.Element {
       title={
         <>
           Forgot your <br />
-          <span className="text-[#c79436] font-serif italic">password?</span>
+          <span className="text-brand-gold font-serif italic">password?</span>
         </>
       }
       description="No worries! It happens. Let's get you back."

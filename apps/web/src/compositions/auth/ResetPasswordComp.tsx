@@ -45,7 +45,7 @@ export function ResetPasswordComp(): React.JSX.Element {
       title={
         <>
           Set a new <br />
-          <span className="text-[#c79436] font-serif italic">password</span>
+          <span className="text-brand-gold font-serif italic">password</span>
         </>
       }
       description="Choose a strong password to secure your account."
@@ -110,7 +110,7 @@ export function ResetPasswordComp(): React.JSX.Element {
         <p className="text-center text-xs text-stone-500 font-sans mt-3">
           <Link
             to={ROUTES.LOGIN}
-            className="font-semibold text-[#c79436] hover:underline"
+            className="font-semibold text-brand-gold hover:underline"
           >
             &lt; Back to login
           </Link>

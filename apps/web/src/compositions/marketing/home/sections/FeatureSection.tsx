@@ -54,7 +54,7 @@ const DashboardMockup = memo(function DashboardMockup() {
 
   return (
     <div
-      className="w-full bg-[#FAF7F2] dark:bg-[#16162A] rounded-xl overflow-hidden shadow-2xl border border-stone-200/60 dark:border-white/8 select-none transition-colors duration-300"
+      className="w-full bg-background dark:bg-[#16162A] rounded-xl overflow-hidden shadow-2xl border border-stone-200/60 dark:border-white/8 select-none transition-colors duration-300"
       role="img"
       aria-label="PragyaOS dashboard preview"
     >
@@ -81,7 +81,7 @@ const DashboardMockup = memo(function DashboardMockup() {
       {/* Body */}
       <div className="flex" style={{ height: 320 }}>
         {/* Sidebar */}
-        <div className="w-36 bg-[#0D0D1E] dark:bg-[#FAF7F2] border-r border-white/5 dark:border-stone-200/50 flex flex-col py-3 px-2.5 shrink-0 transition-colors duration-300">
+        <div className="w-36 bg-[#0D0D1E] dark:bg-background border-r border-white/5 dark:border-stone-200/50 flex flex-col py-3 px-2.5 shrink-0 transition-colors duration-300">
           {/* Brand */}
           <div className="flex items-center gap-1.5 mb-4 px-1">
             <div className="w-4 h-4 rounded bg-[#A97E3E] flex items-center justify-center text-[6px] font-bold text-white">
@@ -102,11 +102,10 @@ const DashboardMockup = memo(function DashboardMockup() {
           ].map((item) => (
             <div
               key={item.label}
-              className={`flex items-center gap-1.5 px-2 py-[5px] rounded-md text-[9px] mb-px cursor-default transition-all ${
-                item.active
+              className={`flex items-center gap-1.5 px-2 py-[5px] rounded-md text-[9px] mb-px cursor-default transition-all ${item.active
                   ? 'bg-white/10 text-white font-semibold dark:bg-[#A97E3E]/10 dark:text-[#A97E3E]'
                   : 'text-white/40 hover:text-white/60 dark:text-stone-500 dark:hover:text-[#1C1917]'
-              }`}
+                }`}
             >
               <span className="w-1 h-1 rounded-full bg-current opacity-60 shrink-0" />
               {item.label}
@@ -115,7 +114,7 @@ const DashboardMockup = memo(function DashboardMockup() {
         </div>
 
         {/* Main area */}
-        <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-3 bg-[#FAF7F2] dark:bg-[#16162A] transition-colors duration-300">
+        <div className="flex-1 p-3.5 overflow-hidden flex flex-col gap-3 bg-background dark:bg-[#16162A] transition-colors duration-300">
           {/* Header greeting */}
           <div className="flex items-center justify-between">
             <div>
@@ -193,7 +192,7 @@ const PhoneMockup = memo(function PhoneMockup() {
       aria-label="Mobile app preview"
     >
       <div className="w-full bg-stone-900 dark:bg-stone-950 p-[5px] rounded-[24px] border border-stone-700/50 dark:border-stone-850 shadow-2xl transition-colors duration-300">
-        <div className="w-full bg-[#FAF7F2] dark:bg-[#16162A] rounded-[19px] overflow-hidden flex flex-col transition-colors duration-300">
+        <div className="w-full bg-background dark:bg-[#16162A] rounded-[19px] overflow-hidden flex flex-col transition-colors duration-300">
           {/* Notch & status bar */}
           <div className="flex items-center justify-between px-2.5 pt-1.5 pb-1 bg-stone-100 dark:bg-[#0D0D1E] text-[5px] text-stone-500 dark:text-white/40">
             <span>9:41</span>
@@ -240,7 +239,7 @@ export function FeatureSection(): React.JSX.Element {
   return (
     <>
       {/* Paper-torn divider: cream → dark */}
-      <div className="relative w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#0f0f10] transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
+      <div className="relative w-full overflow-hidden bg-background transition-colors duration-300" style={{ height: 64 }} aria-hidden="true">
         <svg
           className="absolute bottom-0 left-0 w-full text-[#0F0F1A] dark:text-[#FAF7F2] transition-colors duration-300 translate-y-[1px]"
           viewBox="0 0 1440 64"
@@ -253,7 +252,7 @@ export function FeatureSection(): React.JSX.Element {
 
       <section
         id="feature-section"
-        className="relative bg-[#0F0F1A] dark:bg-[#FAF7F2] text-white dark:text-[#1C1917] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-[#0F0F1A] dark:bg-background text-white dark:text-[#1C1917] transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="feature-heading"
       >
         {/* Radial glow behind mockup */}

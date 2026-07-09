@@ -52,6 +52,7 @@ export const pragyaPreset = {
           primary: colors.violet[500],
           secondary: colors.stone[500],
           accent: colors.violet[600],
+          gold: "var(--brand-gold)",
         },
         paper: {
           light: "var(--paper-light)",

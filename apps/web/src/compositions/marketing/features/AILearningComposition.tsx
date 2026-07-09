@@ -80,7 +80,7 @@ export function AILearningComposition(): React.JSX.Element {
   ];
 
   return (
-    <div className="bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out min-h-screen pb-16">
+    <div className="bg-background text-foreground transition-colors duration-normal ease-in-out min-h-screen pb-16">
       {/* ── 1. Hero Section ── */}
       <section className="relative overflow-hidden py-20 md:py-32 border-b border-stone-200 dark:border-stone-850 bg-white/40 dark:bg-stone-900/10">
         <div
@@ -95,7 +95,7 @@ export function AILearningComposition(): React.JSX.Element {
 
         {/* Floating Twig Drawing */}
         <div className="absolute right-8 top-1/4 opacity-10 dark:opacity-20 hidden lg:block">
-          <AuthTwig color="#c79436" strokeWidth={1} className="w-24 h-72" />
+          <AuthTwig color="currentColor" strokeWidth={1} className="w-24 h-72 text-brand-gold" />
         </div>
 
         <div className="max-w-4xl mx-auto px-4 text-center flex flex-col items-center gap-6 relative">
@@ -230,7 +230,7 @@ export function AILearningComposition(): React.JSX.Element {
                   underlineVariant="random"
                   circleVariant="random"
                   className="text-left w-full p-4 rounded-xl"
-                  activeClassName="bg-[#FAF7F2] dark:bg-stone-800 text-[#7C3AED]"
+                  activeClassName="bg-background dark:bg-stone-800 text-[#7C3AED]"
                   inactiveClassName="text-stone-500 hover:text-stone-800 dark:hover:text-stone-250"
                 >
                   <div className="flex items-center gap-2 font-mono text-xs font-bold mb-1">
@@ -252,7 +252,7 @@ export function AILearningComposition(): React.JSX.Element {
           </div>
 
           {/* Steps detail display */}
-          <div className="bg-[#FAF7F2] dark:bg-stone-950/40 border border-stone-200/60 dark:border-stone-850 p-8 rounded-2xl h-[260px] flex flex-col justify-between relative overflow-hidden">
+          <div className="bg-background dark:bg-stone-950/40 border border-stone-200/60 dark:border-stone-850 p-8 rounded-2xl h-[260px] flex flex-col justify-between relative overflow-hidden">
             <div className="absolute top-4 right-4 opacity-[0.03] dark:opacity-[0.05] pointer-events-none">
               <AuthSparkle color="#7C3AED" className="w-48 h-48" />
             </div>
@@ -324,7 +324,7 @@ export function AILearningComposition(): React.JSX.Element {
               </div>
             </div>
 
-            <div className="font-mono text-xs flex flex-col gap-3 text-stone-750 dark:text-stone-350 bg-[#FAF7F2] dark:bg-stone-950 p-4 rounded-xl border border-stone-200/50 dark:border-stone-900">
+            <div className="font-mono text-xs flex flex-col gap-3 text-stone-750 dark:text-stone-350 bg-background dark:bg-stone-950 p-4 rounded-xl border border-stone-200/50 dark:border-stone-900">
               <p className="text-stone-400">// Select a code block to trigger explanation</p>
               <pre className="text-emerald-600 dark:text-emerald-400">
                 {`const explainAsync = async () => {

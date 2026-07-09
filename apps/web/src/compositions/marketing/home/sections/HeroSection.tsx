@@ -35,7 +35,7 @@ export function HeroSection(): React.JSX.Element {
   return (
     <section
       id="hero-section"
-      className="relative bg-[#FAF7F2] text-[#1C1917] transition-colors duration-300 overflow-hidden w-full"
+      className="relative bg-background text-[#1C1917] transition-colors duration-300 overflow-hidden w-full"
       aria-labelledby="hero-headline"
     >
       {/* Page-wide background texture dots */}

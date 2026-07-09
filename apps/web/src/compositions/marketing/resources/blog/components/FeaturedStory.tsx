@@ -7,8 +7,8 @@ export function FeaturedStory(): React.JSX.Element {
     <div className="bg-white dark:bg-stone-950 border-2 border-stone-850 dark:border-stone-800 rounded-2xl p-6 md:p-8 shadow-[6px_6px_0px_0px_rgba(28,25,23,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.06)] grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 items-center text-left">
       {/* Visual Cover / Left column */}
       <div className="lg:col-span-5 relative group">
-        <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 rounded-xl transform rotate-2 pointer-events-none" />
-        <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200/50 dark:border-stone-800/85 rounded-xl transform -rotate-1 pointer-events-none" />
+        <div className="absolute inset-0 bg-muted border border-stone-200/60 dark:border-stone-800 rounded-xl transform rotate-2 pointer-events-none" />
+        <div className="absolute inset-0 bg-muted border border-stone-200/50 dark:border-stone-800/85 rounded-xl transform -rotate-1 pointer-events-none" />
 
         <div className="relative aspect-[4/3] w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl p-6 flex flex-col justify-between shadow-sm overflow-hidden">
           {/* Cover Header */}
@@ -16,7 +16,7 @@ export function FeaturedStory(): React.JSX.Element {
             <span className="text-[9px] font-sans font-bold text-stone-400 dark:text-stone-500 uppercase tracking-widest">
               PragyaOS Magazine
             </span>
-            <BookIcon size={16} className="text-[#c79436]" />
+            <BookIcon size={16} className="text-brand-gold" />
           </div>
 
           {/* Cover Mid Sketch */}
@@ -25,7 +25,7 @@ export function FeaturedStory(): React.JSX.Element {
               viewBox="0 0 100 60"
               fill="none"
               stroke="currentColor"
-              className="w-24 h-16 text-[#c79436]"
+              className="w-24 h-16 text-brand-gold"
             >
               {/* Organic plant leaf sketch matching Logo style */}
               <path
@@ -89,7 +89,7 @@ export function FeaturedStory(): React.JSX.Element {
           to="/resources/blog/ai-cognitive-layout"
           underlineVariant="short"
           circleVariant="random"
-          className="inline-flex items-center py-2.5 px-5 bg-[#1C1917] hover:bg-black text-white dark:bg-white dark:text-stone-950 font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm border-2 border-stone-850 dark:border-stone-800"
+          className="inline-flex items-center py-2.5 px-5 bg-[#1C1917] hover:bg-black text-white hover:text-white dark:bg-white dark:text-stone-950 dark:hover:text-stone-950 font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm border-2 border-stone-850 dark:border-stone-800"
         >
           Read Story &rarr;
         </AnimatedNavLink>

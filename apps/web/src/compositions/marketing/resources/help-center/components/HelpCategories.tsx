@@ -14,27 +14,27 @@ const CATEGORIES: HelpCatItem[] = [
     count: "12 articles",
     description:
       "Manage credentials, password resets, verification emails, and role registrations.",
-    icon: <UserIcon size={20} className="text-[#c79436]" />,
+    icon: <UserIcon size={20} className="text-brand-gold" />,
   },
   {
     title: "Billing & Invoices",
     count: "8 articles",
     description:
       "Upgrade subscriptions, cancel plans, download payment receipts, and pro-rata guidelines.",
-    icon: <LayersIcon size={20} className="text-[#c79436]" />,
+    icon: <LayersIcon size={20} className="text-brand-gold" />,
   },
   {
     title: "Course Operations",
     count: "15 articles",
     description:
       "Enrolling in courses, cert validations, active annotation highlights, and note logs.",
-    icon: <BookIcon size={20} className="text-[#c79436]" />,
+    icon: <BookIcon size={20} className="text-brand-gold" />,
   },
   {
     title: "AI Integration",
     count: "10 articles",
     description: "Configuring LLM study bots, custom quiz inputs, and homework feedback systems.",
-    icon: <SettingsIcon size={20} className="text-[#c79436]" />,
+    icon: <SettingsIcon size={20} className="text-brand-gold" />,
   },
 ];
 
@@ -47,7 +47,7 @@ export function HelpCategories(): React.JSX.Element {
           className="group relative p-6 bg-white dark:bg-stone-950 border-2 border-stone-850 dark:border-stone-800 rounded-2xl shadow-[4px_4px_0px_0px_rgba(28,25,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.06)] hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col justify-between"
         >
           <div>
-            <div className="w-10 h-10 rounded-xl bg-[#FAF7F2] dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 flex items-center justify-center mb-4">
+            <div className="w-10 h-10 rounded-xl bg-muted border border-stone-200 dark:border-stone-800/80 flex items-center justify-center mb-4">
               {cat.icon}
             </div>
             <h3 className="font-serif font-bold text-lg text-stone-900 dark:text-white mb-2">

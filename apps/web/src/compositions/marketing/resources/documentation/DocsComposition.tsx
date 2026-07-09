@@ -136,7 +136,7 @@ export function DocsComposition(): React.JSX.Element {
   const nextTopic = activeIndex < flatTopics.length - 1 ? flatTopics[activeIndex + 1] : undefined;
 
   return (
-    <div className="bg-[#FAF7F2] dark:bg-[#0f0f10] min-h-screen py-12 border-b border-stone-200/50 dark:border-stone-850">
+    <div className="bg-background text-foreground min-h-screen py-12 border-b border-stone-200/50 dark:border-stone-850">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex flex-col md:flex-row gap-12">
         {/* Left column: Sidebar */}
         <DocsSidebar categories={CATEGORIES} activeTopicId={activeId} onSelectTopic={setActiveId} />

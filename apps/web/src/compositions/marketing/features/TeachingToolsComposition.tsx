@@ -7,7 +7,7 @@ const OrganicDivider = Lines.OrganicDivider;
 
 export function TeachingToolsComposition(): React.JSX.Element {
   return (
-    <div className="bg-[#FAF7F2] text-[#1C1917] dark:bg-[#0f0f10] dark:text-[#EAE6DF] transition-colors duration-normal ease-in-out min-h-screen pb-16">
+    <div className="bg-background text-foreground transition-colors duration-normal ease-in-out min-h-screen pb-16">
       {/* ── 1. Hero Section ── */}
       <section className="relative overflow-hidden py-20 md:py-28 border-b border-stone-200 dark:border-stone-850 bg-white/40 dark:bg-stone-900/10">
         <div
@@ -130,7 +130,7 @@ export function TeachingToolsComposition(): React.JSX.Element {
                 feature.side === "right" ? "lg:order-1" : ""
               }`}
             >
-              <div className="absolute inset-0 bg-[#FAF7F2] dark:bg-stone-950/20 opacity-50" />
+              <div className="absolute inset-0 bg-background dark:bg-stone-950/20 opacity-50" />
               <div className="relative z-10 p-6 flex flex-col gap-2">
                 <span className="font-sans font-bold not-italic text-[10px] text-stone-500 uppercase tracking-widest">
                   Preview Canvas

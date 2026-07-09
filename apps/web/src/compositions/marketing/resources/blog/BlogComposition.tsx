@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FeaturedStory } from "./components/FeaturedStory";
 import { LatestStories } from "./components/LatestStories";
+import { BookIcon } from "@pragyaos/icons";
 
 export function BlogComposition(): React.JSX.Element {
   const [email, setEmail] = useState("");
@@ -14,12 +15,12 @@ export function BlogComposition(): React.JSX.Element {
   };
 
   return (
-    <div className="bg-[#FAF7F2] dark:bg-[#0f0f10] min-h-screen py-16">
+    <div className="bg-background min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Magazine Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-[10px] font-sans font-bold text-[#c79436] uppercase tracking-widest block mb-3">
-            📖 Magazine & Ideas
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-bold text-brand-gold uppercase tracking-widest block mb-3">
+            <BookIcon size={12} className="inline-block" /> Magazine & Ideas
           </span>
           <h1 className="font-serif font-bold text-4xl md:text-5xl text-stone-900 dark:text-white leading-[1.1] mb-6">
             Learn & Develop Ecosystem
@@ -50,8 +51,8 @@ export function BlogComposition(): React.JSX.Element {
 
           <div className="w-full md:w-auto min-w-[280px] sm:min-w-[340px]">
             {isSubscribed ? (
-              <div className="bg-[#FAF7F2] dark:bg-stone-900 border border-[#c79436]/40 p-4 rounded-xl text-center">
-                <span className="font-sans text-xs font-bold text-[#c79436] uppercase tracking-wider block">
+              <div className="bg-muted border border-brand-gold/40 p-4 rounded-xl text-center">
+                <span className="font-sans text-xs font-bold text-brand-gold uppercase tracking-wider block">
                   ✓ Successfully Subscribed
                 </span>
                 <span className="text-[10px] font-sans text-stone-500 mt-1 block">
@@ -66,7 +67,7 @@ export function BlogComposition(): React.JSX.Element {
                   placeholder="name@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 bg-[#FAF7F2] dark:bg-stone-900 border border-stone-300 dark:border-stone-850 rounded-xl font-sans text-xs text-stone-900 dark:text-white placeholder-stone-450 focus:outline-none focus:border-[#c79436]"
+                  className="flex-1 px-4 py-3 bg-muted border border-stone-300 dark:border-stone-850 rounded-xl font-sans text-xs text-stone-900 dark:text-white placeholder-stone-450 focus:outline-none focus:border-brand-gold"
                 />
                 <button
                   type="submit"

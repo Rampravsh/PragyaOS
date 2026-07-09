@@ -23,8 +23,8 @@ export function MarketingHeader(): React.JSX.Element {
       className={cn(
         'sticky top-0 left-0 right-0 z-[1000] w-full transition-all duration-300 ease-in-out',
         isScrolled
-          ? 'bg-[#FAF7F2]/75 dark:bg-[#0f0f10]/75 backdrop-blur-lg border-b border-stone-200/40 dark:border-stone-800/40 shadow-sm py-3'
-          : 'bg-[#FAF7F2]/80 dark:bg-[#0f0f10]/80 backdrop-blur-md border-b border-stone-200/30 dark:border-stone-900/30 py-3'
+          ? 'bg-background/75 backdrop-blur-lg border-b border-stone-200/40 dark:border-stone-800/40 shadow-sm py-3'
+          : 'bg-background/80 backdrop-blur-md border-b border-stone-200/30 dark:border-stone-900/30 py-3'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 flex items-center justify-between">

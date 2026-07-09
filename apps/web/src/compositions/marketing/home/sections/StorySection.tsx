@@ -58,7 +58,7 @@ export function StorySection(): React.JSX.Element {
   return (
     <>
       {/* Page divider line at the top */}
-      <div className="w-full overflow-hidden bg-[#FAF7F2] dark:bg-[#0f0f10] transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
+      <div className="w-full overflow-hidden bg-background transition-colors duration-300 leading-[0] mb-0" aria-hidden="true">
         <svg
           viewBox="0 0 1440 80"
           preserveAspectRatio="none"
@@ -78,7 +78,7 @@ export function StorySection(): React.JSX.Element {
 
       <section
         id="story-section"
-        className="relative bg-[#FAF7F2] dark:bg-[#0f0f10] text-[#1C1917] dark:text-[#f5f5f4] transition-colors duration-300 w-full overflow-hidden"
+        className="relative bg-background text-foreground transition-colors duration-300 w-full overflow-hidden"
         aria-labelledby="story-heading"
       >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pb-20 md:pb-24 lg:pb-28 pt-8 relative">
