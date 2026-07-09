@@ -2,43 +2,44 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { LogoIcon } from '@pragyaos/icons';
+import { ROUTES } from '@/routes/route.constants';
 
 // Footer column definitions matching the design exactly
 const FOOTER_COLUMNS = [
   {
     title: 'Product',
     links: [
-      { label: 'Overview', href: '/product' },
-      { label: 'Courses', href: '/courses' },
-      { label: 'Features', href: '/features' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Updates', href: '/updates' },
+      { label: 'Overview', href: ROUTES.FEATURES },
+      { label: 'Courses', href: ROUTES.HOME },
+      { label: 'Features', href: ROUTES.FEATURES },
+      { label: 'Pricing', href: ROUTES.PRICING },
+      { label: 'Updates', href: ROUTES.CHANGELOG },
     ],
   },
   {
     title: 'For Instructors',
     links: [
-      { label: 'Teach on PragyaOS', href: '/teach' },
-      { label: 'Instructor Guide', href: '/teach/guide' },
-      { label: 'Resources', href: '/teach/resources' },
-      { label: 'Community', href: '/community' },
+      { label: 'Teach on PragyaOS', href: ROUTES.INSTRUCTORS },
+      { label: 'Instructor Guide', href: ROUTES.INSTRUCTORS },
+      { label: 'Resources', href: ROUTES.RESOURCES },
+      { label: 'Community', href: ROUTES.RESOURCE_COMMUNITY },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'About Us', href: ROUTES.ABOUT },
+      { label: 'Blog', href: ROUTES.RESOURCE_BLOG },
+      { label: 'Careers', href: ROUTES.CAREERS },
+      { label: 'Contact', href: ROUTES.CONTACT },
     ],
   },
   {
     title: 'Resources',
     links: [
-      { label: 'Help Center', href: '/help' },
-      { label: 'Docs', href: '/docs' },
-      { label: 'Status', href: '/status' },
+      { label: 'Help Center', href: ROUTES.RESOURCE_HELP_CENTER },
+      { label: 'Docs', href: ROUTES.RESOURCE_DOCUMENTATION },
+      { label: 'Status', href: ROUTES.STATUS },
     ],
   },
 ];
@@ -214,15 +215,24 @@ export function MarketingFooter(): React.JSX.Element {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 text-[11px] font-sans text-stone-600">
           <span>© {new Date().getFullYear()} PragyaOS. All rights reserved.</span>
           <div className="flex items-center gap-4">
-            {['Privacy', 'Terms', 'Security'].map((link) => (
-              <Link
-                key={link}
-                to={`/legal/${link.toLowerCase()}`}
-                className="hover:text-stone-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm"
-              >
-                {link}
-              </Link>
-            ))}
+            <Link
+              to={ROUTES.PRIVACY}
+              className="hover:text-stone-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to={ROUTES.TERMS}
+              className="hover:text-stone-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm"
+            >
+              Terms & Conditions
+            </Link>
+            <Link
+              to={ROUTES.COOKIE}
+              className="hover:text-stone-400 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 rounded-sm"
+            >
+              Cookie Policy
+            </Link>
           </div>
         </div>
       </div>

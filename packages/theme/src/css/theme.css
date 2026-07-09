@@ -142,10 +142,10 @@
      Generates: bg-background, text-foreground, border-border, etc.
      =========================================================================== */
 
-  --color-background: #fafafa;
+  --color-background: #faf7f2;
   --color-foreground: #18181b;
   --color-primary: #18181b;
-  --color-primary-foreground: #fafafa;
+  --color-primary-foreground: #faf7f2;
   --color-secondary: #e4e4e7;
   --color-secondary-foreground: #27272a;
   --color-muted: #f4f4f5;
@@ -446,10 +446,10 @@
 
 /* --- Workspace Light — Clean productivity UI (Zinc light palette) --- */
 [data-theme="workspace-light"] {
-  --color-background: #fafafa;
+  --color-background: #faf7f2;
   --color-foreground: #18181b;
   --color-primary: #18181b;
-  --color-primary-foreground: #fafafa;
+  --color-primary-foreground: #faf7f2;
   --color-secondary: #e4e4e7;
   --color-secondary-foreground: #27272a;
   --color-muted: #f4f4f5;
@@ -466,8 +466,8 @@
 /* --- Workspace Dark — Deep productivity black (Zinc dark palette) --- */
 [data-theme="workspace-dark"] {
   --color-background: #09090b;
-  --color-foreground: #fafafa;
-  --color-primary: #fafafa;
+  --color-foreground: #faf7f2;
+  --color-primary: #faf7f2;
   --color-primary-foreground: #09090b;
   --color-secondary: #27272a;
   --color-secondary-foreground: #e4e4e7;
@@ -477,7 +477,7 @@
   --color-input: #27272a;
   --color-ring: #d4d4d8;
   --color-card: #09090b;
-  --color-card-foreground: #fafafa;
+  --color-card-foreground: #faf7f2;
   --color-popover: #09090b;
   --color-popover-foreground: #fafafa;
 }

@@ -35,6 +35,16 @@ const LazyResetPassword = lazy(() => import("@/pages/reset-password"));
 const LazyPortal = lazy(() => import("@/pages/portal"));
 const LazyStudio = lazy(() => import("@/pages/studio"));
 const LazyAdmin = lazy(() => import("@/pages/admin"));
+const LazyAbout = lazy(() => import("@/pages/about"));
+const LazyCareers = lazy(() => import("@/pages/careers"));
+const LazyContact = lazy(() => import("@/pages/contact"));
+const LazyFAQ = lazy(() => import("@/pages/faq"));
+const LazyPrivacy = lazy(() => import("@/pages/legal/privacy"));
+const LazyTerms = lazy(() => import("@/pages/legal/terms"));
+const LazyCookie = lazy(() => import("@/pages/legal/cookie"));
+const LazyChangelog = lazy(() => import("@/pages/changelog"));
+const LazyStatus = lazy(() => import("@/pages/status"));
+const LazyNotFound = lazy(() => import("@/pages/not-found"));
 
 // Suspense Helper for lazy components
 const withSuspense = (Component: React.ComponentType) => (
@@ -112,6 +122,46 @@ export const routes: RouteObject[] = [
       {
         path: ROUTES.COURSE_DETAILS,
         element: withSuspense(LazyCourseDetails),
+      },
+      {
+        path: ROUTES.ABOUT,
+        element: withSuspense(LazyAbout),
+      },
+      {
+        path: ROUTES.CAREERS,
+        element: withSuspense(LazyCareers),
+      },
+      {
+        path: ROUTES.CONTACT,
+        element: withSuspense(LazyContact),
+      },
+      {
+        path: ROUTES.FAQ,
+        element: withSuspense(LazyFAQ),
+      },
+      {
+        path: ROUTES.PRIVACY,
+        element: withSuspense(LazyPrivacy),
+      },
+      {
+        path: ROUTES.TERMS,
+        element: withSuspense(LazyTerms),
+      },
+      {
+        path: ROUTES.COOKIE,
+        element: withSuspense(LazyCookie),
+      },
+      {
+        path: ROUTES.CHANGELOG,
+        element: withSuspense(LazyChangelog),
+      },
+      {
+        path: ROUTES.STATUS,
+        element: withSuspense(LazyStatus),
+      },
+      {
+        path: "*",
+        element: withSuspense(LazyNotFound),
       },
     ],
   },

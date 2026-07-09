@@ -22,6 +22,15 @@ export const ROUTES = {
   STUDIO: "/studio",
   ADMIN: "/admin",
   COURSE_DETAILS: "/courses/:slug",
+  ABOUT: "/about",
+  CAREERS: "/careers",
+  CONTACT: "/contact",
+  FAQ: "/faq",
+  PRIVACY: "/legal/privacy",
+  TERMS: "/legal/terms",
+  COOKIE: "/legal/cookie",
+  CHANGELOG: "/changelog",
+  STATUS: "/status",
 } as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];
